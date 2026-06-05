@@ -1,11 +1,10 @@
-The Antizionist Glossary website — v8
+Antizionist Glossary Website v9
 
-Upload the unzipped contents of this folder to the root of your GitHub repository.
+Homepage confirmed:
+- Minimal top menu: Glossary only.
+- Sharansky endorsement is in the front homepage intro area on the right side.
+- Sharansky credentials line included.
+- The word "professional" is not used in the homepage copy.
+- No Method page is included.
 
-Includes updated homepage Sharansky credentials and full entry pages for:
-- Apartheid
-- Apartheid Wall
-- Boycott, Divestment, Sanctions (BDS)
-- Blood on Your Hands
-
-index.html must remain in the top level of the repository.
+Upload the unzipped contents to GitHub, overwriting old files.
