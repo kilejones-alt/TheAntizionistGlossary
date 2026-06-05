@@ -1,14 +1,18 @@
 UPLOAD INSTRUCTIONS
 
-1. Download this zip.
-2. If Windows shows Extract all files, click it.
-3. If extraction is confusing: open the zip, press Ctrl + A, press Ctrl + C, create a new folder on Desktop called upload, open it, press Ctrl + V.
-4. Open the extracted/copied folder.
-5. Press Ctrl + A.
-6. GitHub → Add file → Upload files.
-7. Choose all files.
-8. Click Commit changes.
-9. Wait 1–3 minutes.
-10. Refresh the site with Ctrl + F5.
+1. Open this zip.
+2. Press Ctrl + A.
+3. Press Ctrl + C.
+4. Make a Desktop folder called upload.
+5. Open the upload folder.
+6. Press Ctrl + V.
+7. GitHub repo -> Add file -> Upload files.
+8. Click choose your files.
+9. Open the upload folder.
+10. Press Ctrl + A.
+11. Click Open.
+12. Click Commit changes.
+13. Wait 1-3 minutes.
+14. Refresh the site with Ctrl + F5.
 
-This package is flat: no folders. Do not upload the zip itself to GitHub Pages. Upload the files inside it.
+Do not upload the zip itself. Upload the files inside it.
