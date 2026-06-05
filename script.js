@@ -1,1 +1,3 @@
-const q=document.querySelector('#azSearch');if(q){q.addEventListener('input',()=>{const v=q.value.toLowerCase();document.querySelectorAll('.term-list li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(v)?'':'none'})})}
+document.querySelectorAll('.menu-toggle').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelector('.site-nav')?.classList.toggle('open')})});
+const search=document.querySelector('[data-term-search]');
+if(search){search.addEventListener('input',()=>{const q=search.value.toLowerCase().trim();document.querySelectorAll('[data-term]').forEach(item=>{item.style.display=item.dataset.term.includes(q)?'':'none'});document.querySelectorAll('.letter-card').forEach(card=>{const visible=[...card.querySelectorAll('[data-term]')].some(x=>x.style.display!=='none');card.style.display=visible?'':'none'})})}
