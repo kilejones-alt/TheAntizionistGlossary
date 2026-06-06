@@ -98,3 +98,46 @@ body.custom-cursor-ready #gold-cursor{opacity:.96 !important;}
 }
 @keyframes azCursorDim{0%,100%{filter:brightness(.82);box-shadow:0 0 5px rgba(255,235,168,.84),0 0 13px rgba(239,172,43,.48),0 0 22px rgba(239,172,43,.18);}50%{filter:brightness(1.55);box-shadow:0 0 7px rgba(255,245,190,1),0 0 18px rgba(239,172,43,.68),0 0 28px rgba(239,172,43,.26);}}
 @keyframes azTrailFade{0%{opacity:.82;transform:translate3d(0,0,0) scale(1);}100%{opacity:0;transform:translate3d(var(--trail-x,8px),var(--trail-y,-10px),0) scale(.12);}}
+
+
+/* v30 refinement: slower/fewer sparkles + cursor is the gold ball, not an arrow over a ball */
+@media (pointer: fine) {
+  html, html *, body, body * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23fffbe1'/%3E%3Cstop offset='34%25' stop-color='%23ffd36c'/%3E%3Cstop offset='60%25' stop-color='%23cf8f21' stop-opacity='.88'/%3E%3Cstop offset='100%25' stop-color='%23cf8f21' stop-opacity='0'/%3E%3C/radialGradient%3E%3Cfilter id='b'%3E%3CfeGaussianBlur stdDeviation='1.2'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='12' cy='12' r='5.5' fill='url(%23g)'/%3E%3Ccircle cx='12' cy='12' r='8' fill='%23e0a330' opacity='.22' filter='url(%23b)'/%3E%3C/svg%3E") 12 12, none !important;
+  }
+  html.custom-cursor-ready, html.custom-cursor-ready *,
+  body.custom-cursor-ready, body.custom-cursor-ready * { cursor: none !important; }
+}
+.sparkle:nth-child(n+49){display:none !important;}
+.sparkle{
+  animation-name:azV30Rise, azV30Pulse !important;
+  animation-duration:28s, 4.8s !important;
+  animation-timing-function:linear, ease-in-out !important;
+  animation-iteration-count:infinite, infinite !important;
+  animation-delay:var(--delay,0s), calc(var(--delay,0s) * .21) !important;
+}
+.sparkle:nth-child(3n){animation-duration:31s,5.2s !important;}
+.sparkle:nth-child(4n){animation-duration:34s,5.8s !important;}
+.sparkle:nth-child(5n){animation-duration:38s,6.2s !important;}
+@keyframes azV30Rise{
+  0%{transform:translate3d(0,18vh,0) scale(.64);opacity:0;}
+  9%{opacity:calc(var(--op,.82)*.70);}
+  38%{opacity:var(--op,.82);}
+  78%{opacity:calc(var(--op,.82)*.78);}
+  100%{transform:translate3d(var(--drift,18px),-118vh,0) scale(1.02);opacity:0;}
+}
+@keyframes azV30Pulse{
+  0%,100%{filter:brightness(.78);}
+  50%{filter:brightness(1.55);}
+}
+#gold-cursor{
+  width:16px !important;height:16px !important;margin:-8px 0 0 -8px !important;
+  opacity:0;
+  background:radial-gradient(circle,rgba(255,255,236,1) 0%,rgba(255,220,114,.96) 38%,rgba(229,156,32,.66) 62%,rgba(229,156,32,0) 86%) !important;
+  box-shadow:0 0 5px rgba(255,237,170,.88),0 0 13px rgba(236,170,45,.46),0 0 24px rgba(236,170,45,.18) !important;
+  animation:azCursorDimV30 2.4s ease-in-out infinite !important;
+}
+body.custom-cursor-ready #gold-cursor, html.custom-cursor-ready #gold-cursor{opacity:.90 !important;}
+#gold-cursor i{inset:-4px !important;background:radial-gradient(circle,rgba(255,205,78,.08),rgba(255,205,78,0) 72%) !important;}
+.cursor-spark{width:2.4px !important;height:2.4px !important;animation-duration:1.25s !important;}
+@keyframes azCursorDimV30{0%,100%{filter:brightness(.72);transform:scale(.88);box-shadow:0 0 4px rgba(255,237,170,.72),0 0 10px rgba(236,170,45,.36),0 0 18px rgba(236,170,45,.12);}50%{filter:brightness(1.55);transform:scale(1.05);box-shadow:0 0 7px rgba(255,244,196,.98),0 0 17px rgba(236,170,45,.58),0 0 26px rgba(236,170,45,.22);}}
