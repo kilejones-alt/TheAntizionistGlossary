@@ -1,3 +1,4 @@
+/* v45 crackle sparkles */
 /* v44 preloaded sparkles */
 /* v43 attribution fix */
 /* v42 live hebrew fix */
@@ -74,19 +75,22 @@
     field.className = 'sparkle-field';
     field.setAttribute('aria-hidden', 'true');
     const zones = [[3,24],[76,97],[25,33],[67,75]];
-    for (let i = 0; i < 58; i++) {
+    for (let i = 0; i < 62; i++) {
       const zone = i < 14 ? zones[0] : i < 28 ? zones[1] : zones[2 + (i % 2)];
       const s = document.createElement('span');
       s.className = 'sparkle';
       const left = zone[0] + Math.random() * (zone[1] - zone[0]);
-      const y = 6 + Math.random() * 102;
-      const size = (i % 16 === 0 ? 4.8 + Math.random() * .7 : 2.5 + Math.random() * 2.1).toFixed(2);
-      const dur = (84 + Math.random() * 42).toFixed(2);
+      const y = 5 + Math.random() * 104;
+      const size = (i % 11 === 0 ? 10.5 + Math.random() * 3.0 : 4.8 + Math.random() * 5.0).toFixed(2);
+      const dur = (46 + Math.random() * 30).toFixed(2);
       // Negative delay is intentionally spread across the full cycle so the field is already populated on page load.
       const delay = (-Math.random() * Number(dur)).toFixed(2);
-      const drift = (-18 + Math.random() * 36).toFixed(1);
-      const op = (0.58 + Math.random() * 0.28).toFixed(2);
-      s.setAttribute('style', `left:${left.toFixed(2)}%;--y:${y.toFixed(2)}vh;--size:${size}px;--dur:${dur}s;--delay:${delay}s;--drift:${drift}px;--op:${op}`);
+      const drift = (-76 + Math.random() * 152).toFixed(1);
+      const op = (0.72 + Math.random() * 0.28).toFixed(2);
+      const sway = (26 + Math.random() * 44).toFixed(1);
+      const twinkle = (2.2 + Math.random() * 2.6).toFixed(2);
+      const crackle = (1.15 + Math.random() * 1.1).toFixed(2);
+      s.setAttribute('style', `left:${left.toFixed(2)}%;--y:${y.toFixed(2)}vh;--size:${size}px;--dur:${dur}s;--delay:${delay}s;--drift:${drift}px;--sway:${sway}px;--op:${op};--twinkle:${twinkle}s;--crackle:${crackle}s`);
       field.appendChild(s);
     }
     document.body.prepend(field);

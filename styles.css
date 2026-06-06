@@ -418,11 +418,14 @@ h2[id]{scroll-margin-top:110px;}
 }
 
 
-/* v44 preloaded sparkles: particles are distributed at first paint and drift upward from their own positions. */
+
+
+
+/* v45 crackle sparkles: preloaded, larger, brighter, side-to-side, and alive. */
 .sparkle-field {
   position: fixed !important;
   inset: 0 !important;
-  height: 115vh !important;
+  height: 116vh !important;
   pointer-events: none !important;
   overflow: hidden !important;
   z-index: 1 !important;
@@ -432,30 +435,95 @@ h2[id]{scroll-margin-top:110px;}
 .sparkle {
   position: absolute !important;
   top: var(--y, 50vh) !important;
-  width: var(--size, 3px) !important;
-  height: var(--size, 3px) !important;
+  width: var(--size, 8px) !important;
+  height: var(--size, 8px) !important;
   border-radius: 999px !important;
-  background: radial-gradient(circle, rgba(255, 237, 174, .96) 0%, rgba(214, 151, 53, .82) 42%, rgba(214, 151, 53, 0) 72%) !important;
-  box-shadow: 0 0 10px rgba(231, 176, 75, .64), 0 0 22px rgba(231, 176, 75, .18) !important;
+  background:
+    radial-gradient(circle, rgba(255, 253, 226, 1) 0%, rgba(255, 230, 145, 1) 22%, rgba(232, 164, 48, .92) 48%, rgba(232, 164, 48, 0) 78%) !important;
+  box-shadow:
+    0 0 9px rgba(255, 246, 204, 1),
+    0 0 22px rgba(239, 184, 73, .88),
+    0 0 52px rgba(239, 184, 73, .38),
+    0 0 88px rgba(239, 184, 73, .12) !important;
   opacity: 0;
-  animation: sparkle-float-preloaded var(--dur, 96s) linear infinite !important;
-  animation-delay: var(--delay, -40s) !important;
-  will-change: transform, opacity;
+  animation:
+    sparkle-waft-up-crackle var(--dur, 62s) ease-in-out infinite,
+    sparkle-pop-crackle var(--twinkle, 3.4s) ease-in-out infinite,
+    sparkle-micro-crackle var(--crackle, 1.6s) steps(2, end) infinite !important;
+  animation-delay:
+    var(--delay, -30s),
+    calc(var(--delay, -30s) * .37),
+    calc(var(--delay, -30s) * .13) !important;
+  will-change: transform, opacity, filter;
 }
 
-@keyframes sparkle-float-preloaded {
-  0% {
-    transform: translate3d(0, 0, 0) scale(.78);
-    opacity: 0;
-  }
-  8% {
-    opacity: var(--op, .62);
-  }
-  62% {
-    opacity: var(--op, .62);
-  }
-  100% {
-    transform: translate3d(var(--drift, 0px), -34vh, 0) scale(1.08);
-    opacity: 0;
-  }
+.sparkle-field .sparkle::before,
+.sparkle::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 260%;
+  height: 1px;
+  transform: translate(-50%, -50%) rotate(28deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 241, 172, .95), transparent);
+  opacity: 0;
+  filter: blur(.1px);
+  animation: sparkle-cross-crackle var(--twinkle, 3.4s) ease-in-out infinite;
+  animation-delay: calc(var(--delay, -30s) * .21);
+}
+
+.sparkle-field .sparkle::after,
+.sparkle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 260%;
+  transform: translate(-50%, -50%) rotate(28deg);
+  background: linear-gradient(180deg, transparent, rgba(255, 241, 172, .82), transparent);
+  opacity: 0;
+  filter: blur(.1px);
+  animation: sparkle-cross-crackle var(--twinkle, 3.4s) ease-in-out infinite;
+  animation-delay: calc(var(--delay, -30s) * .21);
+}
+
+@keyframes sparkle-waft-up-crackle {
+  0% { transform: translate3d(0, 0, 0) scale(.72); opacity: 0; }
+  7% { transform: translate3d(calc(var(--sway, 42px) * .42), -4vh, 0) scale(1.08); opacity: calc(var(--op, .9) * .86); }
+  20% { transform: translate3d(calc(var(--sway, 42px) * -1), -12vh, 0) scale(.96); opacity: var(--op, .9); }
+  36% { transform: translate3d(calc(var(--sway, 42px) * .92), -22vh, 0) scale(1.16); opacity: var(--op, .9); }
+  54% { transform: translate3d(calc(var(--sway, 42px) * -.68), -34vh, 0) scale(.99); opacity: calc(var(--op, .9) * .98); }
+  74% { transform: translate3d(calc(var(--drift, 0px) + var(--sway, 42px) * .52), -48vh, 0) scale(1.10); opacity: calc(var(--op, .9) * .82); }
+  100% { transform: translate3d(var(--drift, 0px), -66vh, 0) scale(.84); opacity: 0; }
+}
+
+@keyframes sparkle-pop-crackle {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  13% { filter: brightness(2.35) saturate(1.45); }
+  18% { filter: brightness(1.12) saturate(1.05); }
+  43% { filter: brightness(1.75) saturate(1.28); }
+  49% { filter: brightness(1.06) saturate(1); }
+  70% { filter: brightness(2.05) saturate(1.35); }
+  76% { filter: brightness(1.08) saturate(1); }
+}
+
+@keyframes sparkle-micro-crackle {
+  0%, 100% { opacity: .92; }
+  18% { opacity: 1; }
+  19% { opacity: .55; }
+  20% { opacity: 1; }
+  54% { opacity: .72; }
+  55% { opacity: 1; }
+}
+
+@keyframes sparkle-cross-crackle {
+  0%, 10%, 100% { opacity: 0; }
+  13% { opacity: 1; }
+  19% { opacity: 0; }
+  43% { opacity: .78; }
+  50% { opacity: 0; }
+  70% { opacity: .92; }
+  77% { opacity: 0; }
 }
