@@ -15,18 +15,19 @@
     const field = document.createElement('div');
     field.className = 'sparkle-field';
     field.setAttribute('aria-hidden', 'true');
-    const zones = [[3,28],[72,97],[30,37],[63,70]];
-    for (let i = 0; i < 64; i++) {
+    const zones = [[3,24],[76,97],[25,33],[67,75]];
+    for (let i = 0; i < 70; i++) {
       const zone = i < 28 ? zones[0] : i < 56 ? zones[1] : zones[2 + (i % 2)];
       const s = document.createElement('span');
       s.className = 'sparkle';
       const left = zone[0] + Math.random() * (zone[1] - zone[0]);
-      const size = (i % 5 === 0 ? 5.5 + Math.random() * 4.5 : 3 + Math.random() * 3.5).toFixed(2);
-      const dur = (6.5 + Math.random() * 6).toFixed(2);
+      const y = 16 + Math.random() * 86;
+      const size = (i % 13 === 0 ? 5.2 + Math.random() * 1.8 : 2.4 + Math.random() * 3.4).toFixed(2);
+      const dur = (13 + Math.random() * 8).toFixed(2);
       const delay = (-(Math.random() * Number(dur))).toFixed(2);
-      const drift = (-45 + Math.random() * 90).toFixed(1);
-      const op = (0.68 + Math.random() * 0.32).toFixed(2);
-      s.setAttribute('style', `left:${left.toFixed(2)}%;--size:${size}px;--dur:${dur}s;--delay:${delay}s;--drift:${drift}px;--op:${op}`);
+      const drift = (-26 + Math.random() * 52).toFixed(1);
+      const op = (0.62 + Math.random() * 0.30).toFixed(2);
+      s.setAttribute('style', `left:${left.toFixed(2)}%;--y:${y.toFixed(2)}vh;--size:${size}px;--dur:${dur}s;--delay:${delay}s;--drift:${drift}px;--op:${op}`);
       field.appendChild(s);
     }
     document.body.prepend(field);
@@ -49,29 +50,27 @@
       document.body.appendChild(sparks);
     }
 
-    let x = Math.round(window.innerWidth * 0.72);
-    let y = Math.round(window.innerHeight * 0.42);
+    let x = -80;
+    let y = -80;
     let lastSpark = 0;
     function place(nx, ny) {
       x = nx; y = ny;
       cursor.style.left = `${x}px`;
       cursor.style.top = `${y}px`;
+      document.body.classList.add('cursor-active');
     }
-    place(x, y);
 
     function makeSpark(now = performance.now()) {
-      if (now - lastSpark < 18) return;
+      if (x < 0 || y < 0 || now - lastSpark < 46) return;
       lastSpark = now;
-      for (let i = 0; i < 2; i++) {
-        const dot = document.createElement('span');
-        dot.className = 'cursor-spark';
-        dot.style.left = `${x + (Math.random() * 20 - 10)}px`;
-        dot.style.top = `${y + (Math.random() * 20 - 10)}px`;
-        dot.style.setProperty('--trail-x', `${Math.random() * 44 - 22}px`);
-        dot.style.setProperty('--trail-y', `${-10 - Math.random() * 34}px`);
-        sparks.appendChild(dot);
-        setTimeout(() => dot.remove(), 850);
-      }
+      const dot = document.createElement('span');
+      dot.className = 'cursor-spark';
+      dot.style.left = `${x + (Math.random() * 10 - 5)}px`;
+      dot.style.top = `${y + (Math.random() * 10 - 5)}px`;
+      dot.style.setProperty('--trail-x', `${Math.random() * 22 - 11}px`);
+      dot.style.setProperty('--trail-y', `${-5 - Math.random() * 18}px`);
+      sparks.appendChild(dot);
+      setTimeout(() => dot.remove(), 1000);
     }
 
     function move(event) {
@@ -82,17 +81,14 @@
     document.addEventListener('pointermove', move, { passive: true });
     window.addEventListener('mousemove', move, { passive: true });
 
-    // Visible even before the first mouse move; proves the orb layer is loaded.
-    setInterval(() => makeSpark(performance.now() + 30), 120);
-
-    // Proof mode for browser screenshots: visible cursor and trail without manual movement.
     if (new URLSearchParams(location.search).has('cursorproof')) {
       let t = 0;
+      document.body.classList.add('cursor-active');
       setInterval(() => {
         t += 0.18;
-        place(window.innerWidth * .52 + Math.cos(t) * 130, window.innerHeight * .48 + Math.sin(t * 1.3) * 70);
-        makeSpark(performance.now() + 40);
-      }, 28);
+        place(window.innerWidth * .55 + Math.cos(t) * 110, window.innerHeight * .46 + Math.sin(t * 1.3) * 58);
+        makeSpark(performance.now() + 60);
+      }, 30);
     }
   }
 
