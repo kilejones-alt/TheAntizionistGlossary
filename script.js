@@ -10,6 +10,48 @@
   }
 
 
+
+  function lockHomepageLanguage() {
+    if (!document.body.classList.contains('home')) return;
+
+    // The Hebrew homepage is a real page, not a temporary language state.
+    // Force it by URL and markup so a cached English preference cannot override it.
+    const path = decodeURIComponent(window.location.pathname || '').toLowerCase();
+    const file = path.split('/').pop();
+    const hardHebrew = file === 'index-he.html' ||
+      document.documentElement.lang === 'he' ||
+      document.body.dataset.siteLang === 'he' ||
+      document.body.classList.contains('hebrew-page');
+    const hardEnglish = (file === 'index.html' || file === '') &&
+      !hardHebrew &&
+      (document.body.dataset.siteLang === 'en' || document.body.classList.contains('english-page'));
+
+    if (hardHebrew) {
+      document.documentElement.lang = 'he';
+      document.documentElement.dir = 'rtl';
+      document.body.dataset.siteLang = 'he';
+      document.body.classList.add('hebrew-page');
+      document.body.classList.remove('english-page');
+      try {
+        localStorage.setItem('azHomepageLang', 'he');
+        sessionStorage.setItem('azHomepageLang', 'he');
+      } catch (e) {}
+      return;
+    }
+
+    if (hardEnglish) {
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+      document.body.dataset.siteLang = 'en';
+      document.body.classList.add('english-page');
+      document.body.classList.remove('hebrew-page');
+      try {
+        localStorage.setItem('azHomepageLang', 'en');
+        sessionStorage.setItem('azHomepageLang', 'en');
+      } catch (e) {}
+    }
+  }
+
   function normalizeGlossaryIntro() {
     const target = 'A directory of terms, slogans, and accusations in modern antizionism.';
     const heading = Array.from(document.querySelectorAll('h1,h2')).find((el) => /antizionist glossary|glossary/i.test(el.textContent || ''));
@@ -34,10 +76,11 @@
       const s = document.createElement('span');
       s.className = 'sparkle';
       const left = zone[0] + Math.random() * (zone[1] - zone[0]);
-      const y = 16 + Math.random() * 86;
+      const y = 8 + Math.random() * 88;
       const size = (i % 16 === 0 ? 4.8 + Math.random() * .7 : 2.5 + Math.random() * 2.1).toFixed(2);
-      const dur = (62 + Math.random() * 24).toFixed(2);
-      const delay = (-(Math.random() * Number(dur))).toFixed(2);
+      const dur = (72 + Math.random() * 24).toFixed(2);
+      // Negative delay is intentionally spread across the full cycle so the field is already populated on page load.
+      const delay = (-(4 + Math.random() * (Number(dur) - 4))).toFixed(2);
       const drift = (-18 + Math.random() * 36).toFixed(1);
       const op = (0.58 + Math.random() * 0.28).toFixed(2);
       s.setAttribute('style', `left:${left.toFixed(2)}%;--y:${y.toFixed(2)}vh;--size:${size}px;--dur:${dur}s;--delay:${delay}s;--drift:${drift}px;--op:${op}`);
@@ -185,75 +228,133 @@
 
   function setupMusic() {
     const button = document.getElementById('music-toggle');
-    if (!button) return;
-    let ctx = null;
-    let master = null;
-    let timers = [];
-    let playing = false;
-    let track = 0;
+    if (!button || button.dataset.azMusicReady === '1') return;
+    button.dataset.azMusicReady = '1';
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (!AudioContext) {
-      button.textContent = button.textContent + ' unavailable';
+      button.textContent = `${button.textContent} unavailable`;
       button.disabled = true;
       return;
     }
-    const tracks = [
-      {name:'Bach-style sarabande', tempo:64, key:261.63, seq:[0,4,7,12,11,7,4,0, -2,2,7,11,9,5,2,-2]},
-      {name:'Beethoven-style bagatelle', tempo:72, key:293.66, seq:[0,3,7,10,12,10,7,3, 2,5,9,12,14,12,9,5]},
-      {name:'Tchaikovsky-style nocturne', tempo:58, key:220.00, seq:[0,7,9,12,11,7,4,2, 0,4,7,11,12,9,7,4]}
+
+    let ctx = null;
+    let master = null;
+    let filter = null;
+    let timer = null;
+    let playing = false;
+    let step = 0;
+    const active = new Set();
+    const isHebrew = document.documentElement.lang === 'he' || document.body.dataset.siteLang === 'he' || document.documentElement.dir === 'rtl';
+    const baseLabel = isHebrew ? 'מוזיקה' : 'Music';
+    const playingLabel = isHebrew ? 'מוזיקה ◦' : 'Music ◦';
+
+    // Original, browser-generated classical-style phrases. No recordings or external files.
+    const phrases = [
+      { root: 220.00, tempo: 62, notes: [0, 7, 12, 11, 7, 4, 2, 0, -5, 2, 7, 9, 7, 4, 2, 0] },
+      { root: 261.63, tempo: 68, notes: [0, 4, 7, 12, 11, 7, 4, 0, 2, 5, 9, 12, 9, 5, 2, 0] },
+      { root: 196.00, tempo: 58, notes: [0, 3, 7, 10, 12, 10, 7, 3, -2, 2, 5, 9, 7, 3, 0, -5] }
     ];
-    function freq(base, degree){ return base * Math.pow(2, degree / 12); }
-    function clearTimers(){ timers.forEach(clearTimeout); timers=[]; }
-    function note(time, frequency, length, gainValue){
+
+    function frequency(root, semitones) {
+      return root * Math.pow(2, semitones / 12);
+    }
+
+    function makeContext() {
+      if (ctx) return;
+      ctx = new AudioContext();
+      master = ctx.createGain();
+      filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 3200;
+      master.gain.value = 0.0001;
+      filter.connect(master);
+      master.connect(ctx.destination);
+    }
+
+    function stopActiveNodes() {
+      active.forEach((node) => {
+        try { node.stop(0); } catch (e) {}
+      });
+      active.clear();
+    }
+
+    function playTone(when, hz, length, level, type = 'sine') {
+      if (!ctx || !filter) return;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(frequency, time);
-      gain.gain.setValueAtTime(0.0001, time);
-      gain.gain.exponentialRampToValueAtTime(gainValue, time + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
-      osc.connect(gain).connect(master);
-      osc.start(time);
-      osc.stop(time + length + 0.08);
+      osc.type = type;
+      osc.frequency.setValueAtTime(hz, when);
+      gain.gain.setValueAtTime(0.0001, when);
+      gain.gain.exponentialRampToValueAtTime(level, when + 0.045);
+      gain.gain.exponentialRampToValueAtTime(0.0001, when + Math.max(0.08, length));
+      osc.connect(gain).connect(filter);
+      osc.start(when);
+      osc.stop(when + length + 0.12);
+      active.add(osc);
+      osc.addEventListener('ended', () => active.delete(osc));
     }
-    function scheduleTrack(){
+
+    function schedulePhrase() {
       if (!playing || !ctx) return;
-      const t = tracks[track % tracks.length];
-      const beat = 60 / t.tempo;
-      const start = ctx.currentTime + 0.08;
-      t.seq.forEach((degree, i) => {
-        note(start + i * beat, freq(t.key, degree), beat * .82, .045);
-        if (i % 2 === 0) note(start + i * beat, freq(t.key/2, degree), beat * 1.6, .030);
-        if (i % 4 === 0) note(start + i * beat, freq(t.key/4, degree), beat * 3.2, .020);
+      const phrase = phrases[step % phrases.length];
+      const beat = 60 / phrase.tempo;
+      const start = ctx.currentTime + 0.06;
+      phrase.notes.forEach((note, i) => {
+        const t = start + i * beat;
+        playTone(t, frequency(phrase.root, note), beat * 0.92, 0.035, 'sine');
+        if (i % 2 === 0) playTone(t, frequency(phrase.root / 2, note), beat * 1.82, 0.022, 'triangle');
+        if (i % 4 === 0) playTone(t, frequency(phrase.root / 4, note), beat * 3.55, 0.014, 'sine');
       });
-      const duration = t.seq.length * beat * 1000;
-      timers.push(setTimeout(() => { track++; scheduleTrack(); }, duration - 80));
+      step += 1;
+      const nextDelay = Math.max(120, phrase.notes.length * beat * 1000 - 70);
+      timer = window.setTimeout(schedulePhrase, nextDelay);
     }
-    function start(){
-      if (!ctx) {
-        ctx = new AudioContext();
-        master = ctx.createGain();
-        master.gain.value = 0.13;
-        master.connect(ctx.destination);
+
+    async function start() {
+      if (playing) return;
+      makeContext();
+      clearTimeout(timer);
+      stopActiveNodes();
+      try {
+        await ctx.resume();
+      } catch (e) {
+        button.textContent = isHebrew ? 'מוזיקה — לחצו שוב' : 'Music — click again';
+        return;
       }
-      ctx.resume();
       playing = true;
-      button.setAttribute('aria-pressed','true');
+      button.setAttribute('aria-pressed', 'true');
+      button.textContent = playingLabel;
       document.body.classList.add('music-playing');
-      scheduleTrack();
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), ctx.currentTime);
+      master.gain.exponentialRampToValueAtTime(0.16, ctx.currentTime + 0.22);
+      schedulePhrase();
     }
-    function stop(){
+
+    function stop() {
+      if (!ctx || !master) return;
       playing = false;
-      clearTimers();
-      button.setAttribute('aria-pressed','false');
+      clearTimeout(timer);
+      button.setAttribute('aria-pressed', 'false');
+      button.textContent = baseLabel;
       document.body.classList.remove('music-playing');
-      if (master) master.gain.setTargetAtTime(0.0001, ctx.currentTime, .05);
-      setTimeout(() => { if (master && ctx && !playing) master.gain.value = 0.13; }, 180);
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.045);
+      window.setTimeout(stopActiveNodes, 180);
     }
-    button.addEventListener('click', () => playing ? stop() : start());
+
+    button.textContent = baseLabel;
+    button.addEventListener('click', () => {
+      if (playing) stop();
+      else start();
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && playing) stop();
+    });
   }
 
 
+  lockHomepageLanguage();
   normalizeGlossaryIntro();
   normalizeIndexDates();
   ensureSparkles();
