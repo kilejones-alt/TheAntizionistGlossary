@@ -1,67 +1,101 @@
-(function(){
-  var search=document.querySelector('#azSearch')||document.querySelector('[data-term-search]')||document.querySelector('.search');
-  if(search){search.addEventListener('input',function(){var v=String(search.value||'').toLowerCase();document.querySelectorAll('.term-list li').forEach(function(li){li.style.display=li.textContent.toLowerCase().indexOf(v)>-1?'':'none';});});}
-
-  var inEntries=location.pathname.indexOf('/entries/')>-1;
-  var base=inEntries?'../':'';
-  var isHebrew=document.documentElement.lang==='he'||document.body.classList.contains('hebrew-page');
-  document.querySelectorAll('.gallery-topbar').forEach(function(bar){
-    bar.innerHTML='<nav class="language-nav" aria-label="Primary navigation"><a href="'+base+'glossary.html">Glossary →</a><span class="nav-divider" aria-hidden="true">|</span><a href="'+base+(isHebrew?'index.html':'index-he.html')+'" '+(isHebrew?'dir="ltr"':'lang="he" dir="rtl"')+'>'+(isHebrew?'English':'עברית')+'</a></nav>';
-  });
-
-  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){return;}
-
-  var field=document.createElement('div');
-  field.className='magic-field';
-  field.setAttribute('aria-hidden','true');
-  document.body.appendChild(field);
-  var zones=[[3,29],[71,97],[31,36],[64,69]];
-  for(var i=0;i<34;i++){
-    var sp=document.createElement('i');
-    sp.className='ambient-spark';
-    var side=Math.random()<0.86?(Math.random()<0.5?0:1):(Math.random()<0.5?2:3);
-    var z=zones[side],x=z[0]+Math.random()*(z[1]-z[0]);
-    var dur=7.5+Math.random()*6.5;
-    sp.style.setProperty('--x',x+'vw');
-    sp.style.setProperty('--s',(3+Math.random()*6)+'px');
-    sp.style.setProperty('--d',dur+'s');
-    sp.style.setProperty('--delay',(-Math.random()*dur)+'s');
-    sp.style.setProperty('--drift',(-48+Math.random()*96)+'px');
-    sp.style.setProperty('--o',(0.72+Math.random()*0.25));
-    sp.style.setProperty('--f',(1.8+Math.random()*2.4)+'s');
-    field.appendChild(sp);
+(() => {
+  const search = document.querySelector('#azSearch');
+  if (search) {
+    search.addEventListener('input', () => {
+      const value = search.value.toLowerCase();
+      document.querySelectorAll('.term-list li').forEach((li) => {
+        li.style.display = li.textContent.toLowerCase().includes(value) ? '' : 'none';
+      });
+    });
   }
 
-  var orb=document.createElement('div');
-  orb.className='magic-cursor-orb';
-  orb.setAttribute('aria-hidden','true');
-  orb.style.setProperty('--cx','82vw');
-  orb.style.setProperty('--cy','24vh');
-  document.body.appendChild(orb);
-  var last=0,x=window.innerWidth*0.82,y=window.innerHeight*0.24;
-  function emit(px,py,n){
-    n=n||3;
-    for(var i=0;i<n;i++){
-      var b=document.createElement('b');
-      b.className='cursor-spark';
-      b.style.left=(px+Math.random()*22-11)+'px';
-      b.style.top=(py+Math.random()*22-11)+'px';
-      b.style.setProperty('--dx',(-58+Math.random()*116)+'px');
-      b.style.setProperty('--dy',(-78+Math.random()*72)+'px');
-      document.body.appendChild(b);
-      (function(node){setTimeout(function(){if(node&&node.parentNode)node.parentNode.removeChild(node);},1100);})(b);
+  // Fail-safe: if a page does not have hard-coded sparkles, add them.
+  function ensureSparkles() {
+    if (document.querySelector('.sparkle-field')) return;
+    const field = document.createElement('div');
+    field.className = 'sparkle-field';
+    field.setAttribute('aria-hidden', 'true');
+    const zones = [[3,28],[72,97],[30,37],[63,70]];
+    for (let i = 0; i < 64; i++) {
+      const zone = i < 28 ? zones[0] : i < 56 ? zones[1] : zones[2 + (i % 2)];
+      const s = document.createElement('span');
+      s.className = 'sparkle';
+      const left = zone[0] + Math.random() * (zone[1] - zone[0]);
+      const size = (i % 5 === 0 ? 5.5 + Math.random() * 4.5 : 3 + Math.random() * 3.5).toFixed(2);
+      const dur = (6.5 + Math.random() * 6).toFixed(2);
+      const delay = (-(Math.random() * Number(dur))).toFixed(2);
+      const drift = (-45 + Math.random() * 90).toFixed(1);
+      const op = (0.68 + Math.random() * 0.32).toFixed(2);
+      s.setAttribute('style', `left:${left.toFixed(2)}%;--size:${size}px;--dur:${dur}s;--delay:${delay}s;--drift:${drift}px;--op:${op}`);
+      field.appendChild(s);
+    }
+    document.body.prepend(field);
+  }
+
+  function ensureCursor() {
+    let cursor = document.getElementById('gold-cursor');
+    let sparks = document.getElementById('cursor-sparks');
+    if (!cursor) {
+      cursor = document.createElement('div');
+      cursor.id = 'gold-cursor';
+      cursor.setAttribute('aria-hidden', 'true');
+      cursor.innerHTML = '<i></i>';
+      document.body.appendChild(cursor);
+    }
+    if (!sparks) {
+      sparks = document.createElement('div');
+      sparks.id = 'cursor-sparks';
+      sparks.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(sparks);
+    }
+
+    let x = Math.round(window.innerWidth * 0.72);
+    let y = Math.round(window.innerHeight * 0.42);
+    let lastSpark = 0;
+    function place(nx, ny) {
+      x = nx; y = ny;
+      cursor.style.left = `${x}px`;
+      cursor.style.top = `${y}px`;
+    }
+    place(x, y);
+
+    function makeSpark(now = performance.now()) {
+      if (now - lastSpark < 18) return;
+      lastSpark = now;
+      for (let i = 0; i < 2; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'cursor-spark';
+        dot.style.left = `${x + (Math.random() * 20 - 10)}px`;
+        dot.style.top = `${y + (Math.random() * 20 - 10)}px`;
+        dot.style.setProperty('--trail-x', `${Math.random() * 44 - 22}px`);
+        dot.style.setProperty('--trail-y', `${-10 - Math.random() * 34}px`);
+        sparks.appendChild(dot);
+        setTimeout(() => dot.remove(), 850);
+      }
+    }
+
+    function move(event) {
+      place(event.clientX, event.clientY);
+      makeSpark();
+    }
+    document.addEventListener('mousemove', move, { passive: true });
+    document.addEventListener('pointermove', move, { passive: true });
+    window.addEventListener('mousemove', move, { passive: true });
+
+    // Visible even before the first mouse move; proves the orb layer is loaded.
+    setInterval(() => makeSpark(performance.now() + 30), 120);
+
+    // Proof mode for browser screenshots: visible cursor and trail without manual movement.
+    if (new URLSearchParams(location.search).has('cursorproof')) {
+      let t = 0;
+      setInterval(() => {
+        t += 0.18;
+        place(window.innerWidth * .52 + Math.cos(t) * 130, window.innerHeight * .48 + Math.sin(t * 1.3) * 70);
+        makeSpark(performance.now() + 40);
+      }, 28);
     }
   }
-  function move(clientX,clientY){
-    x=clientX;y=clientY;
-    orb.style.setProperty('--cx',x+'px');
-    orb.style.setProperty('--cy',y+'px');
-    orb.style.opacity='1';
-    var now=Date.now();
-    if(now-last>24){last=now;emit(x,y,4);}
-  }
-  document.addEventListener('mousemove',function(e){move(e.clientX,e.clientY);},false);
-  document.addEventListener('pointermove',function(e){move(e.clientX,e.clientY);},{passive:true});
-  document.addEventListener('touchstart',function(e){if(e.touches&&e.touches[0])move(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
-  setInterval(function(){if(Date.now()-last>600){emit(x,y,1);}},420);
+
+  ensureSparkles();
+  ensureCursor();
 })();
