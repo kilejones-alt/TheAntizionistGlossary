@@ -1,83 +1,154 @@
 (() => {
-  const q = document.querySelector('#azSearch');
-  if (q) {
-    q.addEventListener('input', () => {
-      const value = q.value.toLowerCase();
+  const search = document.querySelector('#azSearch');
+  if (search) {
+    search.addEventListener('input', () => {
+      const value = search.value.toLowerCase();
       document.querySelectorAll('.term-list li').forEach((li) => {
         li.style.display = li.textContent.toLowerCase().includes(value) ? '' : 'none';
       });
     });
   }
 
-  let ambient = document.querySelector('.ambient-lights');
-  if (!ambient) {
-    ambient = document.createElement('div');
-    ambient.className = 'ambient-lights ambient-lights-v17';
-    ambient.setAttribute('aria-hidden', 'true');
-    document.body.prepend(ambient);
-  }
-  ambient.classList.add('ambient-lights-v17');
-  ambient.innerHTML = '';
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
 
-  const particles = [
-    [7, -0.2, 6.8, 20, 7.0, .88], [14, -1.6, 5.7, -16, 5.2, .72], [22, -3.0, 7.1, 30, 4.8, .82],
-    [29, -4.5, 6.2, -32, 6.0, .66], [73, -0.7, 6.4, -24, 6.4, .86], [81, -2.1, 5.4, 18, 5.0, .74],
-    [91, -3.8, 7.4, -36, 7.2, .80], [96, -5.0, 6.0, 26, 4.6, .70], [5, -5.8, 5.2, 34, 4.8, .84],
-    [18, -6.4, 7.6, -28, 6.8, .68], [26, -7.0, 5.9, 22, 5.6, .78], [76, -6.7, 6.9, -20, 6.2, .88],
-    [87, -7.5, 5.8, 30, 4.8, .72], [94, -8.3, 7.2, -34, 5.8, .82], [10, -8.7, 6.1, 18, 6.2, .70],
-    [24, -9.2, 5.5, -22, 4.5, .76], [71, -9.7, 6.5, 36, 6.4, .86], [84, -10.3, 5.3, -18, 5.0, .74],
-    [93, -10.9, 7.5, 28, 7.0, .80], [3, -11.4, 6.6, -26, 5.2, .78], [16, -12.1, 5.6, 30, 4.9, .84],
-    [28, -12.8, 7.0, -36, 6.6, .66], [72, -13.2, 6.0, 20, 5.4, .86], [79, -13.8, 5.1, -18, 4.6, .72],
-    [89, -14.4, 6.8, 32, 6.2, .80], [97, -14.9, 5.9, -24, 5.6, .76], [9, -15.4, 7.3, 26, 6.8, .82],
-    [21, -16.0, 6.3, -30, 4.8, .70], [74, -16.6, 5.4, 22, 5.2, .86], [86, -17.1, 7.1, -36, 6.0, .74],
-    [31, -2.7, 6.9, -12, 5.5, .54], [67, -4.2, 6.5, 14, 5.8, .56], [34, -7.4, 7.3, 10, 6.3, .50],
-    [64, -11.2, 6.7, -10, 5.6, .52]
-  ];
+  const particleCanvas = document.createElement('canvas');
+  particleCanvas.className = 'magic-particle-canvas';
+  particleCanvas.setAttribute('aria-hidden', 'true');
+  const cursorCanvas = document.createElement('canvas');
+  cursorCanvas.className = 'magic-cursor-canvas';
+  cursorCanvas.setAttribute('aria-hidden', 'true');
+  document.body.prepend(particleCanvas);
+  document.body.appendChild(cursorCanvas);
 
-  particles.forEach(([x, delay, duration, drift, size, opacity], index) => {
-    const dot = document.createElement('span');
-    dot.className = 'ambient-light art-particle';
-    dot.style.left = `${x}%`;
-    dot.style.setProperty('--delay', `${delay}s`);
-    dot.style.setProperty('--duration', `${duration}s`);
-    dot.style.setProperty('--drift', `${drift}px`);
-    dot.style.setProperty('--particle-size', `${size}px`);
-    dot.style.setProperty('--particle-opacity', `${opacity}`);
-    dot.style.setProperty('--flicker', `${3.2 + (index % 7) * 0.32}s`);
-    ambient.appendChild(dot);
-  });
-
-  if (window.matchMedia('(pointer: coarse)').matches) return;
-  document.documentElement.classList.add('custom-cursor-active');
-
-  let orb = document.getElementById('cursor-orb');
-  if (!orb) {
-    orb = document.createElement('div');
-    orb.id = 'cursor-orb';
-    orb.className = 'cursor-orb';
-    orb.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(orb);
-  }
-
+  const pctx = particleCanvas.getContext('2d');
+  const cctx = cursorCanvas.getContext('2d');
+  let width = 0;
+  let height = 0;
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const sideZones = [[0.035, 0.29], [0.71, 0.965], [0.31, 0.37], [0.63, 0.69]];
+  let particles = [];
+  const cursor = { x: -1000, y: -1000, active: false, sparks: [] };
   let lastSpark = 0;
-  const moveOrb = (event) => {
-    orb.style.opacity = '1';
-    orb.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
-    const now = performance.now();
-    if (now - lastSpark > 34) {
-      lastSpark = now;
-      const spark = document.createElement('span');
-      spark.className = 'cursor-spark';
-      spark.style.left = `${event.clientX + (Math.random() * 12 - 6)}px`;
-      spark.style.top = `${event.clientY + (Math.random() * 12 - 6)}px`;
-      spark.style.setProperty('--spark-drift-x', `${Math.random() * 34 - 17}px`);
-      spark.style.setProperty('--spark-drift-y', `${-18 - Math.random() * 28}px`);
-      spark.style.setProperty('--spark-size', `${2.5 + Math.random() * 4.5}px`);
-      document.body.appendChild(spark);
-      window.setTimeout(() => spark.remove(), 950);
-    }
-  };
 
-  document.addEventListener('mousemove', moveOrb, { passive: true });
-  document.addEventListener('mouseleave', () => { orb.style.opacity = '0'; });
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    [particleCanvas, cursorCanvas].forEach((canvas) => {
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+    });
+    pctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    makeParticles();
+  }
+
+  function randomFromZone() {
+    const zone = sideZones[Math.random() < 0.82 ? (Math.random() < 0.5 ? 0 : 1) : (Math.random() < 0.5 ? 2 : 3)];
+    return (zone[0] + Math.random() * (zone[1] - zone[0])) * width;
+  }
+
+  function makeParticles() {
+    const count = width < 700 ? 34 : 58;
+    particles = Array.from({ length: count }, (_, i) => resetParticle({}, true, i));
+  }
+
+  function resetParticle(p, scatter = false, i = 0) {
+    p.x = randomFromZone();
+    p.y = scatter ? Math.random() * height : height + 18 + Math.random() * 140;
+    p.baseX = p.x;
+    p.size = 1.35 + Math.random() * 2.55;
+    p.speed = 48 + Math.random() * 70;
+    p.drift = -24 + Math.random() * 48;
+    p.phase = Math.random() * Math.PI * 2;
+    p.pulse = 0.62 + Math.random() * 0.38;
+    p.alpha = 0.54 + Math.random() * 0.34;
+    p.twinkle = 1.4 + Math.random() * 2.8;
+    p.index = i;
+    return p;
+  }
+
+  function drawGoldDot(ctx, x, y, radius, alpha) {
+    const glow = ctx.createRadialGradient(x, y, 0, x, y, radius * 3.9);
+    glow.addColorStop(0, `rgba(255,250,222,${alpha})`);
+    glow.addColorStop(0.22, `rgba(255,216,116,${alpha * 0.86})`);
+    glow.addColorStop(0.52, `rgba(246,183,64,${alpha * 0.18})`);
+    glow.addColorStop(1, 'rgba(246,183,64,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(x, y, radius * 3.9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = `rgba(255,247,211,${Math.min(1, alpha + .08)})`;
+    ctx.beginPath();
+    ctx.arc(x, y, Math.max(1.1, radius * .42), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  let last = performance.now();
+  function animate(now) {
+    const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+    last = now;
+    pctx.clearRect(0, 0, width, height);
+    pctx.globalCompositeOperation = 'lighter';
+    for (const p of particles) {
+      p.y -= p.speed * dt;
+      p.phase += p.twinkle * dt;
+      const progress = 1 - Math.max(0, Math.min(1, p.y / height));
+      const x = p.baseX + Math.sin(p.phase * .7) * 8 + p.drift * progress;
+      const visible = p.y > -90 && p.y < height + 100;
+      if (visible) {
+        const fadeIn = Math.min(1, (height + 35 - p.y) / 130);
+        const fadeOut = Math.min(1, (p.y + 80) / 160);
+        const twinkle = 0.70 + Math.sin(p.phase) * 0.30;
+        drawGoldDot(pctx, x, p.y, p.size, p.alpha * fadeIn * fadeOut * twinkle);
+      }
+      if (p.y < -110) resetParticle(p, false, p.index);
+    }
+    pctx.globalCompositeOperation = 'source-over';
+
+    cctx.clearRect(0, 0, width, height);
+    cctx.globalCompositeOperation = 'lighter';
+    if (cursor.active && window.matchMedia('(pointer: fine)').matches) {
+      drawGoldDot(cctx, cursor.x, cursor.y, 9.5 + Math.sin(now / 150) * 2.2, 0.98);
+      drawGoldDot(cctx, cursor.x, cursor.y, 18, 0.26 + Math.sin(now / 130) * .10);
+    }
+    cursor.sparks = cursor.sparks.filter((s) => now - s.birth < 850);
+    for (const s of cursor.sparks) {
+      const t = (now - s.birth) / 850;
+      const x = s.x + s.dx * t;
+      const y = s.y + s.dy * t - 18 * t;
+      drawGoldDot(cctx, x, y, s.size * (1 - t * .65), (1 - t) * .86);
+    }
+    cctx.globalCompositeOperation = 'source-over';
+    requestAnimationFrame(animate);
+  }
+
+  function pointerMove(event) {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    document.documentElement.classList.add('magic-cursor');
+    cursor.active = true;
+    cursor.x = event.clientX;
+    cursor.y = event.clientY;
+    const now = performance.now();
+    if (now - lastSpark > 26) {
+      lastSpark = now;
+      cursor.sparks.push({
+        x: cursor.x + Math.random() * 14 - 7,
+        y: cursor.y + Math.random() * 14 - 7,
+        dx: Math.random() * 40 - 20,
+        dy: Math.random() * 34 - 12,
+        size: 2.1 + Math.random() * 3.9,
+        birth: now
+      });
+    }
+  }
+
+  window.addEventListener('resize', resize, { passive: true });
+  document.addEventListener('pointermove', pointerMove, { passive: true });
+  document.addEventListener('pointerleave', () => { cursor.active = false; });
+  resize();
+  requestAnimationFrame(animate);
 })();
