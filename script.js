@@ -50,27 +50,29 @@
       document.body.appendChild(sparks);
     }
 
-    let x = -80;
-    let y = -80;
+    let x = -120;
+    let y = -120;
     let lastSpark = 0;
+    const pointerFine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+
     function place(nx, ny) {
       x = nx; y = ny;
       cursor.style.left = `${x}px`;
       cursor.style.top = `${y}px`;
-      document.body.classList.add('cursor-active');
+      document.body.classList.add('custom-cursor-ready');
     }
 
     function makeSpark(now = performance.now()) {
-      if (x < 0 || y < 0 || now - lastSpark < 46) return;
+      if (x < 0 || y < 0 || now - lastSpark < 72) return;
       lastSpark = now;
       const dot = document.createElement('span');
       dot.className = 'cursor-spark';
-      dot.style.left = `${x + (Math.random() * 10 - 5)}px`;
-      dot.style.top = `${y + (Math.random() * 10 - 5)}px`;
-      dot.style.setProperty('--trail-x', `${Math.random() * 22 - 11}px`);
-      dot.style.setProperty('--trail-y', `${-5 - Math.random() * 18}px`);
+      dot.style.left = `${x + (Math.random() * 8 - 4)}px`;
+      dot.style.top = `${y + (Math.random() * 8 - 4)}px`;
+      dot.style.setProperty('--trail-x', `${Math.random() * 16 - 8}px`);
+      dot.style.setProperty('--trail-y', `${-4 - Math.random() * 14}px`);
       sparks.appendChild(dot);
-      setTimeout(() => dot.remove(), 1000);
+      setTimeout(() => dot.remove(), 900);
     }
 
     function move(event) {
@@ -79,16 +81,16 @@
     }
     document.addEventListener('mousemove', move, { passive: true });
     document.addEventListener('pointermove', move, { passive: true });
-    window.addEventListener('mousemove', move, { passive: true });
 
+    // Browser-proof mode only; normal live site waits for real mouse movement.
     if (new URLSearchParams(location.search).has('cursorproof')) {
       let t = 0;
-      document.body.classList.add('cursor-active');
+      document.body.classList.add('custom-cursor-ready');
       setInterval(() => {
-        t += 0.18;
-        place(window.innerWidth * .55 + Math.cos(t) * 110, window.innerHeight * .46 + Math.sin(t * 1.3) * 58);
-        makeSpark(performance.now() + 60);
-      }, 30);
+        t += 0.15;
+        place(window.innerWidth * .56 + Math.cos(t) * 62, window.innerHeight * .48 + Math.sin(t * 1.15) * 34);
+        makeSpark(performance.now() + 90);
+      }, 38);
     }
   }
 
