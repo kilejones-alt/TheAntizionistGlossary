@@ -693,3 +693,8 @@ h2[id]{scroll-margin-top:110px;}
 .entry-image + .entry-layout{
   margin-top:8px;
 }
+
+
+/* v23 content/Hebrew catch-up: text layout only, artwork unchanged */
+.intro-card{border:1px solid rgba(216,189,122,.22);background:rgba(12,11,10,.62);padding:22px 24px;margin:24px 0 34px;box-shadow:0 20px 60px rgba(0,0,0,.22)}
+.intro-card h2{margin-top:0;color:#f1eee8}.intro-card p{margin:0 0 12px;color:#c9c0b1}.intro-card a{font:700 11px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e5c477}.entry-side h2{font-size:16px;color:#f1eee8;margin:0 0 12px}.recommended-reading-list,.resource-list{list-style:none;padding:0;margin:0 0 24px}.recommended-reading-list li,.resource-list li{margin:0 0 12px;color:#aaa194;font-size:14px;line-height:1.45}.recommended-reading-list a,.entry-side a{color:#e5c477;text-decoration:none}.recommended-reading-list a:hover,.entry-side a:hover{color:#fff0b8;text-shadow:0 0 10px rgba(229,196,119,.35)}.references-list{max-height:560px;overflow:auto;padding-right:4px}.hebrew-page{direction:rtl}.hebrew-page main,.hebrew-page .gallery-main,.hebrew-page .article,.hebrew-page .entry-main{direction:rtl;text-align:right}.hebrew-page .entry-main p,.hebrew-page .article p,.hebrew-page li{unicode-bidi:plaintext}.hebrew-page .entry-layout{direction:rtl}.hebrew-page .entry-side{border-left:0;border-right:1px solid rgba(216,189,122,.18);padding-left:0;padding-right:24px}.hebrew-page .gallery-topbar{direction:rtl}.hebrew-page .gallery-topbar nav{direction:ltr}.hebrew-page .az-tools input{text-align:right}.hebrew-page .term-list a,.hebrew-page h1,.hebrew-page h2,.hebrew-page h3{letter-spacing:0}

@@ -369,3 +369,22 @@
   ensureMusicButton();
   setupMusic();
 })();
+
+
+// v23-hebrew-no-bounce-lock
+(function(){
+  function run(){
+    if(!document.body || document.body.dataset.siteLang!=='he') return;
+    var heFiles=new Set(["about-he.html", "anti-zionism-he.html", "apartheid-he.html", "apartheid-wall-he.html", "blood-on-your-hands-he.html", "boycott-divestment-sanctions-he.html", "butcher-of-gaza-he.html", "by-any-means-necessary-he.html", "ceasefire-now-he.html", "child-killers-he.html", "collective-punishment-he.html", "colonizer-he.html", "complicity-he.html", "contact-he.html", "death-to-the-idf-he.html", "decolonization-he.html", "end-the-blockade-he.html", "end-the-occupation-he.html", "ethnic-cleansing-he.html", "ethnostate-he.html", "free-palestine-he.html", "from-the-river-to-the-sea-he.html", "genocide-he.html", "globalize-the-intifada-he.html", "glossary-he.html", "hasbara-he.html", "hebrew.html", "image-credits-he.html", "imperial-state-he.html", "index-he.html", "index-he.html", "intifada-he.html", "introduction-he.html", "israeli-war-machine-he.html", "jewish-supremacy-he.html", "liberation-he.html", "method-he.html", "modern-day-nazis-he.html", "nazi-state-he.html", "normalization-he.html", "occupation-he.html", "open-air-prison-he.html", "pinkwashing-he.html", "resistance-he.html", "resources-he.html", "settler-colonialism-he.html", "stop-the-genocide-he.html", "white-settler-he.html", "zio-zionazi-he.html", "zionism-he.html", "zionism-is-racism-he.html", "zionist-entity-he.html"]);
+    document.querySelectorAll('a[href]').forEach(function(a){
+      var href=a.getAttribute('href');
+      if(!href || href[0]==='#' || href.indexOf('http://')===0 || href.indexOf('https://')===0 || href.indexOf('mailto:')===0) return;
+      var parts=href.split('#'), base=parts[0], hash=parts[1]?'#'+parts[1]:'';
+      if(base.indexOf('-he-he.html')!==-1) base=base.replace(/-he-he\.html$/,'-he.html');
+      if(base==='index.html') base='index-he.html';
+      else if(base.slice(-5)==='.html' && base.slice(-8)!=='-he.html') { var cand=base.replace(/\.html$/,'-he.html'); if(heFiles.has(cand)) base=cand; }
+      if(base) a.setAttribute('href',base+hash);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+})();
