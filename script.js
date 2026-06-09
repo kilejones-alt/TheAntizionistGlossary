@@ -546,3 +546,82 @@
   });
   window.addEventListener('pageshow', function(){ ensureOnlyMusicTab(); installMusic(); });
 })();
+
+
+/* v54 emergency hard fix: root-or-audio music fallback + guaranteed homepage letter hover */
+(function(){
+  'use strict';
+  var VERSION='54';
+  function ready(fn){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fn); else fn(); }
+  function $(sel, root){ return (root||document).querySelector(sel); }
+  function $$(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+  function basePath(){
+    var p=location.pathname;
+    var i=p.lastIndexOf('/');
+    return i>=0 ? p.slice(0,i+1) : '/';
+  }
+  function ensureMusic(){
+    var btn=$('#music-toggle') || $('.music-toggle') || $$('button,a').filter(function(el){return /^\s*(music|מוזיקה)\s*$/i.test(el.textContent||'');})[0];
+    var nav=$('.gallery-topbar nav') || $('nav');
+    if(!btn && nav){
+      var d=document.createElement('span'); d.className='nav-divider'; d.textContent='|';
+      btn=document.createElement('button'); btn.id='music-toggle'; btn.className='music-toggle'; btn.type='button'; btn.textContent='Music';
+      nav.appendChild(d); nav.appendChild(btn);
+    }
+    if(!btn) return;
+    btn.id='music-toggle'; btn.classList.add('music-toggle'); if(btn.tagName.toLowerCase()==='button') btn.type='button'; btn.setAttribute('aria-pressed','false');
+    var old=$('#lumen-site-audio'); if(old) old.remove();
+    var audio=document.createElement('audio');
+    audio.id='lumen-site-audio'; audio.preload='auto'; audio.loop=true; audio.volume=.78; audio.setAttribute('playsinline',''); audio.setAttribute('webkit-playsinline','');
+    document.body.appendChild(audio);
+    var root=location.origin + basePath();
+    var sources=[
+      'lumen-nocturne.mp3?v='+VERSION,
+      './lumen-nocturne.mp3?v='+VERSION,
+      'audio/lumen-nocturne.mp3?v='+VERSION,
+      './audio/lumen-nocturne.mp3?v='+VERSION,
+      root+'lumen-nocturne.mp3?v='+VERSION,
+      root+'audio/lumen-nocturne.mp3?v='+VERSION,
+      location.origin + '/TheAntizionistGlossary/lumen-nocturne.mp3?v='+VERSION,
+      location.origin + '/TheAntizionistGlossary/audio/lumen-nocturne.mp3?v='+VERSION
+    ];
+    var i=0, trying=false;
+    function pressed(on){ btn.setAttribute('aria-pressed',on?'true':'false'); document.body.classList.toggle('music-playing',!!on); }
+    function tryPlay(){
+      if(i>=sources.length){ pressed(false); trying=false; return; }
+      trying=true; audio.src=sources[i++]; audio.muted=false; audio.volume=.78;
+      var p; try{ p=audio.play(); }catch(e){ tryPlay(); return; }
+      if(p && p.then){ p.then(function(){ pressed(true); trying=false; }).catch(function(){ tryPlay(); }); } else { pressed(true); trying=false; }
+    }
+    btn.onclick=function(ev){ if(ev){ev.preventDefault(); ev.stopPropagation();}
+      if(!audio.paused){ audio.pause(); pressed(false); return; }
+      i=0; tryPlay();
+    };
+    audio.addEventListener('error',function(){ if(trying) tryPlay(); });
+    audio.addEventListener('play',function(){pressed(true);});
+    audio.addEventListener('pause',function(){pressed(false);});
+  }
+  function wrapText(el){
+    if(!el || el.dataset.azV54Done==='1') return;
+    if(el.querySelector('.az-v54-letter')){ el.dataset.azV54Done='1'; return; }
+    el.dataset.azV54Done='1';
+    var nodes=[];
+    var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.nodeValue && n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;}});
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function(node){
+      var frag=document.createDocumentFragment();
+      Array.prototype.forEach.call(node.nodeValue,function(ch){
+        if(/\s/.test(ch)){ frag.appendChild(document.createTextNode(ch)); return; }
+        var sp=document.createElement('span'); sp.className='az-v54-letter'; sp.textContent=ch; frag.appendChild(sp);
+      });
+      if(node.parentNode) node.parentNode.replaceChild(frag,node);
+    });
+  }
+  function ensureLetters(){
+    $$('.home-copy h1,.home-copy .home-kicker,.home-copy .home-subtitle,main h1').forEach(wrapText);
+  }
+  document.addEventListener('mouseover',function(e){ var l=e.target && e.target.closest && e.target.closest('.az-v54-letter,.az-letter'); if(l) l.classList.add('is-hovered'); },true);
+  document.addEventListener('mouseout',function(e){ var l=e.target && e.target.closest && e.target.closest('.az-v54-letter,.az-letter'); if(l) l.classList.remove('is-hovered'); },true);
+  ready(function(){ ensureMusic(); ensureLetters(); });
+  window.addEventListener('pageshow',function(){ ensureMusic(); ensureLetters(); });
+})();
