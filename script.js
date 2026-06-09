@@ -255,12 +255,12 @@
     const baseLabel = isHebrew ? 'מוזיקה' : 'Music';
     const playingLabel = isHebrew ? 'מוזיקה ◦' : 'Music ◦';
 
-    // Original, browser-generated classical-style phrases. No recordings or external files.
+    // Browser-generated Beethoven-like classical phrases. No recordings or external files.
     const phrases = [
-      // v27: new first phrase, slower darker classical/chamber-style line.
-      { root: 174.61, tempo: 54, notes: [0, 3, 7, 10, 12, 10, 8, 7, 5, 3, 2, 0, -2, 0, 3, 7] },
-      { root: 261.63, tempo: 68, notes: [0, 4, 7, 12, 11, 7, 4, 0, 2, 5, 9, 12, 9, 5, 2, 0] },
-      { root: 196.00, tempo: 58, notes: [0, 3, 7, 10, 12, 10, 7, 3, -2, 2, 5, 9, 7, 3, 0, -5] }
+      // v33: slower Beethoven / Moonlight-style arpeggiated chamber line.
+      { root: 138.59, tempo: 48, notes: [0, 7, 12, 3, 7, 12, 2, 7, 11, 0, 5, 8, -1, 5, 8, 0, 7, 12, -5, 2, 7, -8, 0, 7] },
+      { root: 164.81, tempo: 52, notes: [0, 7, 12, 3, 7, 12, 5, 8, 12, 3, 7, 10, 0, 7, 12, -2, 5, 10, -5, 2, 7, 0, 3, 7] },
+      { root: 130.81, tempo: 50, notes: [0, 7, 12, 4, 7, 12, 3, 7, 10, 0, 5, 9, -2, 5, 10, -5, 2, 7, -7, 0, 5, -12, -5, 0] }
     ];
 
     function frequency(root, semitones) {
