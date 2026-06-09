@@ -1465,8 +1465,58 @@ body.az-v47-text-glow-ready h3:hover{
 .az-teleprompter-text{font-size:18px!important;line-height:1.62!important;padding:54px 24px 28px!important;}
 
 
-/* v54 emergency hard fix: homepage individual letters move without line lift */
-.az-v54-prewrapped{white-space:normal!important;}
-.az-v54-letter{display:inline-block!important;position:relative!important;top:0!important;transform:translateY(0) scale(1)!important;transition:top .12s ease, transform .12s ease, color .12s ease, text-shadow .12s ease, filter .12s ease!important;will-change:top,transform,filter!important;}
-.az-v54-letter:hover,.az-v54-letter.is-hovered{top:-8px!important;transform:translateY(-3px) scale(1.12)!important;color:#fff4c5!important;filter:brightness(1.35)!important;text-shadow:0 0 10px rgba(255,232,174,.85),0 0 24px rgba(216,189,122,.48),0 0 42px rgba(216,189,122,.25)!important;}
-.home-copy:hover,.home-copy h1:hover,.home-copy p:hover{transform:none!important;}
+/* v55 emergency fixes */
+.gallery-topbar nav a,
+.gallery-topbar nav button,
+.gallery-topbar .music-toggle,
+.language-nav a,
+.language-nav button{
+  display:inline-block!important;
+  border:0!important;
+  background:transparent!important;
+  color:rgba(237,207,145,.84)!important;
+  font:700 11px/1 Arial,sans-serif!important;
+  letter-spacing:.18em!important;
+  text-transform:uppercase!important;
+  padding:0!important;
+  margin:0!important;
+  vertical-align:baseline!important;
+  text-decoration:none!important;
+}
+.gallery-topbar nav a:hover,
+.gallery-topbar nav button:hover,
+.gallery-topbar .music-toggle:hover,
+.gallery-topbar .music-toggle[aria-pressed="true"]{
+  color:#fff2be!important;
+  text-shadow:0 0 8px rgba(255,219,127,1),0 0 22px rgba(242,188,73,.75),0 0 42px rgba(242,188,73,.35)!important;
+}
+.az-letter{
+  display:inline-block!important;
+  position:relative!important;
+  color:inherit!important;
+  font:inherit!important;
+  font-size:inherit!important;
+  line-height:inherit!important;
+  letter-spacing:inherit!important;
+  text-transform:inherit!important;
+  white-space:pre!important;
+  transform:translateY(0) scale(1) rotate(0deg)!important;
+  transition:transform .14s ease,color .14s ease,text-shadow .14s ease!important;
+  will-change:transform!important;
+}
+.az-letter:hover,.az-letter.az-letter-active{
+  transform:translateY(-7px) scale(1.12) rotate(-1.5deg)!important;
+  color:#fff4c5!important;
+  text-shadow:0 0 10px rgba(255,232,174,.85),0 0 22px rgba(216,189,122,.48),0 0 38px rgba(216,189,122,.25)!important;
+}
+.home-copy h1 .az-letter{min-width:.24em;}
+#cursor-sparks{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden;}
+#cursor-sparks i{position:fixed;width:4px;height:4px;border-radius:999px;background:#efd48d;box-shadow:0 0 8px rgba(255,222,140,.95),0 0 18px rgba(216,189,122,.55);opacity:.95;animation:azCursorSpark var(--life,780ms) ease-out forwards;}
+@keyframes azCursorSpark{to{transform:translate(var(--tx,12px),var(--ty,12px)) scale(.1);opacity:0;}}
+.intro-logo-blend{display:flex!important;justify-content:center!important;align-items:center!important;margin:72px auto 32px!important;max-width:360px!important;opacity:.82!important;mix-blend-mode:screen!important;filter:drop-shadow(0 0 24px rgba(245,217,146,.18));}
+.intro-logo-blend img{display:block!important;max-width:min(340px,72vw)!important;width:100%!important;height:auto!important;border:0!important;object-fit:contain!important;background:transparent!important;filter:grayscale(100%) contrast(1.08) brightness(1.05)!important;}
+.intro-card,.start-here-card{cursor:pointer!important;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;}
+.intro-card:hover,.start-here-card:hover{border-color:rgba(255,225,154,.42)!important;box-shadow:0 0 28px rgba(216,189,122,.14)!important;transform:translateY(-1px);}
+.az-reader-toggle{position:fixed;right:18px;bottom:18px;z-index:10000;border:1px solid rgba(216,189,122,.45);border-radius:999px;background:rgba(0,0,0,.72);color:#efd48d;padding:7px 13px;font:700 10px/1 Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;}
+.az-reader-toggle:hover,.az-reader-toggle.is-reading{color:#fff2be;border-color:rgba(255,225,154,.65);box-shadow:0 0 20px rgba(216,189,122,.25);}
+.sparkle-field .sparkle.az-near-globe{z-index:5;}
