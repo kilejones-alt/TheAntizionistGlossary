@@ -386,7 +386,7 @@
       if(label==='english') return;
       if(!href || href[0]==='#' || href.indexOf('http://')===0 || href.indexOf('https://')===0 || href.indexOf('mailto:')===0) return;
       var parts=href.split('#'), base=parts[0], hash=parts[1]?'#'+parts[1]:'';
-      if(base.indexOf('-he-he.html')!==-1) base=base.replace(/-he-he\.html$/,'-he.html');
+      base=base.replace(/(-he)+\.html$/,'-he.html');
       if(base==='index.html') base='index-he.html';
       else if(base.slice(-5)==='.html' && base.slice(-8)!=='-he.html') { var cand=base.replace(/\.html$/,'-he.html'); if(heFiles.has(cand)) base=cand; }
       if(base) a.setAttribute('href',base+hash);
