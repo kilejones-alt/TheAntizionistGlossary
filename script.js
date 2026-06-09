@@ -1,4 +1,4 @@
-/* v50 clean site script: music tab only, reader body only, no line lift, safe letter hover */
+/* v51 clean site script: music tab only, reader body only, no line lift, safe letter hover */
 (function(){
   'use strict';
 
@@ -150,19 +150,15 @@
   }
 
   function setupMusic(){
-    var oldStart = $('#az-music-start');
-    if (oldStart) oldStart.remove();
-    var button = ensureMusicButton();
-    if (!button || button.dataset.azV50Music === '1') return;
-    var fresh = button.cloneNode(true);
-    button.parentNode.replaceChild(fresh, button);
-    button = fresh;
-    button.dataset.azV50Music = '1';
-    button.id = 'music-toggle';
+    $all('#az-music-start,.az-music-start,.music-start,.start-music').forEach(function(n){ n.remove(); });
+    var button = $('#music-toggle') || $('.music-toggle') || $all('button,a').find(function(el){ return /^\s*(music|מוזיקה)\s*$/i.test(el.textContent || ''); });
+    if (!button || button.dataset.azV51Music === '1') return;
+    button.dataset.azV51Music = '1';
+    if (!button.id) button.id = 'music-toggle';
     button.classList.add('music-toggle');
-    button.type = 'button';
+    if (button.tagName.toLowerCase() === 'button') button.type = 'button';
+    button.setAttribute('aria-pressed','false');
     button.textContent = isHebrew() ? 'מוזיקה' : 'Music';
-    button.setAttribute('aria-pressed', 'false');
 
     var existing = $('#lumen-site-audio');
     if (existing) existing.remove();
@@ -170,47 +166,57 @@
     audio.id = 'lumen-site-audio';
     audio.preload = 'auto';
     audio.loop = true;
-    audio.volume = 0.62;
+    audio.volume = 0.70;
     audio.setAttribute('playsinline','');
-    var sources = [
-      'audio/lumen-nocturne.mp3?v=50',
-      './audio/lumen-nocturne.mp3?v=50',
-      '/TheAntizionistGlossary/audio/lumen-nocturne.mp3?v=50'
-    ];
-    var sourceIndex = 0;
-    audio.src = sources[sourceIndex];
+    audio.setAttribute('webkit-playsinline','');
     document.body.appendChild(audio);
 
+    var basePath = location.pathname.replace(/[^\/]*$/, '');
+    var sources = [
+      'audio/lumen-nocturne.mp3?v=51',
+      './audio/lumen-nocturne.mp3?v=51',
+      location.origin + basePath + 'audio/lumen-nocturne.mp3?v=51',
+      location.origin + '/TheAntizionistGlossary/audio/lumen-nocturne.mp3?v=51'
+    ];
+    var sourceIndex = 0;
+    function loadSource(){
+      if (audio.src !== sources[sourceIndex]) {
+        audio.src = sources[sourceIndex];
+        try { audio.load(); } catch(e) {}
+      }
+    }
     function setOn(on){
       document.body.classList.toggle('music-playing', !!on);
       button.setAttribute('aria-pressed', on ? 'true' : 'false');
       button.textContent = isHebrew() ? 'מוזיקה' : 'Music';
     }
-    function tryNextSourceAndPlay(){
-      if (sourceIndex < sources.length - 1) {
-        sourceIndex += 1;
-        audio.src = sources[sourceIndex];
-        try { audio.load(); } catch(e) {}
-        play();
-      }
-    }
     function play(){
+      loadSource();
       audio.muted = false;
-      audio.volume = 0.62;
+      audio.volume = 0.70;
       var p;
       try { p = audio.play(); } catch(e) { setOn(false); return; }
-      if (p && p.then) p.then(function(){ setOn(true); }).catch(function(){ setOn(false); });
-      else setOn(true);
+      if (p && p.then) {
+        p.then(function(){ setOn(true); }).catch(function(){
+          if (sourceIndex < sources.length - 1) { sourceIndex += 1; loadSource(); play(); }
+          else setOn(false);
+        });
+      } else setOn(true);
     }
-    function pause(){ audio.pause(); setOn(false); }
-    button.addEventListener('click', function(e){
-      e.preventDefault();
-      e.stopPropagation();
+    function pause(){ try { audio.pause(); } catch(e) {} setOn(false); }
+    function toggle(e){
+      if (e) { e.preventDefault(); e.stopPropagation(); }
       if (audio.paused) play(); else pause();
-    }, true);
-    audio.addEventListener('error', tryNextSourceAndPlay);
+    }
+    button.addEventListener('click', toggle, true);
+    button.addEventListener('pointerup', toggle, true);
     audio.addEventListener('play', function(){ setOn(true); });
     audio.addEventListener('pause', function(){ setOn(false); });
+    audio.addEventListener('ended', function(){ setOn(false); });
+    audio.addEventListener('error', function(){
+      if (sourceIndex < sources.length - 1) { sourceIndex += 1; loadSource(); }
+      setOn(false);
+    });
     setOn(false);
   }
 
@@ -283,13 +289,14 @@
     try { speechSynthesis.cancel(); } catch(e) {}
     var he = isHebrew();
     var panel = document.createElement('div');
-    panel.className = 'az-reader-panel';
-    panel.innerHTML = '<button type="button" data-reader="play">'+(he?'הקראה':'Read')+'</button><button type="button" data-reader="pause">'+(he?'השהה':'Pause')+'</button><button type="button" data-reader="stop">'+(he?'עצור':'Stop')+'</button><button type="button" data-reader="prompter">'+(he?'טלפרומפטר':'Teleprompter')+'</button>';
+    panel.className = 'az-reader-panel az-reader-collapsed';
+    panel.innerHTML = '<button type="button" class="az-reader-toggle" data-reader="toggle">'+(he?'הקראה':'Reader')+'</button><div class="az-reader-controls" aria-hidden="true"><button type="button" data-reader="play">'+(he?'הקרא':'Read')+'</button><button type="button" data-reader="pause">'+(he?'השהה':'Pause')+'</button><button type="button" data-reader="stop">'+(he?'עצור':'Stop')+'</button><button type="button" data-reader="prompter">'+(he?'מסך קריאה':'Prompter')+'</button></div>';
     document.body.appendChild(panel);
+    var controls = $('.az-reader-controls', panel);
     var overlay = document.createElement('div');
     overlay.className = 'az-teleprompter';
     overlay.setAttribute('aria-hidden','true');
-    overlay.innerHTML = '<div class="az-teleprompter-card"><button type="button" class="az-teleprompter-close">×</button><div class="az-teleprompter-marker" aria-hidden="true"></div><div class="az-teleprompter-text"></div></div>';
+    overlay.innerHTML = '<div class="az-teleprompter-card"><button type="button" class="az-teleprompter-close">×</button><div class="az-teleprompter-text"></div></div>';
     document.body.appendChild(overlay);
     var textBox = $('.az-teleprompter-text', overlay);
     var close = $('.az-teleprompter-close', overlay);
@@ -354,8 +361,8 @@
       if (prompter) openPrompter();
       utter = new SpeechSynthesisUtterance(text);
       utter.lang = he ? 'he-IL' : 'en-US';
-      utter.rate = he ? 0.88 : 0.84;
-      utter.pitch = he ? 0.95 : 0.90;
+      utter.rate = he ? 0.86 : 0.82;
+      utter.pitch = he ? 0.96 : 0.92;
       var voice = chooseVoice(utter.lang);
       if (voice) utter.voice = voice;
       utter.onstart = function(){ panel.classList.add('is-reading'); panel.classList.remove('is-paused'); if (prompter) fallbackHighlight(); };
@@ -368,6 +375,11 @@
       var b = e.target.closest('button[data-reader]');
       if (!b) return;
       var action = b.dataset.reader;
+      if (action === 'toggle') {
+        var open = panel.classList.toggle('az-reader-open');
+        panel.classList.toggle('az-reader-collapsed', !open);
+        controls.setAttribute('aria-hidden', open ? 'false' : 'true');
+      }
       if (action === 'play') speak(false);
       if (action === 'prompter') speak(true);
       if (action === 'pause') {
@@ -377,13 +389,12 @@
       if (action === 'stop') stop();
     });
     close.addEventListener('click', function(){ stop(); closePrompter(); });
-    overlay.addEventListener('click', function(e){ if (e.target === overlay) { stop(); closePrompter(); } });
     window.addEventListener('beforeunload', stop);
   }
 
   function wrapLettersSafely(){
-    if (document.body.dataset.azV50Letters === '1') return;
-    document.body.dataset.azV50Letters = '1';
+    if (document.body.dataset.azV51Letters === '1') return;
+    document.body.dataset.azV51Letters = '1';
     var selector = 'main h1, main h2, main h3, main h4, main p, main li, main blockquote, .term-list a, .term-list span, .lead';
     var exclude = 'script,style,textarea,input,select,button,.az-reader-panel,.az-teleprompter,#gold-cursor,#cursor-sparks,.sparkle-field,.entry-image,.hero-figure,.head-image,nav,footer';
     $all(selector).forEach(function(root){
@@ -417,7 +428,7 @@
         node.parentNode.replaceChild(frag, node);
       });
     });
-    document.body.classList.add('az-v50-letter-hover-ready');
+    document.body.classList.add('az-v51-letter-hover-ready');
   }
 
   function run(){
