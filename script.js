@@ -150,6 +150,7 @@
   }
 
   function setupMusic(){
+    return;
     $all('#az-music-start,.az-music-start,.music-start,.start-music').forEach(function(n){ n.remove(); });
     var button = $('#music-toggle') || $('.music-toggle') || $all('button,a').find(function(el){ return /^\s*(music|מוזיקה)\s*$/i.test(el.textContent || ''); });
     if (!button || button.dataset.azV51Music === '1') return;
@@ -393,6 +394,7 @@
   }
 
   function wrapLettersSafely(){
+    return;
     if (document.body.dataset.azV51Letters === '1') return;
     document.body.dataset.azV51Letters = '1';
     var selector = 'main h1, main h2, main h3, main h4, main p, main li, main blockquote, .term-list a, .term-list span, .lead';
@@ -451,4 +453,96 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
   window.addEventListener('pageshow', setupMusic);
+})();
+
+
+/* v52 hard fixes: cache-busted music tab, safe per-letter movement, no click-anywhere audio prompts */
+(function(){
+  'use strict';
+  var AUDIO_PATH = 'audio/lumen-nocturne.mp3?v=53';
+  function ready(fn){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
+  function $(sel, root){ return (root||document).querySelector(sel); }
+  function $$ (sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+  function isHebrew(){ return document.documentElement.dir === 'rtl' || document.body.classList.contains('hebrew-page') || document.documentElement.lang === 'he'; }
+
+  function ensureOnlyMusicTab(){
+    $$('#az-music-start,.az-music-start,.music-start,.start-music,.az-start-cue').forEach(function(el){ el.remove(); });
+    var nav = $('.gallery-topbar nav') || $('.language-nav') || $('nav');
+    var buttons = $$('.music-toggle,#music-toggle').concat($$('button,a').filter(function(el){ return /^\s*(music|מוזיקה)\s*$/i.test(el.textContent || ''); }));
+    var btn = buttons[0];
+    if(!btn && nav){
+      var divider = document.createElement('span'); divider.className='nav-divider'; divider.textContent='|';
+      btn = document.createElement('button'); btn.id='music-toggle'; btn.className='music-toggle'; btn.type='button'; btn.textContent='Music';
+      nav.appendChild(divider); nav.appendChild(btn);
+    }
+    buttons.slice(1).forEach(function(extra){ if(extra !== btn && extra.id === 'music-toggle') extra.removeAttribute('id'); });
+    if(btn){
+      btn.id='music-toggle'; btn.classList.add('music-toggle'); if(btn.tagName.toLowerCase()==='button') btn.type='button';
+      btn.textContent='Music'; btn.setAttribute('aria-pressed','false');
+    }
+    return btn;
+  }
+
+  function installMusic(){
+    var btn = ensureOnlyMusicTab();
+    if(!btn) return;
+    var old = document.getElementById('lumen-site-audio'); if(old) old.remove();
+    var audio = document.createElement('audio');
+    audio.id='lumen-site-audio'; audio.preload='auto'; audio.loop=true; audio.volume=.78; audio.src=AUDIO_PATH; audio.setAttribute('playsinline','');
+    document.body.appendChild(audio);
+    function pressed(on){ btn.setAttribute('aria-pressed', on?'true':'false'); document.body.classList.toggle('music-playing', !!on); }
+    function toggle(ev){
+      if(ev){ ev.preventDefault(); ev.stopPropagation(); if(ev.stopImmediatePropagation) ev.stopImmediatePropagation(); }
+      audio.src = AUDIO_PATH;
+      audio.muted=false; audio.volume=.78;
+      if(audio.paused){
+        var p = audio.play();
+        if(p && p.then){ p.then(function(){ pressed(true); }).catch(function(){ pressed(false); }); }
+        else pressed(true);
+      } else { audio.pause(); pressed(false); }
+    }
+    btn.addEventListener('click', toggle, true);
+    btn.addEventListener('pointerup', function(ev){ if(ev.pointerType === 'touch') toggle(ev); }, true);
+    audio.addEventListener('play', function(){ pressed(true); });
+    audio.addEventListener('pause', function(){ pressed(false); });
+  }
+
+  function safeLetterize(){
+    if(document.body.dataset.azV52Letters==='1') return;
+    document.body.dataset.azV52Letters='1';
+    var selector = 'main h1, main h2, main h3, main h4, main p, main li, main blockquote, .term-list a, .entry-phrase, .lead';
+    var reject = 'script,style,textarea,input,select,button,nav,footer,.az-reader-panel,.az-teleprompter,#gold-cursor,#cursor-sparks,.sparkle-field,.entry-image,.intro-logo-blend,.az-letter,.az-word';
+    $$(selector).forEach(function(root){
+      if(!root || root.closest(reject) || root.dataset.azV52Letterized==='1') return;
+      root.dataset.azV52Letterized='1';
+      var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode:function(node){
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if(node.parentElement && node.parentElement.closest(reject)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }});
+      var nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function(node){
+        var frag = document.createDocumentFragment();
+        Array.from(node.nodeValue).forEach(function(ch){
+          if(/\s/.test(ch)){ frag.appendChild(document.createTextNode(ch)); return; }
+          var span=document.createElement('span'); span.className='az-letter'; span.textContent=ch; frag.appendChild(span);
+        });
+        if(node.parentNode) node.parentNode.replaceChild(frag,node);
+      });
+    });
+    document.body.classList.add('az-v52-letter-hover-ready');
+  }
+
+  function keepReaderBodyOnly(){
+    // Keeps existing reader, but removes duplicate title text from speech source by marking title/eyebrow as skipped.
+    $$('.entry-label,.eyebrow,main > h1,main > .intro-logo-blend').forEach(function(el){ el.setAttribute('data-reader-skip','1'); });
+  }
+
+  ready(function(){
+    ensureOnlyMusicTab();
+    installMusic();
+    keepReaderBodyOnly();
+    safeLetterize();
+  });
+  window.addEventListener('pageshow', function(){ ensureOnlyMusicTab(); installMusic(); });
 })();
