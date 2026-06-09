@@ -809,3 +809,63 @@ body.hebrew-page .head-image:hover img{
   opacity:.96 !important;
   filter:grayscale(20%) sepia(4%) brightness(.90) contrast(1.10) saturate(.94) !important;
 }
+
+/* v28: show full entry images instead of zoomed/cropped close-ups */
+.entry-image,
+.hero-figure,
+.head-image,
+body.hebrew-page .entry-image,
+body.hebrew-page .hero-figure,
+body.hebrew-page .head-image{
+  background:radial-gradient(ellipse at center, rgba(255,255,255,.025), rgba(0,0,0,.72) 72%, rgba(0,0,0,1) 100%) !important;
+  box-shadow:0 22px 78px rgba(0,0,0,.52), 0 0 92px rgba(0,0,0,.38) !important;
+}
+.entry-image img,
+.hero-figure img,
+.head-image img,
+body.hebrew-page .entry-image img,
+body.hebrew-page .hero-figure img,
+body.hebrew-page .head-image img{
+  width:100% !important;
+  height:clamp(230px,30vw,380px) !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  padding:0 !important;
+  background:transparent !important;
+  opacity:.90 !important;
+  filter:grayscale(36%) sepia(5%) brightness(.82) contrast(1.08) saturate(.86) !important;
+}
+.entry-image::before,
+.hero-figure::before,
+.head-image::before,
+body.hebrew-page .entry-image::before,
+body.hebrew-page .hero-figure::before,
+body.hebrew-page .head-image::before{
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 54%, rgba(0,0,0,.30) 78%, rgba(0,0,0,.86) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,0) 28%, rgba(0,0,0,.08) 62%, rgba(0,0,0,.62)) !important;
+}
+.entry-image::after,
+.hero-figure::after,
+.head-image::after,
+body.hebrew-page .entry-image::after,
+body.hebrew-page .hero-figure::after,
+body.hebrew-page .head-image::after{
+  box-shadow:inset 0 0 58px rgba(0,0,0,.78), inset 0 0 125px rgba(0,0,0,.46), 0 0 95px rgba(0,0,0,.42) !important;
+}
+.entry-image:hover img,
+.hero-figure:hover img,
+.head-image:hover img,
+body.hebrew-page .entry-image:hover img,
+body.hebrew-page .hero-figure:hover img,
+body.hebrew-page .head-image:hover img{
+  opacity:.97 !important;
+  filter:grayscale(18%) sepia(3%) brightness(.92) contrast(1.07) saturate(.96) !important;
+}
+@media(max-width:900px){
+  .entry-image img,.hero-figure img,.head-image img,
+  body.hebrew-page .entry-image img,body.hebrew-page .hero-figure img,body.hebrew-page .head-image img{
+    height:clamp(190px,48vw,320px) !important;
+  }
+}
