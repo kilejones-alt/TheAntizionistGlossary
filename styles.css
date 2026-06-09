@@ -1520,3 +1520,35 @@ body.az-v47-text-glow-ready h3:hover{
 .az-reader-toggle{position:fixed;right:18px;bottom:18px;z-index:10000;border:1px solid rgba(216,189,122,.45);border-radius:999px;background:rgba(0,0,0,.72);color:#efd48d;padding:7px 13px;font:700 10px/1 Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;}
 .az-reader-toggle:hover,.az-reader-toggle.is-reading{color:#fff2be;border-color:rgba(255,225,154,.65);box-shadow:0 0 20px rgba(216,189,122,.25);}
 .sparkle-field .sparkle.az-near-globe{z-index:5;}
+
+/* v56 final overrides */
+.gallery-topbar nav a,.gallery-topbar nav button,.gallery-topbar nav .music-toggle,#music-toggle{
+  color:#d8bd7a!important;
+  font:700 11px/1 Arial,sans-serif!important;
+  letter-spacing:.22em!important;
+  text-transform:uppercase!important;
+  background:transparent!important;
+  border:0!important;
+  padding:0!important;
+  margin:0!important;
+  cursor:pointer!important;
+  vertical-align:baseline!important;
+}
+.gallery-topbar nav a:hover,.gallery-topbar nav button:hover,.gallery-topbar nav .music-toggle:hover,#music-toggle:hover,
+body.music-playing #music-toggle{color:#fff0b6!important;text-shadow:0 0 12px rgba(216,189,122,.55)!important;}
+
+.az-letter{display:inline-block!important;position:relative!important;transform:translate3d(0,0,0) scale(1)!important;transition:transform .18s ease,text-shadow .18s ease,color .18s ease!important;will-change:transform!important;}
+.az-letter:hover{transform:translate3d(0,-7px,0) scale(1.12) rotate(-1deg)!important;color:#fff6cf!important;text-shadow:0 0 10px rgba(255,232,160,.65),0 0 22px rgba(216,189,122,.35)!important;}
+
+#gold-cursor{position:fixed!important;left:-80px;top:-80px;width:18px!important;height:18px!important;margin:-9px 0 0 -9px!important;z-index:2147483647!important;pointer-events:none!important;border-radius:50%!important;opacity:.92!important;background:radial-gradient(circle,rgba(255,255,238,1) 0%,rgba(255,225,132,.95) 36%,rgba(239,172,43,.54) 62%,rgba(239,172,43,0) 86%)!important;box-shadow:0 0 8px rgba(255,235,168,.84),0 0 20px rgba(239,172,43,.48),0 0 34px rgba(239,172,43,.20)!important;mix-blend-mode:screen!important;animation:cursorSlowGlow 1.55s ease-in-out infinite!important;}
+#gold-cursor i{position:absolute!important;inset:-5px!important;border-radius:999px!important;background:radial-gradient(circle,rgba(255,211,91,.08),rgba(255,211,91,0) 72%)!important;}
+#cursor-sparks{position:fixed!important;inset:0!important;z-index:2147483646!important;pointer-events:none!important;overflow:hidden!important;}
+#cursor-sparks i{position:fixed!important;width:3px!important;height:3px!important;border-radius:999px!important;background:#efd48d!important;box-shadow:0 0 6px rgba(255,222,140,.75),0 0 12px rgba(216,189,122,.35)!important;opacity:.78!important;animation:azCursorSpark var(--life,650ms) ease-out forwards!important;mix-blend-mode:screen!important;}
+@keyframes azCursorSpark{0%{opacity:.72;transform:translate3d(0,0,0) scale(1)}100%{opacity:0;transform:translate3d(var(--tx,8px),var(--ty,-8px),0) scale(.12)}}
+
+.intro-logo-blend{display:flex!important;justify-content:center!important;align-items:center!important;margin:64px auto 30px!important;max-width:310px!important;opacity:.46!important;mix-blend-mode:screen!important;filter:grayscale(100%) contrast(1.08) brightness(.82) drop-shadow(0 0 22px rgba(245,217,146,.16))!important;}
+.intro-logo-blend img{display:block!important;max-width:min(300px,62vw)!important;width:100%!important;height:auto!important;border:0!important;object-fit:contain!important;background:transparent!important;opacity:.72!important;filter:grayscale(100%) contrast(1.12) brightness(.86)!important;}
+
+.az-reader-toggle{position:fixed!important;right:18px!important;bottom:18px!important;left:auto!important;z-index:2147483647!important;border:1px solid rgba(216,189,122,.48)!important;border-radius:999px!important;background:rgba(0,0,0,.76)!important;color:#efd48d!important;padding:7px 13px!important;font:700 10px/1 Arial,sans-serif!important;letter-spacing:.12em!important;text-transform:uppercase!important;cursor:pointer!important;box-shadow:none!important;}
+.az-reader-toggle:hover,.az-reader-toggle.is-reading{color:#fff2be!important;border-color:rgba(255,225,154,.68)!important;box-shadow:0 0 20px rgba(216,189,122,.25)!important;}
+.hebrew-page .az-reader-toggle{right:18px!important;left:auto!important;}
