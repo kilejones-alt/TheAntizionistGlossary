@@ -257,7 +257,8 @@
 
     // Original, browser-generated classical-style phrases. No recordings or external files.
     const phrases = [
-      { root: 220.00, tempo: 62, notes: [0, 7, 12, 11, 7, 4, 2, 0, -5, 2, 7, 9, 7, 4, 2, 0] },
+      // v27: new first phrase, slower darker classical/chamber-style line.
+      { root: 174.61, tempo: 54, notes: [0, 3, 7, 10, 12, 10, 8, 7, 5, 3, 2, 0, -2, 0, 3, 7] },
       { root: 261.63, tempo: 68, notes: [0, 4, 7, 12, 11, 7, 4, 0, 2, 5, 9, 12, 9, 5, 2, 0] },
       { root: 196.00, tempo: 58, notes: [0, 3, 7, 10, 12, 10, 7, 3, -2, 2, 5, 9, 7, 3, 0, -5] }
     ];
