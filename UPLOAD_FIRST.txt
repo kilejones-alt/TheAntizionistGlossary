@@ -1,1 +1,9 @@
-Upload script.js and styles.css into the repo root, overwrite, then Commit.
+UPLOAD v49 MUSIC TAB ONLY
+
+Upload these into the repo root and overwrite:
+
+script.js
+styles.css
+the whole audio folder
+
+Commit. Test with index.html?v=49. The only music control should be the existing Music tab.
