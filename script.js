@@ -1,3 +1,4 @@
+/* v44 cursor orb trail + text lift */
 /* v45 crackle sparkles */
 /* v44 preloaded sparkles */
 /* v43 attribution fix */
@@ -136,25 +137,51 @@
       document.body.style.cursor = 'none';
     }
 
+    let liftedText = null;
+    const liftSelector = 'a, button, h1, h2, h3, h4, p, li, blockquote, figcaption, .entry-title, .entry-body, .entry-content, .side-panel, .term-card, .lead, .kicker';
+
+    function clearLift() {
+      if (liftedText) liftedText.classList.remove('az-cursor-lift');
+      liftedText = null;
+    }
+
+    function liftTextAt(nx, ny) {
+      const el = document.elementFromPoint(nx, ny);
+      const target = el && el.closest ? el.closest(liftSelector) : null;
+      if (!target || target === document.body || target === document.documentElement || target.id === 'gold-cursor' || target.id === 'cursor-sparks' || target.closest('#gold-cursor, #cursor-sparks, .sparkle-field')) {
+        clearLift();
+        return;
+      }
+      if (liftedText && liftedText !== target) liftedText.classList.remove('az-cursor-lift');
+      liftedText = target;
+      liftedText.classList.add('az-cursor-lift');
+    }
+
     function makeSpark(now = performance.now()) {
-      if (x < 0 || y < 0 || now - lastSpark < 190) return;
+      if (x < 0 || y < 0 || now - lastSpark < 46) return;
       lastSpark = now;
       const dot = document.createElement('span');
-      dot.className = 'cursor-spark';
-      dot.style.left = `${x + (Math.random() * 8 - 4)}px`;
-      dot.style.top = `${y + (Math.random() * 8 - 4)}px`;
-      dot.style.setProperty('--trail-x', `${Math.random() * 12 - 6}px`);
-      dot.style.setProperty('--trail-y', `${-3 - Math.random() * 10}px`);
+      dot.className = 'cursor-spark cursor-orb';
+      const size = 2.2 + Math.random() * 4.4;
+      dot.style.left = `${x + (Math.random() * 10 - 5)}px`;
+      dot.style.top = `${y + (Math.random() * 10 - 5)}px`;
+      dot.style.setProperty('--orb-size', `${size.toFixed(2)}px`);
+      dot.style.setProperty('--trail-x', `${Math.random() * 22 - 11}px`);
+      dot.style.setProperty('--trail-y', `${-6 - Math.random() * 18}px`);
+      dot.style.setProperty('--trail-spin', `${Math.random() * 60 - 30}deg`);
       sparks.appendChild(dot);
-      setTimeout(() => dot.remove(), 1200);
+      setTimeout(() => dot.remove(), 1150);
     }
 
     function move(event) {
       place(event.clientX, event.clientY);
       makeSpark();
+      liftTextAt(event.clientX, event.clientY);
     }
     document.addEventListener('mousemove', move, { passive: true });
     document.addEventListener('pointermove', move, { passive: true });
+    document.addEventListener('mouseleave', clearLift, { passive: true });
+    window.addEventListener('blur', clearLift, { passive: true });
 
     // Browser-proof mode only; normal live site waits for real mouse movement.
     if (new URLSearchParams(location.search).has('cursorproof')) {
@@ -237,130 +264,65 @@
     const button = document.getElementById('music-toggle');
     if (!button || button.dataset.azMusicReady === '1') return;
     button.dataset.azMusicReady = '1';
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) {
-      button.textContent = `${button.textContent} unavailable`;
-      button.disabled = true;
-      return;
-    }
 
-    let ctx = null;
-    let master = null;
-    let filter = null;
-    let timer = null;
-    let playing = false;
-    let step = 0;
-    const active = new Set();
     const isHebrew = document.documentElement.lang === 'he' || document.body.dataset.siteLang === 'he' || document.documentElement.dir === 'rtl';
     const baseLabel = isHebrew ? 'מוזיקה' : 'Music';
     const playingLabel = isHebrew ? 'מוזיקה ◦' : 'Music ◦';
+    const blockedLabel = isHebrew ? 'מוזיקה — לחצו שוב' : 'Music — click again';
 
-    // Browser-generated Beethoven-like classical phrases. No recordings or external files.
-    const phrases = [
-      // v33: slower Beethoven / Moonlight-style arpeggiated chamber line.
-      { root: 138.59, tempo: 48, notes: [0, 7, 12, 3, 7, 12, 2, 7, 11, 0, 5, 8, -1, 5, 8, 0, 7, 12, -5, 2, 7, -8, 0, 7] },
-      { root: 164.81, tempo: 52, notes: [0, 7, 12, 3, 7, 12, 5, 8, 12, 3, 7, 10, 0, 7, 12, -2, 5, 10, -5, 2, 7, 0, 3, 7] },
-      { root: 130.81, tempo: 50, notes: [0, 7, 12, 4, 7, 12, 3, 7, 10, 0, 5, 9, -2, 5, 10, -5, 2, 7, -7, 0, 5, -12, -5, 0] }
-    ];
+    const audio = document.createElement('audio');
+    audio.id = 'lumen-site-audio';
+    audio.src = 'audio/lumen-nocturne.mp3';
+    audio.preload = 'auto';
+    audio.loop = true;
+    audio.volume = 0.42;
+    audio.setAttribute('playsinline', '');
+    document.body.appendChild(audio);
 
-    function frequency(root, semitones) {
-      return root * Math.pow(2, semitones / 12);
-    }
+    let playing = false;
+    let firstClickArmed = true;
 
-    function makeContext() {
-      if (ctx) return;
-      ctx = new AudioContext();
-      master = ctx.createGain();
-      filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.value = 3200;
-      master.gain.value = 0.0001;
-      filter.connect(master);
-      master.connect(ctx.destination);
-    }
-
-    function stopActiveNodes() {
-      active.forEach((node) => {
-        try { node.stop(0); } catch (e) {}
-      });
-      active.clear();
-    }
-
-    function playTone(when, hz, length, level, type = 'sine') {
-      if (!ctx || !filter) return;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(hz, when);
-      gain.gain.setValueAtTime(0.0001, when);
-      gain.gain.exponentialRampToValueAtTime(level, when + 0.045);
-      gain.gain.exponentialRampToValueAtTime(0.0001, when + Math.max(0.08, length));
-      osc.connect(gain).connect(filter);
-      osc.start(when);
-      osc.stop(when + length + 0.12);
-      active.add(osc);
-      osc.addEventListener('ended', () => active.delete(osc));
-    }
-
-    function schedulePhrase() {
-      if (!playing || !ctx) return;
-      const phrase = phrases[step % phrases.length];
-      const beat = 60 / phrase.tempo;
-      const start = ctx.currentTime + 0.06;
-      phrase.notes.forEach((note, i) => {
-        const t = start + i * beat;
-        playTone(t, frequency(phrase.root, note), beat * 0.92, 0.035, 'sine');
-        if (i % 2 === 0) playTone(t, frequency(phrase.root / 2, note), beat * 1.82, 0.022, 'triangle');
-        if (i % 4 === 0) playTone(t, frequency(phrase.root / 4, note), beat * 3.55, 0.014, 'sine');
-      });
-      step += 1;
-      const nextDelay = Math.max(120, phrase.notes.length * beat * 1000 - 70);
-      timer = window.setTimeout(schedulePhrase, nextDelay);
+    function setPlayingState(on) {
+      playing = on;
+      button.setAttribute('aria-pressed', on ? 'true' : 'false');
+      button.textContent = on ? playingLabel : baseLabel;
+      document.body.classList.toggle('music-playing', on);
     }
 
     async function start() {
-      if (playing) return;
-      makeContext();
-      clearTimeout(timer);
-      stopActiveNodes();
       try {
-        await ctx.resume();
+        await audio.play();
+        setPlayingState(true);
       } catch (e) {
-        button.textContent = isHebrew ? 'מוזיקה — לחצו שוב' : 'Music — click again';
-        return;
+        button.textContent = blockedLabel;
+        setPlayingState(false);
       }
-      playing = true;
-      button.setAttribute('aria-pressed', 'true');
-      button.textContent = playingLabel;
-      document.body.classList.add('music-playing');
-      master.gain.cancelScheduledValues(ctx.currentTime);
-      master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), ctx.currentTime);
-      master.gain.exponentialRampToValueAtTime(0.16, ctx.currentTime + 0.22);
-      schedulePhrase();
     }
 
     function stop() {
-      if (!ctx || !master) return;
-      playing = false;
-      clearTimeout(timer);
-      button.setAttribute('aria-pressed', 'false');
-      button.textContent = baseLabel;
-      document.body.classList.remove('music-playing');
-      master.gain.cancelScheduledValues(ctx.currentTime);
-      master.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.045);
-      window.setTimeout(stopActiveNodes, 180);
+      audio.pause();
+      setPlayingState(false);
     }
 
     button.textContent = baseLabel;
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      firstClickArmed = false;
       if (playing) stop();
       else start();
     });
+
+    document.addEventListener('click', (event) => {
+      if (!firstClickArmed || playing) return;
+      if (event.target && event.target.closest && event.target.closest('#music-toggle')) return;
+      firstClickArmed = false;
+      start();
+    }, { once: true, capture: true });
+
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && playing) stop();
     });
   }
-
 
   lockHomepageLanguage();
   normalizeGlossaryIntro();
@@ -376,14 +338,14 @@
 (function(){
   function run(){
     if(!document.body || document.body.dataset.siteLang!=='he') return;
-    var heFiles=new Set(["about-he.html", "anti-zionism-he.html", "apartheid-he.html", "apartheid-wall-he.html", "blood-on-your-hands-he.html", "boycott-divestment-sanctions-he.html", "butcher-of-gaza-he.html", "by-any-means-necessary-he.html", "ceasefire-now-he.html", "child-killers-he.html", "collective-punishment-he.html", "colonizer-he.html", "complicity-he.html", "contact-he.html", "death-to-the-idf-he.html", "decolonization-he.html", "end-the-blockade-he.html", "end-the-occupation-he.html", "ethnic-cleansing-he.html", "ethnostate-he.html", "free-palestine-he.html", "from-the-river-to-the-sea-he.html", "genocide-he.html", "globalize-the-intifada-he.html", "glossary-he.html", "hasbara-he.html", "hebrew.html", "image-credits-he.html", "imperial-state-he.html", "index-he.html", "index-he.html", "intifada-he.html", "introduction-he.html", "israeli-war-machine-he.html", "jewish-supremacy-he.html", "liberation-he.html", "method-he.html", "modern-day-nazis-he.html", "nazi-state-he.html", "normalization-he.html", "occupation-he.html", "open-air-prison-he.html", "pinkwashing-he.html", "resistance-he.html", "resources-he.html", "settler-colonialism-he.html", "stop-the-genocide-he.html", "white-settler-he.html", "zio-zionazi-he.html", "zionism-he.html", "zionism-is-racism-he.html", "zionist-entity-he.html"]);
+    var heFiles=new Set(["about-he.html", "anti-zionism-he.html", "antizionism-october-7-2023-present-he.html", "anti-zionism-1948-october-6-2023-he.html", "anti-zionism-1880-1947-he.html", "apartheid-he.html", "apartheid-wall-he.html", "blood-on-your-hands-he.html", "boycott-divestment-sanctions-he.html", "butcher-of-gaza-he.html", "by-any-means-necessary-he.html", "ceasefire-now-he.html", "child-killers-he.html", "collective-punishment-he.html", "colonizer-he.html", "complicity-he.html", "contact-he.html", "death-to-the-idf-he.html", "decolonization-he.html", "end-the-blockade-he.html", "end-the-occupation-he.html", "ethnic-cleansing-he.html", "ethnostate-he.html", "free-palestine-he.html", "from-the-river-to-the-sea-he.html", "genocide-he.html", "globalize-the-intifada-he.html", "glossary-he.html", "hasbara-he.html", "hebrew.html", "image-credits-he.html", "imperial-state-he.html", "index-he.html", "index-he.html", "intifada-he.html", "introduction-he.html", "israeli-war-machine-he.html", "jewish-supremacy-he.html", "liberation-he.html", "method-he.html", "modern-day-nazis-he.html", "nazi-state-he.html", "normalization-he.html", "occupation-he.html", "open-air-prison-he.html", "pinkwashing-he.html", "resistance-he.html", "resources-he.html", "settler-colonialism-he.html", "stop-the-genocide-he.html", "white-settler-he.html", "zio-zionazi-he.html", "zionism-he.html", "zionism-is-racism-he.html", "zionist-entity-he.html"]);
     document.querySelectorAll('a[href]').forEach(function(a){
       var href=a.getAttribute('href');
       var label=(a.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
       // Do not rewrite the explicit language switch back to Hebrew.
       // Hebrew pages must keep their internal links Hebrew, but the English switch must go to English.
       if(a.classList && (a.classList.contains('english-switch') || a.classList.contains('language-switch'))) return;
-      if(label==='english') return;
+      if(label==='english' || label==='en' || a.getAttribute('lang')==='en' || a.getAttribute('dir')==='ltr') return;
       if(!href || href[0]==='#' || href.indexOf('http://')===0 || href.indexOf('https://')===0 || href.indexOf('mailto:')===0) return;
       var parts=href.split('#'), base=parts[0], hash=parts[1]?'#'+parts[1]:'';
       base=base.replace(/(-he)+\.html$/,'-he.html');
@@ -394,3 +356,196 @@
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
 })();
+
+/* v47: stronger cursor text glow, real-audio click start, start-page clickthrough, speech reader + teleprompter */
+(function(){
+  function isHebrewPage(){
+    return document.documentElement.lang === 'he' || document.documentElement.dir === 'rtl' || (document.body && document.body.dataset.siteLang === 'he') || (document.body && document.body.classList.contains('hebrew-page'));
+  }
+  function currentPage(){
+    return (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  }
+  function isReaderPage(){
+    var page=currentPage();
+    return !!(document.querySelector('.entry-main') || /^introduction(?:-he)?\.html$/.test(page));
+  }
+  function pageTextRoot(){
+    return document.querySelector('.entry-main') || document.querySelector('main.article') || document.querySelector('main.narrow.article') || document.querySelector('main');
+  }
+  function getReadableText(){
+    var root=pageTextRoot();
+    if(!root) return '';
+    var clone=root.cloneNode(true);
+    clone.querySelectorAll('script,style,nav,footer,.entry-image,.hero-figure,.head-image,.az-reader-panel,.az-teleprompter,.entry-side,.side-panel,.sparkle-field,#gold-cursor,#cursor-sparks').forEach(function(n){n.remove();});
+    var parts=[];
+    clone.querySelectorAll('h1,h2,h3,p,li,blockquote').forEach(function(n){
+      var t=(n.textContent||'').replace(/\s+/g,' ').trim();
+      if(t) parts.push(t);
+    });
+    if(!parts.length){
+      var t=(clone.textContent||'').replace(/\s+/g,' ').trim();
+      if(t) parts.push(t);
+    }
+    return parts.join('\n\n');
+  }
+  function ensureBetterMusic(){
+    var isHe=isHebrewPage();
+    var button=document.getElementById('music-toggle');
+    if(!button) return;
+    var audio=document.getElementById('lumen-site-audio');
+    if(!audio){
+      audio=document.createElement('audio');
+      audio.id='lumen-site-audio';
+      audio.src='audio/lumen-nocturne.mp3';
+      audio.preload='auto';
+      audio.loop=true;
+      audio.setAttribute('playsinline','');
+      document.body.appendChild(audio);
+    }
+    audio.src = audio.getAttribute('src') || 'audio/lumen-nocturne.mp3';
+    audio.loop = true;
+    audio.preload = 'auto';
+    audio.volume = 0.46;
+    var base=isHe?'מוזיקה':'Music';
+    var on=isHe?'מוזיקה ◦':'Music ◦';
+    var tryAgain=isHe?'מוזיקה — לחצו שוב':'Music — click again';
+    var started=false;
+    function set(onNow){
+      started=onNow;
+      button.textContent=onNow?on:base;
+      button.setAttribute('aria-pressed',onNow?'true':'false');
+      document.body.classList.toggle('music-playing',onNow);
+      try{ sessionStorage.setItem('azMusicWanted', onNow?'1':'0'); }catch(e){}
+    }
+    function play(){
+      var p=audio.play();
+      if(p && p.then){
+        p.then(function(){set(true);}).catch(function(){button.textContent=tryAgain; set(false);});
+      } else set(true);
+    }
+    function pause(){ audio.pause(); set(false); }
+    button.onclick=function(e){
+      e.preventDefault(); e.stopPropagation();
+      if(audio.paused) play(); else pause();
+    };
+    function firstStart(e){
+      if(started || !audio.paused) return;
+      if(e && e.target && e.target.closest && e.target.closest('.az-reader-panel,.az-teleprompter')) return;
+      play();
+    }
+    ['pointerdown','mousedown','touchstart','keydown','click'].forEach(function(type){
+      document.addEventListener(type, firstStart, {capture:true, passive:true});
+    });
+  }
+  function makeHomeStartClickable(){
+    if(!document.body || !document.body.classList.contains('home')) return;
+    var target=document.querySelector('.home-installation') || document.querySelector('.home-stage');
+    if(!target || target.dataset.azStartReady==='1') return;
+    target.dataset.azStartReady='1';
+    target.classList.add('az-start-clickzone');
+    target.setAttribute('title', isHebrewPage() ? 'לחצו כדי להתחיל' : 'Click to start');
+    target.addEventListener('click', function(e){
+      if(e.target && e.target.closest && e.target.closest('a,button,input,textarea,select,#music-toggle,.az-reader-panel,.az-teleprompter')) return;
+      location.href = isHebrewPage() ? 'introduction-he.html' : 'introduction.html';
+    });
+    var cue=document.createElement('div');
+    cue.className='az-start-cue';
+    cue.textContent=isHebrewPage()?'לחצו בכל מקום כדי להתחיל':'Click anywhere to start';
+    target.appendChild(cue);
+  }
+  function makeReader(){
+    if(!isReaderPage() || !('speechSynthesis' in window)) return;
+    if(document.querySelector('.az-reader-panel')) return;
+    var isHe=isHebrewPage();
+    var panel=document.createElement('div');
+    panel.className='az-reader-panel';
+    panel.setAttribute('aria-label', isHe?'קריאה בקול':'Read aloud');
+    panel.innerHTML = '<button type="button" data-reader="play">'+(isHe?'הקראה':'Read')+'</button><button type="button" data-reader="pause">'+(isHe?'השהה':'Pause')+'</button><button type="button" data-reader="stop">'+(isHe?'עצור':'Stop')+'</button><button type="button" data-reader="prompter">'+(isHe?'טלפרומפטר':'Teleprompter')+'</button>';
+    document.body.appendChild(panel);
+    var overlay=document.createElement('div');
+    overlay.className='az-teleprompter';
+    overlay.setAttribute('aria-hidden','true');
+    overlay.innerHTML='<div class="az-teleprompter-card"><button type="button" class="az-teleprompter-close">×</button><div class="az-teleprompter-text"></div></div>';
+    document.body.appendChild(overlay);
+    var prompterText=overlay.querySelector('.az-teleprompter-text');
+    var close=overlay.querySelector('.az-teleprompter-close');
+    var utter=null, speaking=false, paused=false, scrollTimer=null;
+    function stopScroll(){ if(scrollTimer){ clearInterval(scrollTimer); scrollTimer=null; } }
+    function startScroll(text){
+      stopScroll();
+      var words=Math.max(1, text.split(/\s+/).length);
+      var duration=Math.max(35, words/2.15); // approx. 129 words per minute
+      var start=Date.now();
+      var max=0;
+      function tick(){
+        if(paused) return;
+        max=Math.max(0, prompterText.scrollHeight - prompterText.clientHeight);
+        var p=Math.min(1, (Date.now()-start)/(duration*1000));
+        prompterText.scrollTop=max*p;
+        if(p>=1) stopScroll();
+      }
+      scrollTimer=setInterval(tick, 120);
+      tick();
+    }
+    function buildPrompter(text){
+      prompterText.innerHTML='';
+      text.split(/\n\n+/).forEach(function(p){
+        var div=document.createElement('p');
+        div.textContent=p;
+        prompterText.appendChild(div);
+      });
+      prompterText.scrollTop=0;
+    }
+    function showPrompter(){
+      var text=getReadableText();
+      buildPrompter(text);
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden','false');
+      return text;
+    }
+    function hidePrompter(){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); stopScroll(); }
+    function stopSpeech(){
+      try{ speechSynthesis.cancel(); }catch(e){}
+      speaking=false; paused=false; utter=null; stopScroll();
+      panel.classList.remove('is-reading','is-paused');
+    }
+    function speak(withPrompter){
+      var text=withPrompter ? showPrompter() : getReadableText();
+      if(!text) return;
+      stopSpeech();
+      utter=new SpeechSynthesisUtterance(text);
+      utter.lang=isHe?'he-IL':'en-US';
+      utter.rate=0.92;
+      utter.pitch=0.96;
+      utter.onstart=function(){ speaking=true; paused=false; panel.classList.add('is-reading'); panel.classList.remove('is-paused'); if(withPrompter) startScroll(text); };
+      utter.onend=function(){ speaking=false; panel.classList.remove('is-reading','is-paused'); stopScroll(); };
+      utter.onerror=function(){ speaking=false; panel.classList.remove('is-reading','is-paused'); stopScroll(); };
+      speechSynthesis.speak(utter);
+    }
+    panel.addEventListener('click', function(e){
+      var b=e.target.closest('button[data-reader]'); if(!b) return;
+      var action=b.dataset.reader;
+      if(action==='play') speak(false);
+      if(action==='prompter') speak(true);
+      if(action==='pause'){
+        if(speaking && !paused){ speechSynthesis.pause(); paused=true; panel.classList.add('is-paused'); }
+        else if(speaking && paused){ speechSynthesis.resume(); paused=false; panel.classList.remove('is-paused'); }
+      }
+      if(action==='stop') stopSpeech();
+    });
+    close.addEventListener('click', function(){ stopSpeech(); hidePrompter(); });
+    overlay.addEventListener('click', function(e){ if(e.target===overlay){ stopSpeech(); hidePrompter(); } });
+    window.addEventListener('beforeunload', stopSpeech);
+  }
+  function reinforceTextGlow(){
+    document.body.classList.add('az-v47-text-glow-ready');
+  }
+  function run(){
+    ensureBetterMusic();
+    makeHomeStartClickable();
+    makeReader();
+    reinforceTextGlow();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+})();
+
