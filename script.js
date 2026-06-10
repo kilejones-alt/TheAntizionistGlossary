@@ -203,14 +203,27 @@
     document.body.appendChild(btn);
     function pickVoice(){
       var voices = speechSynthesis.getVoices() || [];
-      return voices.find(function(v){ return /natural|premium|enhanced|samantha|zira|google uk english female|google us english/i.test(v.name); }) || voices.find(function(v){ return /^en/i.test(v.lang); }) || voices[0] || null;
+      var scored = voices.map(function(v){
+        var n = ((v.name || '') + ' ' + (v.lang || '')).toLowerCase();
+        var score = 0;
+        if(/^en/i.test(v.lang || '')) score += 10;
+        if(/female|zira|samantha|victoria|karen|serena|moira|tessa|google uk english female|microsoft aria|microsoft jenny|natural|premium|enhanced|neural/.test(n)) score += 20;
+        if(/google|microsoft/.test(n)) score += 6;
+        if(/david|mark|alex|daniel|george|male/.test(n)) score += 2;
+        if(/compact|robot|espeak/.test(n)) score -= 15;
+        return {voice:v, score:score};
+      }).sort(function(a,b){ return b.score - a.score; });
+      return scored.length ? scored[0].voice : null;
     }
     var speaking=false;
     btn.addEventListener('click', function(){
       if(speaking){ speechSynthesis.cancel(); speaking=false; btn.classList.remove('is-reading'); return; }
       var text = readerText(); if(!text) return;
       var u = new SpeechSynthesisUtterance(text);
-      u.rate = 0.82; u.pitch = 0.82; u.volume = 0.84; var voice = pickVoice(); if(voice) u.voice = voice;
+      u.rate = 0.78;
+      u.pitch = 0.82;
+      u.volume = 0.72;
+      var voice = pickVoice(); if(voice) u.voice = voice;
       u.onend = u.onerror = function(){ speaking=false; btn.classList.remove('is-reading'); };
       speechSynthesis.cancel(); speechSynthesis.speak(u); speaking=true; btn.classList.add('is-reading');
     });
