@@ -38,15 +38,21 @@
 
     var root = location.pathname.indexOf('/TheAntizionistGlossary/') === 0 ? '/TheAntizionistGlossary/' : './';
     var sources = [
-      root + 'lumen-nocturne.mp3?v=66',
-      root + 'audio/lumen-nocturne.mp3?v=66',
-      'lumen-nocturne.mp3?v=66',
-      './lumen-nocturne.mp3?v=66',
-      'audio/lumen-nocturne.mp3?v=66',
-      './audio/lumen-nocturne.mp3?v=66'
+      root + 'audio/lumen-nocturne.mp3?v=75',
+      root + 'lumen-nocturne.mp3?v=75',
+      root + 'audio/lumen-nocturne.mp3',
+      root + 'lumen-nocturne.mp3',
+      './audio/lumen-nocturne.mp3?v=75',
+      './lumen-nocturne.mp3?v=75',
+      './audio/lumen-nocturne.mp3',
+      './lumen-nocturne.mp3',
+      'audio/lumen-nocturne.mp3?v=75',
+      'lumen-nocturne.mp3?v=75',
+      'audio/lumen-nocturne.mp3',
+      'lumen-nocturne.mp3'
     ];
     var i = 0, trying = false;
-    function pressed(on){ btn.setAttribute('aria-pressed', on ? 'true' : 'false'); document.body.classList.toggle('music-playing', !!on); }
+    function pressed(on){ btn.setAttribute('aria-pressed', on ? 'true' : 'false'); document.body.classList.toggle('music-playing', !!on); btn.classList.toggle('is-playing', !!on); }
     function setSrc(){ if(audio.src !== sources[i]){ audio.src = sources[i]; try{ audio.load(); }catch(e){} } }
     function saveState(on){ try{ localStorage.setItem(MUSIC_KEY, on ? '1' : '0'); if(!isNaN(audio.currentTime)) localStorage.setItem(TIME_KEY, String(audio.currentTime || 0)); }catch(e){} }
     function resumeTime(){
@@ -61,7 +67,7 @@
     }
     function next(remember){
       if(i < sources.length - 1){ i++; setTimeout(function(){ play(remember); }, 80); }
-      else { trying=false; pressed(false); btn.title='Audio file was not found or could not be played.'; if(remember !== false) saveState(false); }
+      else { trying=false; pressed(false); btn.title='Music did not play. Check that lumen-nocturne.mp3 exists in /audio/ or the repo root, then click Music again.'; if(remember !== false) saveState(false); }
     }
     btn.addEventListener('click', function(e){
       e.preventDefault(); e.stopPropagation();
@@ -203,7 +209,7 @@
   function makeIntroCardClickable(){
     $$('.intro-card,.start-here-card').forEach(function(card){
       var link = card.querySelector('a[href]'); if(!link) return;
-      card.setAttribute('role','link'); card.tabIndex=0; card.style.cursor='pointer';
+      card.setAttribute('role','link'); card.tabIndex=0; card.style.cursor='none';
       card.addEventListener('click', function(e){ if(e.target.closest('a')) return; location.href = link.getAttribute('href'); });
       card.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); location.href = link.getAttribute('href'); } });
     });
