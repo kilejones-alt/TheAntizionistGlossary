@@ -1741,3 +1741,353 @@ html[dir="rtl"] .az-reader-panel{
     justify-content:flex-end!important;
   }
 }
+
+/* v68: touch-only gold sparkle support for iPhone/touchscreens. Desktop cursor trail remains unchanged. */
+#cursor-sparks i.touch-spark{
+  width:7px!important;
+  height:7px!important;
+  opacity:.82!important;
+  background:radial-gradient(circle,rgba(255,255,230,.98),rgba(255,219,116,.78) 45%,rgba(239,172,43,0) 82%)!important;
+  box-shadow:0 0 8px rgba(255,232,150,.72),0 0 18px rgba(216,189,122,.34)!important;
+  animation:azTouchSpark var(--life,880ms) ease-out forwards!important;
+}
+@keyframes azTouchSpark{
+  0%{opacity:.82;transform:translate3d(0,0,0) scale(.76);}
+  42%{opacity:.58;transform:translate3d(calc(var(--tx,0px)*.4),calc(var(--ty,0px)*.4),0) scale(1.12);}
+  100%{opacity:0;transform:translate3d(var(--tx,0px),var(--ty,-8px),0) scale(.22);}
+}
+@media (pointer:coarse){
+  #gold-cursor{display:none!important;}
+}
+
+/* v69: keep clickable controls from switching to the native hand cursor. Click behavior stays unchanged. */
+@media (pointer:fine){
+  html.custom-cursor-ready,
+  body.custom-cursor-ready,
+  body.custom-cursor-ready *,
+  body.custom-cursor-ready a,
+  body.custom-cursor-ready button,
+  body.custom-cursor-ready [role="button"],
+  body.custom-cursor-ready .music-toggle,
+  body.custom-cursor-ready .az-reader-toggle,
+  body.custom-cursor-ready .az-teleprompter-close,
+  body.custom-cursor-ready .intro-card,
+  body.custom-cursor-ready .start-here-card,
+  body.custom-cursor-ready .az-start-clickzone,
+  body.custom-cursor-ready .nav-link,
+  body.custom-cursor-ready .language-link{
+    cursor:none!important;
+  }
+}
+
+/* v70: award-direction homepage only — dark space gallery, expansive minimalist luminescence */
+body.home.art-installation-page{
+  background:#010101 !important;
+  color:#f6f1e8 !important;
+  overflow-x:hidden;
+}
+body.home.art-installation-page::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:1 !important;
+  pointer-events:none !important;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(245,207,126,.155), rgba(101,72,25,.050) 22%, rgba(0,0,0,0) 48%),
+    radial-gradient(ellipse at 50% 52%, rgba(134,105,58,.095), rgba(0,0,0,0) 42%),
+    radial-gradient(ellipse at 50% 101%, rgba(235,184,82,.080), rgba(0,0,0,0) 33%),
+    linear-gradient(180deg, #000 0%, #030303 38%, #060504 67%, #000 100%) !important;
+}
+body.home.art-installation-page::after{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:2 !important;
+  pointer-events:none !important;
+  opacity:.86 !important;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,0) 23%, rgba(0,0,0,0) 77%, rgba(0,0,0,.86)),
+    linear-gradient(180deg, rgba(255,232,168,.030) 0 1px, transparent 1px 100%),
+    radial-gradient(circle at 23% 31%, rgba(255,229,154,.11) 0 1px, transparent 2px),
+    radial-gradient(circle at 69% 24%, rgba(255,229,154,.09) 0 1px, transparent 2px),
+    radial-gradient(circle at 81% 61%, rgba(255,229,154,.08) 0 1px, transparent 2px),
+    radial-gradient(circle at 14% 72%, rgba(255,229,154,.07) 0 1px, transparent 2px) !important;
+  background-size:auto, auto 84px, auto, auto, auto, auto !important;
+}
+body.home.art-installation-page .home-stage{
+  position:relative !important;
+  z-index:10 !important;
+  min-height:100svh !important;
+}
+body.home.art-installation-page .home-stage::before{
+  content:"";
+  position:fixed;
+  left:50%;
+  bottom:-18vh;
+  width:min(1180px,92vw);
+  height:42vh;
+  transform:translateX(-50%);
+  pointer-events:none;
+  z-index:2;
+  opacity:.55;
+  background:radial-gradient(ellipse at 50% 100%, rgba(229,186,92,.18), rgba(229,186,92,.050) 34%, rgba(0,0,0,0) 70%);
+  filter:blur(.2px);
+}
+body.home.art-installation-page .home-installation{
+  width:min(1320px,100%) !important;
+  min-height:100svh !important;
+  justify-content:flex-start !important;
+}
+body.home.art-installation-page .globe-wrap{
+  width:clamp(135px,11vw,185px) !important;
+  height:clamp(135px,11vw,185px) !important;
+  margin:clamp(118px,15vh,172px) auto clamp(118px,17vh,210px) !important;
+  position:relative !important;
+}
+body.home.art-installation-page .globe-wrap::before{
+  content:"";
+  position:absolute;
+  inset:-58%;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle, rgba(246,211,139,.18), rgba(246,211,139,.055) 33%, rgba(0,0,0,0) 69%);
+  filter:blur(1px);
+}
+body.home.art-installation-page .globe-wrap::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:1px;
+  height:clamp(120px,14vh,190px);
+  transform:translate(-50%,50%);
+  pointer-events:none;
+  background:linear-gradient(180deg, rgba(245,211,142,.42), rgba(245,211,142,.10), rgba(0,0,0,0));
+  box-shadow:0 0 22px rgba(245,211,142,.22);
+}
+body.home.art-installation-page .globe-art{
+  opacity:.92 !important;
+  filter:drop-shadow(0 0 16px rgba(255,231,178,.22)) drop-shadow(0 0 52px rgba(207,155,66,.12)) !important;
+}
+body.home.art-installation-page .home-copy{
+  width:min(1160px,100%) !important;
+}
+body.home.art-installation-page .home-kicker{
+  color:rgba(235,214,176,.74) !important;
+  letter-spacing:.42em !important;
+  text-shadow:0 0 12px rgba(255,230,174,.16) !important;
+}
+body.home.art-installation-page .home-copy h1{
+  color:#fff9ee !important;
+  font-size:clamp(42px,5.4vw,86px) !important;
+  letter-spacing:.045em !important;
+  font-weight:400 !important;
+  text-shadow:
+    0 0 1px rgba(255,255,255,.75),
+    0 0 22px rgba(255,239,203,.18),
+    0 0 72px rgba(222,173,81,.16) !important;
+}
+body.home.art-installation-page .home-subtitle{
+  margin-top:clamp(20px,2.5vh,32px) !important;
+  color:#edc979 !important;
+  text-shadow:0 0 20px rgba(239,201,121,.17), 0 0 54px rgba(239,201,121,.08) !important;
+}
+body.home.art-installation-page .home-author{
+  color:rgba(242,230,211,.82) !important;
+  text-shadow:0 0 14px rgba(255,236,190,.08) !important;
+}
+body.home.art-installation-page .home-quote{
+  width:min(790px,82vw) !important;
+  margin:clamp(72px,9vh,118px) auto 48px !important;
+  position:relative !important;
+}
+body.home.art-installation-page .home-quote::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:-28px;
+  width:min(520px,58vw);
+  height:1px;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg, transparent, rgba(230,190,107,.42), transparent);
+  box-shadow:0 0 22px rgba(230,190,107,.18);
+}
+body.home.art-installation-page .home-quote p:first-child{
+  color:rgba(244,235,219,.80) !important;
+  font-size:clamp(13px,.96vw,15px) !important;
+  line-height:1.72 !important;
+  text-shadow:0 0 16px rgba(255,232,178,.08) !important;
+}
+body.home.art-installation-page .home-quote strong{
+  color:rgba(255,247,229,.90) !important;
+  text-shadow:0 0 18px rgba(255,232,178,.10) !important;
+}
+body.home.art-installation-page .home-quote span{
+  color:rgba(222,185,103,.82) !important;
+  letter-spacing:.24em !important;
+}
+body.home.art-installation-page .gallery-topbar{
+  background:linear-gradient(180deg, rgba(0,0,0,.86), rgba(0,0,0,0)) !important;
+}
+body.home.art-installation-page .gallery-topbar .mark,
+body.home.art-installation-page .gallery-topbar nav a,
+body.home.art-installation-page .language-nav a,
+body.home.art-installation-page .language-nav .nav-divider,
+body.home.art-installation-page .music-toggle{
+  color:rgba(235,206,146,.78) !important;
+  text-shadow:0 0 13px rgba(231,184,88,.13) !important;
+}
+@media(max-width:900px){
+  body.home.art-installation-page .globe-wrap{
+    width:138px !important;
+    height:138px !important;
+    margin-top:92px !important;
+    margin-bottom:88px !important;
+  }
+  body.home.art-installation-page .home-kicker{letter-spacing:.24em !important;}
+  body.home.art-installation-page .home-copy h1{font-size:clamp(34px,10vw,54px) !important;white-space:normal !important;}
+  body.home.art-installation-page .home-quote{width:min(91vw,720px) !important;margin-top:54px !important;}
+}
+
+/* v71: homepage closer to dark luminescent gallery reference — no content/layout/function changes */
+body.home.art-installation-page{
+  background:#000 !important;
+}
+body.home.art-installation-page::before{
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(250,229,178,.19), rgba(200,151,72,.075) 23%, rgba(0,0,0,0) 50%),
+    radial-gradient(ellipse at 50% 55%, rgba(190,148,72,.105), rgba(0,0,0,0) 44%),
+    linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.18) 21%, rgba(0,0,0,.18) 79%, rgba(0,0,0,.88)),
+    linear-gradient(180deg, #020202 0%, #060504 48%, #010101 100%) !important;
+}
+body.home.art-installation-page::after{
+  opacity:.95 !important;
+  background:
+    radial-gradient(circle at 17% 25%, rgba(255,230,160,.26) 0 2px, transparent 3px),
+    radial-gradient(circle at 78% 24%, rgba(255,230,160,.20) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 79%, rgba(255,230,160,.22) 0 2px, transparent 3px),
+    radial-gradient(circle at 23% 75%, rgba(255,230,160,.18) 0 2px, transparent 3px),
+    linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,.18) 36%, rgba(0,0,0,.50) 100%),
+    radial-gradient(ellipse at 50% 49%, rgba(255,255,230,.045), transparent 38%) !important;
+}
+body.home.art-installation-page .home-stage{
+  padding-left:clamp(28px,4vw,56px) !important;
+  padding-right:clamp(28px,4vw,56px) !important;
+}
+body.home.art-installation-page .home-installation{
+  min-height:100svh !important;
+  justify-content:center !important;
+  padding-top:86px !important;
+  padding-bottom:40px !important;
+}
+body.home.art-installation-page .globe-wrap{
+  width:clamp(112px,8.5vw,154px) !important;
+  height:clamp(112px,8.5vw,154px) !important;
+  margin:0 auto clamp(34px,5vh,58px) !important;
+  opacity:.92 !important;
+}
+body.home.art-installation-page .globe-wrap::before{
+  inset:-82% !important;
+  background:radial-gradient(circle, rgba(246,211,139,.16), rgba(246,211,139,.050) 31%, rgba(0,0,0,0) 70%) !important;
+}
+body.home.art-installation-page .globe-wrap::after{
+  display:none !important;
+}
+body.home.art-installation-page .home-copy{
+  width:min(1260px,100%) !important;
+}
+body.home.art-installation-page .home-kicker{
+  margin-bottom:clamp(10px,1.5vh,18px) !important;
+  color:rgba(226,196,129,.82) !important;
+  font-size:clamp(9px,.78vw,11px) !important;
+  letter-spacing:.54em !important;
+  text-shadow:0 0 14px rgba(235,192,94,.20) !important;
+}
+body.home.art-installation-page .home-copy h1{
+  max-width:1120px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  color:#fff4dd !important;
+  font-size:clamp(62px,8.1vw,126px) !important;
+  line-height:.86 !important;
+  letter-spacing:.006em !important;
+  font-weight:400 !important;
+  text-shadow:
+    0 0 1px rgba(255,255,246,.88),
+    0 0 16px rgba(255,247,218,.24),
+    0 0 52px rgba(225,172,74,.20),
+    0 0 100px rgba(225,172,74,.10) !important;
+}
+body.home.art-installation-page .home-subtitle{
+  margin-top:clamp(20px,3vh,34px) !important;
+  color:rgba(244,225,188,.88) !important;
+  font-size:clamp(16px,1.45vw,22px) !important;
+  line-height:1.45 !important;
+  text-shadow:0 0 18px rgba(255,235,190,.15) !important;
+}
+body.home.art-installation-page .home-author{
+  margin-top:10px !important;
+  color:rgba(241,218,172,.78) !important;
+  font-size:clamp(12px,.92vw,15px) !important;
+  letter-spacing:.04em !important;
+}
+body.home.art-installation-page .home-quote{
+  width:min(760px,80vw) !important;
+  margin:clamp(42px,5.8vh,72px) auto 0 !important;
+}
+body.home.art-installation-page .home-quote::before{
+  top:-24px !important;
+  width:min(440px,52vw) !important;
+  opacity:.78 !important;
+}
+body.home.art-installation-page .home-quote p:first-child{
+  font-size:clamp(12.5px,.88vw,14px) !important;
+  line-height:1.68 !important;
+  color:rgba(238,229,212,.72) !important;
+}
+body.home.art-installation-page .home-quote strong{
+  font-size:clamp(13px,.95vw,15px) !important;
+  color:rgba(255,241,211,.86) !important;
+}
+body.home.art-installation-page .home-quote span{
+  font-size:8.5px !important;
+  letter-spacing:.32em !important;
+  color:rgba(223,181,95,.80) !important;
+}
+body.home.art-installation-page .gallery-topbar{
+  height:80px !important;
+  padding-left:clamp(28px,3.5vw,48px) !important;
+  padding-right:clamp(28px,3.5vw,48px) !important;
+  background:linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,0)) !important;
+}
+body.home.art-installation-page .gallery-topbar .mark{
+  letter-spacing:.48em !important;
+  color:rgba(226,184,87,.86) !important;
+}
+body.home.art-installation-page .gallery-topbar nav,
+body.home.art-installation-page .language-nav{
+  gap:16px !important;
+}
+body.home.art-installation-page .gallery-topbar nav a,
+body.home.art-installation-page .language-nav a,
+body.home.art-installation-page .language-nav .nav-divider,
+body.home.art-installation-page .music-toggle{
+  border-color:rgba(224,184,96,.18) !important;
+  color:rgba(232,202,145,.80) !important;
+}
+body.home.art-installation-page .sparkle-field .sparkle,
+body.home.art-installation-page .sparkle{
+  opacity:.62 !important;
+  filter:blur(.15px) !important;
+}
+body.home.art-installation-page .sparkle-field .sparkle:nth-child(n+42){
+  display:none !important;
+}
+@media(max-width:900px){
+  body.home.art-installation-page .home-installation{justify-content:flex-start !important;padding-top:94px !important;}
+  body.home.art-installation-page .globe-wrap{width:118px !important;height:118px !important;margin-bottom:36px !important;}
+  body.home.art-installation-page .home-copy h1{font-size:clamp(46px,13.5vw,74px) !important;line-height:.93 !important;white-space:normal !important;}
+  body.home.art-installation-page .home-kicker{letter-spacing:.26em !important;}
+  body.home.art-installation-page .home-subtitle{font-size:clamp(15px,4.4vw,20px) !important;}
+  body.home.art-installation-page .home-quote{width:min(90vw,700px) !important;margin-top:48px !important;}
+}

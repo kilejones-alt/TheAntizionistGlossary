@@ -147,23 +147,48 @@
     var field = $('#cursor-sparks');
     if(!field){ field = document.createElement('div'); field.id='cursor-sparks'; field.setAttribute('aria-hidden','true'); document.body.appendChild(field); }
     document.documentElement.classList.add('custom-cursor-ready'); document.body.classList.add('custom-cursor-ready','cursor-active');
-    var last = 0;
+    var last = 0, lastTouch = 0;
+    function makeSpark(x,y,touch){
+      if(typeof x !== 'number' || typeof y !== 'number') return;
+      var s=document.createElement('i');
+      if(touch) s.className='touch-spark';
+      var spread = touch ? 18 : 12;
+      var dx=(Math.random()*spread-spread/2), dy=(Math.random()*spread-spread/2);
+      s.style.left=(x+dx)+'px'; s.style.top=(y+dy)+'px';
+      s.style.setProperty('--tx',(Math.random()*18-9)+'px');
+      s.style.setProperty('--ty',(Math.random()*18-9)+'px');
+      s.style.setProperty('--life',(touch ? 760+Math.random()*220 : 620+Math.random()*300)+'ms');
+      field.appendChild(s);
+      setTimeout(function(x){ if(x && x.parentNode) x.parentNode.removeChild(x); }, touch ? 980 : 700, s);
+    }
     function moveCursor(e){
+      if(e && e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
       if(typeof e.clientX !== 'number') return;
       cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; cursor.style.opacity = '.96';
       var now = Date.now();
       if(now - last < 55) return; last = now;
-      var s=document.createElement('i');
-      var dx=(Math.random()*12-6), dy=(Math.random()*12-6);
-      s.style.left=(e.clientX+dx)+'px'; s.style.top=(e.clientY+dy)+'px';
-      s.style.setProperty('--tx',(Math.random()*16-8)+'px');
-      s.style.setProperty('--ty',(Math.random()*16-8)+'px');
-      s.style.setProperty('--life',(620+Math.random()*300)+'ms');
-      field.appendChild(s);
-      setTimeout(function(x){ if(x && x.parentNode) x.parentNode.removeChild(x); }, 620, s);
+      makeSpark(e.clientX,e.clientY,false);
+    }
+    function touchSpark(e){
+      var t = e.touches && e.touches[0] ? e.touches[0] : (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0] : null);
+      if(!t) return;
+      var now = Date.now();
+      if(e.type === 'touchmove' && now - lastTouch < 70) return;
+      lastTouch = now;
+      makeSpark(t.clientX,t.clientY,true);
+    }
+    function pointerTouchSpark(e){
+      if(!e || (e.pointerType !== 'touch' && e.pointerType !== 'pen')) return;
+      var now = Date.now();
+      if(e.type === 'pointermove' && now - lastTouch < 70) return;
+      lastTouch = now;
+      makeSpark(e.clientX,e.clientY,true);
     }
     document.addEventListener('mousemove', moveCursor, {passive:true});
     document.addEventListener('pointermove', moveCursor, {passive:true});
+    document.addEventListener('touchstart', touchSpark, {passive:true});
+    document.addEventListener('touchmove', touchSpark, {passive:true});
+    document.addEventListener('pointerdown', pointerTouchSpark, {passive:true});
   }
 
   function fixIntroLogo(){
