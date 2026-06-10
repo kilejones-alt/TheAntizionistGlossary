@@ -2091,3 +2091,56 @@ body.home.art-installation-page .sparkle-field .sparkle:nth-child(n+42){
   body.home.art-installation-page .home-subtitle{font-size:clamp(15px,4.4vw,20px) !important;}
   body.home.art-installation-page .home-quote{width:min(90vw,700px) !important;margin-top:48px !important;}
 }
+
+/* v72: keep v71 gallery direction, but prevent homepage title from running off-screen */
+body.home.art-installation-page .home-copy{
+  width:min(1180px,94vw) !important;
+  overflow:visible !important;
+}
+body.home.art-installation-page .home-copy h1{
+  max-width:min(1120px,94vw) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  font-size:clamp(50px,6.45vw,104px) !important;
+  line-height:.92 !important;
+  white-space:normal !important;
+  overflow-wrap:normal !important;
+  text-wrap:balance !important;
+}
+@media(max-width:900px){
+  body.home.art-installation-page .home-copy{width:min(94vw,720px) !important;}
+  body.home.art-installation-page .home-copy h1{font-size:clamp(42px,12vw,68px) !important;line-height:.96 !important;}
+}
+
+/* v73: globe light correction — reduce yellow glare, use clean white landmass luminescence */
+body.home.art-installation-page::before{
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(255,255,255,.105), rgba(214,224,230,.034) 22%, rgba(0,0,0,0) 48%),
+    radial-gradient(ellipse at 50% 55%, rgba(180,190,198,.050), rgba(0,0,0,0) 44%),
+    linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.18) 21%, rgba(0,0,0,.18) 79%, rgba(0,0,0,.88)),
+    linear-gradient(180deg, #020202 0%, #050505 48%, #010101 100%) !important;
+}
+body.home.art-installation-page::after{
+  background:
+    radial-gradient(circle at 17% 25%, rgba(255,255,255,.18) 0 2px, transparent 3px),
+    radial-gradient(circle at 78% 24%, rgba(255,255,255,.14) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 79%, rgba(255,255,255,.16) 0 2px, transparent 3px),
+    radial-gradient(circle at 23% 75%, rgba(255,255,255,.12) 0 2px, transparent 3px),
+    linear-gradient(180deg, rgba(0,0,0,.74), rgba(0,0,0,.20) 36%, rgba(0,0,0,.52) 100%),
+    radial-gradient(ellipse at 50% 49%, rgba(255,255,255,.034), transparent 38%) !important;
+}
+body.home.art-installation-page .globe-wrap::before{
+  inset:-62% !important;
+  background:radial-gradient(circle, rgba(255,255,255,.105), rgba(232,238,242,.030) 30%, rgba(0,0,0,0) 67%) !important;
+  filter:blur(.4px) !important;
+}
+body.home.art-installation-page .globe-art{
+  opacity:.96 !important;
+  filter:grayscale(100%) contrast(1.13) brightness(1.08) drop-shadow(0 0 10px rgba(255,255,255,.28)) drop-shadow(0 0 28px rgba(235,242,246,.12)) !important;
+}
+body.home.art-installation-page .home-copy h1{
+  text-shadow:
+    0 0 1px rgba(255,255,255,.78),
+    0 0 16px rgba(255,255,255,.18),
+    0 0 44px rgba(255,255,255,.075) !important;
+}
