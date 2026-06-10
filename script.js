@@ -38,12 +38,12 @@
 
     var root = location.pathname.indexOf('/TheAntizionistGlossary/') === 0 ? '/TheAntizionistGlossary/' : './';
     var sources = [
-      root + 'lumen-nocturne.mp3?v=57',
-      root + 'audio/lumen-nocturne.mp3?v=57',
-      'lumen-nocturne.mp3?v=57',
-      './lumen-nocturne.mp3?v=57',
-      'audio/lumen-nocturne.mp3?v=57',
-      './audio/lumen-nocturne.mp3?v=57'
+      root + 'lumen-nocturne.mp3?v=59',
+      root + 'audio/lumen-nocturne.mp3?v=59',
+      'lumen-nocturne.mp3?v=59',
+      './lumen-nocturne.mp3?v=59',
+      'audio/lumen-nocturne.mp3?v=59',
+      './audio/lumen-nocturne.mp3?v=59'
     ];
     var i = 0, trying = false;
     function pressed(on){ btn.setAttribute('aria-pressed', on ? 'true' : 'false'); document.body.classList.toggle('music-playing', !!on); }
@@ -88,31 +88,54 @@
     document.addEventListener('pointerdown', function(){
       try{ if(localStorage.getItem(MUSIC_KEY) === '1' && audio.paused && audio.dataset.userStopped !== '1'){ i=0; play(false); } }catch(err){}
     }, {passive:true});
+
+    function tryAutoResume(){
+      try{
+        if(localStorage.getItem(MUSIC_KEY) === '1' && audio.paused && audio.dataset.userStopped !== '1'){
+          i=0; play(false);
+        }
+      }catch(err){}
+    }
+    ['pageshow','focus','visibilitychange','mousemove','pointermove','click','keydown','touchstart'].forEach(function(evt){
+      window.addEventListener(evt, tryAutoResume, {passive:true});
+      document.addEventListener(evt, tryAutoResume, {passive:true});
+    });
+
     try{
       if(localStorage.getItem(MUSIC_KEY) === '1'){
-        i = 0; setTimeout(function(){ play(false); }, 220);
+        i = 0; setTimeout(function(){ play(false); }, 120); setTimeout(tryAutoResume, 650);
       }
     }catch(e){}
   }
 
   function wrapLetters(){
-    var targets = [];
-    if(document.body.classList.contains('home')) targets.push($('.home-copy h1'));
-    targets = targets.concat($$('.home-kicker,.home-subtitle,.home-author,.home-quote p,.home-quote strong,.home-quote span,.gallery-main h1,.intro-card h2,.term-list a'));
-    targets.forEach(function(el){
-      if(!el || el.dataset.azWrapped === '1' || el.closest('nav,footer,button')) return;
-      var text = el.textContent;
-      if(!text || !text.trim()) return;
-      var frag = document.createDocumentFragment();
-      for(var n=0; n<text.length; n++){
-        var ch = text.charAt(n);
-        if(ch === ' '){ frag.appendChild(document.createTextNode(' ')); continue; }
-        var span = document.createElement('span'); span.className='az-letter'; span.textContent=ch;
-        frag.appendChild(span);
-      }
-      el.textContent=''; el.appendChild(frag); el.dataset.azWrapped='1';
-    });
-    document.body.classList.add('az-v56-letter-ready');
+    function wrapNode(el){
+      if(!el || el.dataset.azWrapped === '1' || el.closest('nav,footer,button,.az-reader-toggle')) return;
+      var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {acceptNode:function(node){
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if(node.parentNode && node.parentNode.classList && node.parentNode.classList.contains('az-letter')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }});
+      var nodes=[], n; while((n=walker.nextNode())) nodes.push(n);
+      nodes.forEach(function(node){
+        var frag=document.createDocumentFragment();
+        var text=node.nodeValue;
+        for(var i=0;i<text.length;i++){
+          var ch=text.charAt(i);
+          if(/\s/.test(ch)){ frag.appendChild(document.createTextNode(ch)); continue; }
+          var s=document.createElement('span'); s.className='az-letter'; s.textContent=ch; frag.appendChild(s);
+        }
+        node.parentNode.replaceChild(frag,node);
+      });
+      el.dataset.azWrapped='1';
+    }
+    var targets=[];
+    if(document.body.classList.contains('home')){
+      targets = targets.concat($$('.home-copy,.home-quote,.home-kicker,.home-subtitle,.home-author'));
+    }
+    targets = targets.concat($$('.gallery-main h1,.intro-card h2,.intro-card p,.intro-card span,.term-list a'));
+    targets.forEach(wrapNode);
+    document.body.classList.add('az-v59-letter-ready');
   }
 
   function setupCursor(){
@@ -129,13 +152,13 @@
       if(typeof e.clientX !== 'number') return;
       cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; cursor.style.opacity = '.96';
       var now = Date.now();
-      if(now - last < 72) return; last = now;
+      if(now - last < 55) return; last = now;
       var s=document.createElement('i');
       var dx=(Math.random()*12-6), dy=(Math.random()*12-6);
       s.style.left=(e.clientX+dx)+'px'; s.style.top=(e.clientY+dy)+'px';
       s.style.setProperty('--tx',(Math.random()*16-8)+'px');
       s.style.setProperty('--ty',(Math.random()*16-8)+'px');
-      s.style.setProperty('--life',(300+Math.random()*220)+'ms');
+      s.style.setProperty('--life',(620+Math.random()*300)+'ms');
       field.appendChild(s);
       setTimeout(function(x){ if(x && x.parentNode) x.parentNode.removeChild(x); }, 620, s);
     }
@@ -145,7 +168,7 @@
 
   function fixIntroLogo(){
     $$('.intro-logo-blend img').forEach(function(img){
-      var tries=['inverted-world-logo-transparent.png?v=57','entry-images/inverted-world-logo-transparent.png?v=57','inverted-world-logo.png?v=57','entry-images/inverted-world-logo.png?v=57','assets/logo-black.png?v=57','logo-black.png?v=57'];
+      var tries=['inverted-world-logo-transparent.png?v=59','entry-images/inverted-world-logo-transparent.png?v=59','inverted-world-logo.png?v=59','entry-images/inverted-world-logo.png?v=59','assets/logo-black.png?v=59','logo-black.png?v=59'];
       var idx=0;
       img.onerror=function(){ if(idx < tries.length-1){ idx++; img.src=tries[idx]; } };
       img.src=tries[0];

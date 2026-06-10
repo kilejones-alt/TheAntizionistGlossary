@@ -1615,3 +1615,44 @@ body.home .home-author .az-letter:hover,
 
 .az-reader-toggle{right:18px!important;bottom:18px!important;left:auto!important;}
 .hebrew-page .az-reader-toggle{right:18px!important;left:auto!important;}
+
+
+/* v59 final overrides: darker homepage, restored orb, softer trail, blended glossary card, transparent intro logo, entry organization sidebar */
+body.home.art-installation-page{background:#000!important;color:#f2eee6!important;}
+body.home.art-installation-page::before{background:radial-gradient(ellipse at 50% 32%,rgba(210,164,56,.075),rgba(88,65,20,.035) 20%,rgba(0,0,0,.22) 42%,rgba(0,0,0,.78) 74%,rgba(0,0,0,.95) 100%),linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.08) 24%,rgba(0,0,0,.08) 76%,rgba(0,0,0,.72)),linear-gradient(180deg,#010101 0%,#020201 55%,#000 100%)!important;}
+body.home.art-installation-page::after{background:radial-gradient(circle at 50% 32%,rgba(255,225,150,.035),transparent 14%),radial-gradient(ellipse at 50% 71%,rgba(255,197,74,.035),transparent 30%),rgba(0,0,0,.12)!important;}
+body.home .globe-art{filter:brightness(.88) contrast(1.04)!important;}
+body.home .home-copy h1{text-shadow:0 0 8px rgba(255,255,255,.08),0 0 24px rgba(239,190,72,.10)!important;}
+body.home .home-subtitle,body.home .home-kicker,body.home .home-author,body.home .home-quote{text-shadow:0 0 8px rgba(255,194,76,.08)!important;}
+body.home .sparkle{opacity:calc(var(--op,.75)*.52)!important;filter:brightness(.72)!important;box-shadow:0 0 4px rgba(255,230,151,.42),0 0 10px rgba(246,185,62,.22)!important;}
+body.home .az-near-globe{opacity:calc(var(--op,.75)*.58)!important;}
+
+html.custom-cursor-ready,body.custom-cursor-ready,body.custom-cursor-ready *{cursor:none!important;}
+body.home #gold-cursor,#gold-cursor{display:block!important;position:fixed!important;width:20px!important;height:20px!important;margin:-10px 0 0 -10px!important;z-index:2147483647!important;pointer-events:none!important;border-radius:50%!important;opacity:1!important;background:radial-gradient(circle,rgba(255,255,245,1) 0%,rgba(255,230,142,.98) 35%,rgba(238,176,44,.60) 64%,rgba(238,176,44,0) 88%)!important;box-shadow:0 0 9px rgba(255,238,180,.88),0 0 20px rgba(238,176,44,.48),0 0 34px rgba(238,176,44,.20)!important;mix-blend-mode:screen!important;}
+#cursor-sparks i{width:2px!important;height:2px!important;opacity:.38!important;box-shadow:0 0 4px rgba(255,222,140,.48),0 0 8px rgba(216,189,122,.18)!important;}
+
+body.home .az-letter,.az-letter{display:inline-block!important;position:relative!important;transition:transform .14s ease,color .14s ease,text-shadow .14s ease,filter .14s ease!important;will-change:transform!important;}
+body.home .az-letter:hover,.az-letter:hover{transform:translate3d(0,-9px,0) scale(1.16) rotate(-1deg)!important;color:#fff8d6!important;filter:brightness(1.25)!important;text-shadow:0 0 12px rgba(255,232,160,.82),0 0 25px rgba(216,189,122,.48)!important;}
+
+.intro-card,.start-here-card{display:block!important;width:100%!important;border:1px solid rgba(216,189,122,.13)!important;background:linear-gradient(90deg,rgba(10,9,7,.34),rgba(10,9,7,.18),rgba(10,9,7,.08))!important;box-shadow:0 0 55px rgba(0,0,0,.22) inset,0 16px 50px rgba(0,0,0,.16)!important;padding:26px 28px!important;margin:30px 0 34px!important;}
+.intro-card:hover,.start-here-card:hover{border-color:rgba(255,225,154,.26)!important;background:linear-gradient(90deg,rgba(13,12,9,.42),rgba(13,12,9,.23),rgba(13,12,9,.10))!important;box-shadow:0 0 34px rgba(216,189,122,.08),0 0 70px rgba(0,0,0,.22) inset!important;}
+.intro-card span,.start-here-card span{display:inline!important;border:0!important;background:transparent!important;padding:0!important;margin:0!important;box-shadow:none!important;font:700 11px Arial,sans-serif!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:#e5c477!important;}
+
+.intro-logo-blend{display:flex!important;justify-content:center!important;align-items:center!important;margin:54px auto 30px!important;max-width:360px!important;background:transparent!important;border:0!important;mix-blend-mode:screen!important;filter:drop-shadow(0 0 20px rgba(255,255,255,.24)) drop-shadow(0 0 38px rgba(245,217,146,.20))!important;}
+.intro-logo-blend img{display:block!important;max-width:min(350px,72vw)!important;width:100%!important;height:auto!important;border:0!important;outline:0!important;background:transparent!important;object-fit:contain!important;opacity:1!important;filter:brightness(1.16) contrast(1.08)!important;}
+
+.az-reader-toggle{position:fixed!important;right:22px!important;bottom:22px!important;left:auto!important;z-index:2147483647!important;}
+.hebrew-page .az-reader-toggle{right:22px!important;left:auto!important;}
+.entry-organizations{border-top:1px solid rgba(216,189,122,.18);padding-top:17px;margin-top:2px;margin-bottom:23px;}
+.entry-organizations h2{font-size:16px!important;color:#f1eee8!important;margin:0 0 12px!important;}
+.entry-organizations ul{list-style:none!important;padding:0!important;margin:0!important;}
+.entry-organizations li{margin:0 0 10px!important;color:#aaa194!important;font-size:14px!important;line-height:1.45!important;}
+.entry-organizations a{color:#e5c477!important;text-decoration:none!important;}
+.entry-organizations a:hover{color:#fff0b8!important;text-shadow:0 0 10px rgba(229,196,119,.35)!important;}
+
+
+/* v59 correction: do not cut cursor trail sparkles. Restore fuller gold trail while keeping v58 dark homepage/sidebar fixes. */
+#cursor-sparks{position:fixed!important;inset:0!important;z-index:2147483646!important;pointer-events:none!important;overflow:hidden!important;}
+#cursor-sparks i{position:fixed!important;width:4px!important;height:4px!important;border-radius:999px!important;background:#efd48d!important;box-shadow:0 0 8px rgba(255,222,140,.95),0 0 18px rgba(216,189,122,.55),0 0 30px rgba(216,189,122,.28)!important;opacity:.95!important;animation:azCursorSpark var(--life,820ms) ease-out forwards!important;mix-blend-mode:screen!important;}
+#gold-cursor{display:block!important;opacity:.96!important;}
+body.home #gold-cursor{display:block!important;opacity:.96!important;}
