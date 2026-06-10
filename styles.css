@@ -1552,3 +1552,66 @@ body.music-playing #music-toggle{color:#fff0b6!important;text-shadow:0 0 12px rg
 .az-reader-toggle{position:fixed!important;right:18px!important;bottom:18px!important;left:auto!important;z-index:2147483647!important;border:1px solid rgba(216,189,122,.48)!important;border-radius:999px!important;background:rgba(0,0,0,.76)!important;color:#efd48d!important;padding:7px 13px!important;font:700 10px/1 Arial,sans-serif!important;letter-spacing:.12em!important;text-transform:uppercase!important;cursor:pointer!important;box-shadow:none!important;}
 .az-reader-toggle:hover,.az-reader-toggle.is-reading{color:#fff2be!important;border-color:rgba(255,225,154,.68)!important;box-shadow:0 0 20px rgba(216,189,122,.25)!important;}
 .hebrew-page .az-reader-toggle{right:18px!important;left:auto!important;}
+
+
+/* v57 overrides: homepage orb, half trail, quote hover, bright transparent intro logo */
+body.home #gold-cursor,
+#gold-cursor{
+  display:block!important;
+  position:fixed!important;
+  left:-80px;top:-80px;
+  width:20px!important;height:20px!important;margin:-10px 0 0 -10px!important;
+  z-index:2147483647!important;pointer-events:none!important;border-radius:50%!important;
+  opacity:.96!important;
+  background:radial-gradient(circle,rgba(255,255,245,1) 0%,rgba(255,230,140,.98) 36%,rgba(238,176,44,.56) 64%,rgba(238,176,44,0) 88%)!important;
+  box-shadow:0 0 9px rgba(255,238,180,.86),0 0 22px rgba(238,176,44,.48),0 0 36px rgba(238,176,44,.22)!important;
+  mix-blend-mode:screen!important;
+  animation:cursorSlowGlow 1.6s ease-in-out infinite!important;
+}
+#gold-cursor i{position:absolute!important;inset:-6px!important;border-radius:999px!important;background:radial-gradient(circle,rgba(255,211,91,.10),rgba(255,211,91,0) 72%)!important;}
+#cursor-sparks{position:fixed!important;inset:0!important;z-index:2147483646!important;pointer-events:none!important;overflow:hidden!important;}
+#cursor-sparks i{position:fixed!important;width:2.5px!important;height:2.5px!important;border-radius:999px!important;background:#efd48d!important;box-shadow:0 0 5px rgba(255,222,140,.62),0 0 10px rgba(216,189,122,.25)!important;opacity:.55!important;animation:azCursorSpark var(--life,460ms) ease-out forwards!important;mix-blend-mode:screen!important;}
+
+body.home .home-copy .az-letter,
+body.home .home-quote .az-letter,
+body.home .home-kicker .az-letter,
+body.home .home-subtitle .az-letter,
+body.home .home-author .az-letter,
+.az-letter{
+  display:inline-block!important;
+  position:relative!important;
+  transform:translate3d(0,0,0) scale(1) rotate(0deg)!important;
+  transition:transform .16s ease,color .16s ease,text-shadow .16s ease,filter .16s ease!important;
+  will-change:transform!important;
+}
+body.home .home-copy .az-letter:hover,
+body.home .home-quote .az-letter:hover,
+body.home .home-kicker .az-letter:hover,
+body.home .home-subtitle .az-letter:hover,
+body.home .home-author .az-letter:hover,
+.az-letter:hover{
+  transform:translate3d(0,-8px,0) scale(1.13) rotate(-1.2deg)!important;
+  color:#fff6cf!important;
+  filter:brightness(1.22)!important;
+  text-shadow:0 0 11px rgba(255,232,160,.78),0 0 24px rgba(216,189,122,.43),0 0 42px rgba(216,189,122,.18)!important;
+}
+
+.intro-logo-blend{
+  display:flex!important;justify-content:center!important;align-items:center!important;
+  margin:56px auto 28px!important;
+  max-width:350px!important;
+  opacity:1!important;
+  mix-blend-mode:screen!important;
+  filter:drop-shadow(0 0 18px rgba(255,255,255,.20)) drop-shadow(0 0 34px rgba(245,217,146,.22))!important;
+  background:transparent!important;border:0!important;
+}
+.intro-logo-blend img{
+  display:block!important;
+  max-width:min(340px,70vw)!important;width:100%!important;height:auto!important;
+  border:0!important;outline:0!important;background:transparent!important;object-fit:contain!important;
+  opacity:.98!important;
+  filter:brightness(1.18) contrast(1.08)!important;
+}
+
+.az-reader-toggle{right:18px!important;bottom:18px!important;left:auto!important;}
+.hebrew-page .az-reader-toggle{right:18px!important;left:auto!important;}
