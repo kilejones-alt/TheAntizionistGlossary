@@ -1,9 +1,18 @@
-UPLOAD v49 MUSIC TAB ONLY
+UPLOAD INSTRUCTIONS
 
-Upload these into the repo root and overwrite:
+1. Open this zip.
+2. Press Ctrl + A.
+3. Press Ctrl + C.
+4. Make a Desktop folder called upload.
+5. Open the upload folder.
+6. Press Ctrl + V.
+7. GitHub repo -> Add file -> Upload files.
+8. Click choose your files.
+9. Open the upload folder.
+10. Press Ctrl + A.
+11. Click Open.
+12. Click Commit changes.
+13. Wait 1-3 minutes.
+14. Refresh the site with Ctrl + F5.
 
-script.js
-styles.css
-the whole audio folder
-
-Commit. Test with index.html?v=49. The only music control should be the existing Music tab.
+Do not upload the zip itself. Upload the files inside it.
