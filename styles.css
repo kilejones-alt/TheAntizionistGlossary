@@ -1617,7 +1617,7 @@ body.home .home-author .az-letter:hover,
 .hebrew-page .az-reader-toggle{right:18px!important;left:auto!important;}
 
 
-/* v59 final overrides: darker homepage, restored orb, softer trail, blended glossary card, transparent intro logo, entry organization sidebar */
+/* v66 final overrides: darker homepage, restored orb, softer trail, blended glossary card, transparent intro logo, entry organization sidebar */
 body.home.art-installation-page{background:#000!important;color:#f2eee6!important;}
 body.home.art-installation-page::before{background:radial-gradient(ellipse at 50% 32%,rgba(210,164,56,.075),rgba(88,65,20,.035) 20%,rgba(0,0,0,.22) 42%,rgba(0,0,0,.78) 74%,rgba(0,0,0,.95) 100%),linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.08) 24%,rgba(0,0,0,.08) 76%,rgba(0,0,0,.72)),linear-gradient(180deg,#010101 0%,#020201 55%,#000 100%)!important;}
 body.home.art-installation-page::after{background:radial-gradient(circle at 50% 32%,rgba(255,225,150,.035),transparent 14%),radial-gradient(ellipse at 50% 71%,rgba(255,197,74,.035),transparent 30%),rgba(0,0,0,.12)!important;}
@@ -1651,8 +1651,93 @@ body.home .az-letter:hover,.az-letter:hover{transform:translate3d(0,-9px,0) scal
 .entry-organizations a:hover{color:#fff0b8!important;text-shadow:0 0 10px rgba(229,196,119,.35)!important;}
 
 
-/* v59 correction: do not cut cursor trail sparkles. Restore fuller gold trail while keeping v58 dark homepage/sidebar fixes. */
+/* v66 correction: do not cut cursor trail sparkles. Restore fuller gold trail while keeping v58 dark homepage/sidebar fixes. */
 #cursor-sparks{position:fixed!important;inset:0!important;z-index:2147483646!important;pointer-events:none!important;overflow:hidden!important;}
 #cursor-sparks i{position:fixed!important;width:4px!important;height:4px!important;border-radius:999px!important;background:#efd48d!important;box-shadow:0 0 8px rgba(255,222,140,.95),0 0 18px rgba(216,189,122,.55),0 0 30px rgba(216,189,122,.28)!important;opacity:.95!important;animation:azCursorSpark var(--life,820ms) ease-out forwards!important;mix-blend-mode:screen!important;}
 #gold-cursor{display:block!important;opacity:.96!important;}
 body.home #gold-cursor{display:block!important;opacity:.96!important;}
+
+/* v66 reader placement override: force Reader tab to bottom-right, never center */
+.az-reader-toggle,
+button.az-reader-toggle,
+body .az-reader-toggle,
+html body .az-reader-toggle{
+  position:fixed!important;
+  right:18px!important;
+  bottom:18px!important;
+  left:auto!important;
+  top:auto!important;
+  transform:none!important;
+  margin:0!important;
+  z-index:2147483647!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:auto!important;
+  border:1px solid rgba(216,189,122,.50)!important;
+  border-radius:999px!important;
+  background:rgba(0,0,0,.78)!important;
+  color:#efd48d!important;
+  padding:7px 13px!important;
+  font:700 10px/1 Arial,sans-serif!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase!important;
+  text-align:center!important;
+  cursor:pointer!important;
+  box-shadow:none!important;
+}
+.az-reader-toggle:hover,
+.az-reader-toggle.is-reading{
+  color:#fff2be!important;
+  border-color:rgba(255,225,154,.70)!important;
+  box-shadow:0 0 20px rgba(216,189,122,.25)!important;
+}
+.hebrew-page .az-reader-toggle,
+html[dir="rtl"] .az-reader-toggle{
+  right:18px!important;
+  left:auto!important;
+}
+.az-reader-panel,
+body .az-reader-panel,
+html body .az-reader-panel{
+  position:fixed!important;
+  right:18px!important;
+  bottom:18px!important;
+  left:auto!important;
+  top:auto!important;
+  transform:none!important;
+  margin:0!important;
+  z-index:2147483646!important;
+  max-width:min(220px,calc(100vw - 36px))!important;
+  justify-content:flex-end!important;
+}
+.hebrew-page .az-reader-panel,
+html[dir="rtl"] .az-reader-panel{
+  right:18px!important;
+  left:auto!important;
+}
+@media(max-width:700px){
+  .az-reader-toggle,
+  button.az-reader-toggle,
+  body .az-reader-toggle,
+  html body .az-reader-toggle{
+    right:14px!important;
+    bottom:14px!important;
+    left:auto!important;
+    top:auto!important;
+    transform:none!important;
+  }
+  .az-reader-panel,
+  body .az-reader-panel,
+  html body .az-reader-panel{
+    right:14px!important;
+    bottom:14px!important;
+    left:auto!important;
+    top:auto!important;
+    transform:none!important;
+    justify-content:flex-end!important;
+  }
+}

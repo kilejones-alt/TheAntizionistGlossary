@@ -38,12 +38,12 @@
 
     var root = location.pathname.indexOf('/TheAntizionistGlossary/') === 0 ? '/TheAntizionistGlossary/' : './';
     var sources = [
-      root + 'lumen-nocturne.mp3?v=59',
-      root + 'audio/lumen-nocturne.mp3?v=59',
-      'lumen-nocturne.mp3?v=59',
-      './lumen-nocturne.mp3?v=59',
-      'audio/lumen-nocturne.mp3?v=59',
-      './audio/lumen-nocturne.mp3?v=59'
+      root + 'lumen-nocturne.mp3?v=66',
+      root + 'audio/lumen-nocturne.mp3?v=66',
+      'lumen-nocturne.mp3?v=66',
+      './lumen-nocturne.mp3?v=66',
+      'audio/lumen-nocturne.mp3?v=66',
+      './audio/lumen-nocturne.mp3?v=66'
     ];
     var i = 0, trying = false;
     function pressed(on){ btn.setAttribute('aria-pressed', on ? 'true' : 'false'); document.body.classList.toggle('music-playing', !!on); }
@@ -135,7 +135,7 @@
     }
     targets = targets.concat($$('.gallery-main h1,.intro-card h2,.intro-card p,.intro-card span,.term-list a'));
     targets.forEach(wrapNode);
-    document.body.classList.add('az-v59-letter-ready');
+    document.body.classList.add('az-v66-letter-ready');
   }
 
   function setupCursor(){
@@ -168,7 +168,7 @@
 
   function fixIntroLogo(){
     $$('.intro-logo-blend img').forEach(function(img){
-      var tries=['inverted-world-logo-transparent.png?v=59','entry-images/inverted-world-logo-transparent.png?v=59','inverted-world-logo.png?v=59','entry-images/inverted-world-logo.png?v=59','assets/logo-black.png?v=59','logo-black.png?v=59'];
+      var tries=['inverted-world-logo-transparent.png?v=66','entry-images/inverted-world-logo-transparent.png?v=66','inverted-world-logo.png?v=66','entry-images/inverted-world-logo.png?v=66','assets/logo-black.png?v=66','logo-black.png?v=66'];
       var idx=0;
       img.onerror=function(){ if(idx < tries.length-1){ idx++; img.src=tries[idx]; } };
       img.src=tries[0];
