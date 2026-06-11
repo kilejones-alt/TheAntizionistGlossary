@@ -134,14 +134,19 @@
         if(!node.parentNode || shouldSkipTextNode(node)) return;
         var frag=document.createDocumentFragment();
         var text=node.nodeValue;
-        for(var i=0;i<text.length;i++){
-          var ch=text.charAt(i);
-          if(/\s/.test(ch)){ frag.appendChild(document.createTextNode(ch)); continue; }
-          var span=document.createElement('span');
-          span.className='az-letter';
-          span.textContent=ch;
-          frag.appendChild(span);
-        }
+        var parts=text.match(/\s+|\S+/g) || [];
+        parts.forEach(function(part){
+          if(/\s+/.test(part)){ frag.appendChild(document.createTextNode(part)); return; }
+          var word=document.createElement('span');
+          word.className='az-word';
+          for(var i=0;i<part.length;i++){
+            var span=document.createElement('span');
+            span.className='az-letter';
+            span.textContent=part.charAt(i);
+            word.appendChild(span);
+          }
+          frag.appendChild(word);
+        });
         node.parentNode.replaceChild(frag,node);
       });
     }

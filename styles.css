@@ -2259,3 +2259,46 @@ body.home.art-installation-page .music-toggle.is-playing{
 @media (hover:none), (pointer:coarse){
   .az-letter:hover{transform:none!important;}
 }
+
+
+/* v84: prevent homepage title from running off-screen or breaking inside words */
+.az-word{
+  display:inline-block!important;
+  white-space:nowrap!important;
+}
+body.home.art-installation-page .home-copy{
+  width:min(1040px, calc(100vw - 150px))!important;
+  max-width:calc(100vw - 150px)!important;
+}
+body.home.art-installation-page .home-copy h1{
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
+  font-size:clamp(34px,3.85vw,56px)!important;
+  line-height:1.04!important;
+  max-width:100%!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+body.home.art-installation-page .home-copy h1 .az-word{
+  margin:0 .105em!important;
+}
+@media(max-width:1200px){
+  body.home.art-installation-page .home-copy{
+    width:min(980px, calc(100vw - 110px))!important;
+    max-width:calc(100vw - 110px)!important;
+  }
+  body.home.art-installation-page .home-copy h1{
+    font-size:clamp(32px,3.75vw,50px)!important;
+  }
+}
+@media(max-width:900px){
+  body.home.art-installation-page .home-copy{
+    width:min(92vw,720px)!important;
+    max-width:92vw!important;
+  }
+  body.home.art-installation-page .home-copy h1{
+    font-size:clamp(33px,8vw,50px)!important;
+  }
+}
