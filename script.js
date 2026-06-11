@@ -115,33 +115,38 @@
   }
 
   function wrapLetters(){
-    function wrapNode(el){
-      if(!el || el.dataset.azWrapped === '1' || el.closest('nav,footer,button,.az-reader-toggle')) return;
-      var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {acceptNode:function(node){
-        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-        if(node.parentNode && node.parentNode.classList && node.parentNode.classList.contains('az-letter')) return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
+    function shouldSkipTextNode(node){
+      if(!node || !node.nodeValue || !node.nodeValue.trim()) return true;
+      var p = node.parentNode;
+      if(!p || !p.closest) return true;
+      if(p.classList && p.classList.contains('az-letter')) return true;
+      if(p.closest('script,style,noscript,template,textarea,input,select,option,audio,video,canvas,svg,.az-letter')) return true;
+      return false;
+    }
+    function wrapNode(root){
+      if(!root || !root.querySelectorAll) return;
+      var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode:function(node){
+        return shouldSkipTextNode(node) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
       }});
-      var nodes=[], n; while((n=walker.nextNode())) nodes.push(n);
+      var nodes=[], n;
+      while((n=walker.nextNode())) nodes.push(n);
       nodes.forEach(function(node){
+        if(!node.parentNode || shouldSkipTextNode(node)) return;
         var frag=document.createDocumentFragment();
         var text=node.nodeValue;
         for(var i=0;i<text.length;i++){
           var ch=text.charAt(i);
           if(/\s/.test(ch)){ frag.appendChild(document.createTextNode(ch)); continue; }
-          var s=document.createElement('span'); s.className='az-letter'; s.textContent=ch; frag.appendChild(s);
+          var span=document.createElement('span');
+          span.className='az-letter';
+          span.textContent=ch;
+          frag.appendChild(span);
         }
         node.parentNode.replaceChild(frag,node);
       });
-      el.dataset.azWrapped='1';
     }
-    var targets=[];
-    if(document.body.classList.contains('home')){
-      targets = targets.concat($$('.home-copy,.home-quote,.home-kicker,.home-subtitle,.home-author'));
-    }
-    targets = targets.concat($$('.gallery-main h1,.intro-card h2,.intro-card p,.intro-card span,.term-list a'));
-    targets.forEach(wrapNode);
-    document.body.classList.add('az-v66-letter-ready');
+    wrapNode(document.body);
+    document.body.classList.add('az-v80-letter-ready');
   }
 
   function setupCursor(){
@@ -271,6 +276,6 @@
   }
 
   document.addEventListener('DOMContentLoaded', function(){
-    setupSearch(); setupMusic(); wrapLetters(); setupCursor(); fixIntroLogo(); makeIntroCardClickable(); setupReader(); addFooterLink();
+    setupSearch(); setupMusic(); setupCursor(); fixIntroLogo(); makeIntroCardClickable(); setupReader(); addFooterLink(); wrapLetters();
   });
 })();

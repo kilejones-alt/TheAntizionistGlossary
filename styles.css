@@ -2232,3 +2232,30 @@ body.home.art-installation-page .music-toggle.is-playing{
   color:#fff5d5!important;
   text-shadow:0 0 12px rgba(255,255,255,.18),0 0 20px rgba(216,189,122,.16)!important;
 }
+
+
+/* v80: full-repo letter hover and no-hand cursor final override */
+@media (pointer:fine){
+  html, html *, body, body *, a, a *, button, button *, [role="button"], [role="button"] *,
+  input, textarea, select, label, summary, .music-toggle, .az-reader-toggle, .gallery-topbar *,
+  .language-nav *, footer *, .term-list *, .entry-main *, .article *, aside *{
+    cursor:none!important;
+  }
+}
+.az-letter{
+  display:inline-block!important;
+  position:relative!important;
+  transform:translate3d(0,0,0) scale(1)!important;
+  transition:transform .16s ease,color .16s ease,text-shadow .16s ease,filter .16s ease!important;
+  will-change:transform!important;
+}
+.az-letter:hover,
+.az-letter.az-letter-active{
+  transform:translate3d(0,-8px,0) scale(1.13) rotate(-1deg)!important;
+  color:#fff8d6!important;
+  filter:brightness(1.24)!important;
+  text-shadow:0 0 12px rgba(255,238,190,.84),0 0 24px rgba(216,189,122,.46),0 0 42px rgba(255,255,255,.16)!important;
+}
+@media (hover:none), (pointer:coarse){
+  .az-letter:hover{transform:none!important;}
+}
