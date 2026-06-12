@@ -1,4 +1,4 @@
-/* v57 clean script: stronger music persistence, homepage orb cursor, quote letter hover, transparent intro logo */
+/* v90 clean script: stronger Android/Samsung music unlock, homepage orb cursor, quote letter hover, transparent intro logo */
 (function(){
   'use strict';
   function $(sel, root){ return (root || document).querySelector(sel); }
@@ -33,21 +33,21 @@
 
     var old = $('#lumen-site-audio'); if(old) old.remove();
     var audio = document.createElement('audio');
-    audio.id='lumen-site-audio'; audio.preload='auto'; audio.loop=true; audio.volume=0.76; audio.setAttribute('playsinline',''); audio.setAttribute('webkit-playsinline','');
+    audio.id='lumen-site-audio'; audio.preload='auto'; audio.autoplay=false; audio.controls=false; audio.loop=true; audio.volume=0.76; audio.setAttribute('playsinline',''); audio.setAttribute('webkit-playsinline',''); audio.setAttribute('x5-playsinline',''); audio.setAttribute('x5-video-player-type','h5'); audio.setAttribute('controlslist','nodownload noplaybackrate');
     document.body.appendChild(audio);
 
     var root = location.pathname.indexOf('/TheAntizionistGlossary/') === 0 ? '/TheAntizionistGlossary/' : './';
     var sources = [
-      root + 'audio/lumen-nocturne.mp3?v=75',
-      root + 'lumen-nocturne.mp3?v=75',
+      root + 'audio/lumen-nocturne.mp3?v=90',
+      root + 'lumen-nocturne.mp3?v=90',
       root + 'audio/lumen-nocturne.mp3',
       root + 'lumen-nocturne.mp3',
-      './audio/lumen-nocturne.mp3?v=75',
-      './lumen-nocturne.mp3?v=75',
+      './audio/lumen-nocturne.mp3?v=90',
+      './lumen-nocturne.mp3?v=90',
       './audio/lumen-nocturne.mp3',
       './lumen-nocturne.mp3',
-      'audio/lumen-nocturne.mp3?v=75',
-      'lumen-nocturne.mp3?v=75',
+      'audio/lumen-nocturne.mp3?v=90',
+      'lumen-nocturne.mp3?v=90',
       'audio/lumen-nocturne.mp3',
       'lumen-nocturne.mp3'
     ];
@@ -59,21 +59,43 @@
       var t = 0; try{ t = parseFloat(localStorage.getItem(TIME_KEY) || '0') || 0; }catch(e){}
       if(t > 0 && isFinite(t)){ try{ audio.currentTime = t; }catch(e){} }
     }
-    function play(remember){
+    function play(remember, fromGesture){
       trying = true; setSrc(); audio.muted=false; audio.volume=0.76; resumeTime();
-      var p; try{ p = audio.play(); }catch(e){ return next(remember); }
-      if(p && p.then){ p.then(function(){ trying=false; pressed(true); if(remember !== false) saveState(true); }).catch(function(){ next(remember); }); }
+      var p;
+      try{ p = audio.play(); }catch(e){ trying=false; if(fromGesture){ pressed(false); saveState(false); return; } return next(remember); }
+      if(p && p.then){
+        p.then(function(){ trying=false; pressed(true); if(remember !== false) saveState(true); })
+         .catch(function(){ trying=false; if(fromGesture){ pressed(false); btn.title='Tap Music again. Mobile browsers sometimes block the first audio attempt.'; if(remember !== false) saveState(false); return; } next(remember); });
+      }
       else { trying=false; pressed(true); if(remember !== false) saveState(true); }
     }
     function next(remember){
-      if(i < sources.length - 1){ i++; setTimeout(function(){ play(remember); }, 80); }
+      if(i < sources.length - 1){ i++; setTimeout(function(){ play(remember, false); }, 80); }
       else { trying=false; pressed(false); btn.title='Music did not play. Check that lumen-nocturne.mp3 exists in /audio/ or the repo root, then click Music again.'; if(remember !== false) saveState(false); }
     }
     btn.addEventListener('click', function(e){
       e.preventDefault(); e.stopPropagation();
       if(trying) return;
-      if(audio.paused){ i=0; play(true); }
+      if(audio.paused){ i=0; play(true, true); }
       else { audio.dataset.userStopped='1'; audio.pause(); pressed(false); saveState(false); }
+    });
+    ['touchstart','touchend','pointerup'].forEach(function(evt){
+      btn.addEventListener(evt, function(e){
+        if(e && e.cancelable) e.preventDefault();
+        if(trying) return;
+        if(audio.paused){ audio.dataset.userStopped='0'; i=0; play(true, true); }
+      }, {passive:false});
+    });
+    function mobileResumeFromGesture(){
+      try{
+        if(localStorage.getItem(MUSIC_KEY) === '1' && audio.paused && audio.dataset.userStopped !== '1'){
+          i=0; play(false, true);
+        }
+      }catch(err){}
+    }
+    ['touchstart','touchend','pointerup'].forEach(function(evt){
+      document.addEventListener(evt, mobileResumeFromGesture, {passive:true, capture:true});
+      window.addEventListener(evt, mobileResumeFromGesture, {passive:true, capture:true});
     });
     audio.addEventListener('play', function(){ audio.dataset.userStopped='0'; pressed(true); saveState(true); });
     audio.addEventListener('pause', function(){
@@ -89,16 +111,17 @@
     document.addEventListener('click', function(e){
       var a = e.target.closest && e.target.closest('a[href]');
       if(a && !audio.paused) saveState(true);
-      try{ if(localStorage.getItem(MUSIC_KEY) === '1' && audio.paused && audio.dataset.userStopped !== '1'){ i=0; play(false); } }catch(err){}
+      try{ if(localStorage.getItem(MUSIC_KEY) === '1' && audio.paused && audio.dataset.userStopped !== '1'){ i=0; play(false, true); } }catch(err){}
     }, true);
     document.addEventListener('pointerdown', function(){
-      try{ if(localStorage.getItem(MUSIC_KEY) === '1' && audio.paused && audio.dataset.userStopped !== '1'){ i=0; play(false); } }catch(err){}
+      try{ if(localStorage.getItem(MUSIC_KEY) === '1' && audio.paused && audio.dataset.userStopped !== '1'){ i=0; play(false, true); } }catch(err){}
     }, {passive:true});
 
-    function tryAutoResume(){
+    function tryAutoResume(e){
       try{
         if(localStorage.getItem(MUSIC_KEY) === '1' && audio.paused && audio.dataset.userStopped !== '1'){
-          i=0; play(false);
+          var gesture = !!(e && /^(click|keydown|touchstart|touchend|pointerdown|pointerup)$/i.test(e.type || ''));
+          i=0; play(false, gesture);
         }
       }catch(err){}
     }
@@ -109,7 +132,7 @@
 
     try{
       if(localStorage.getItem(MUSIC_KEY) === '1'){
-        i = 0; setTimeout(function(){ play(false); }, 120); setTimeout(tryAutoResume, 650);
+        i = 0; setTimeout(function(){ play(false, false); }, 120); setTimeout(tryAutoResume, 650);
       }
     }catch(e){}
   }
