@@ -2339,3 +2339,66 @@ body.home.art-installation-page .home-copy h1 .az-word{
     linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.36)),
     radial-gradient(circle at center, rgba(214,179,95,0.08), rgba(0,0,0,0.34));
 }
+
+
+/* v132: homepage gallery-spacing and floating globe refinement */
+body.home.art-installation-page .home-installation{
+  justify-content:flex-start !important;
+  padding-top:clamp(118px,16vh,178px) !important;
+  padding-bottom:56px !important;
+}
+body.home.art-installation-page .globe-wrap{
+  width:clamp(122px,9.4vw,162px) !important;
+  height:clamp(122px,9.4vw,162px) !important;
+  margin:0 auto clamp(62px,8.8vh,98px) !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  filter:none !important;
+}
+body.home.art-installation-page .globe-wrap::before{
+  inset:-70% !important;
+  border-radius:50% !important;
+  background:radial-gradient(circle, rgba(255,255,255,.080), rgba(230,238,246,.026) 30%, rgba(0,0,0,0) 68%) !important;
+  filter:blur(.35px) !important;
+}
+body.home.art-installation-page .globe-wrap::after{
+  display:none !important;
+}
+body.home.art-installation-page .globe-art{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  opacity:.96 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  filter:grayscale(100%) contrast(1.18) brightness(1.08) drop-shadow(0 0 8px rgba(255,255,255,.24)) drop-shadow(0 0 24px rgba(235,242,246,.10)) !important;
+}
+body.home.art-installation-page .home-copy{
+  transform:translateY(8px) !important;
+}
+body.home.art-installation-page .home-kicker{
+  margin-bottom:clamp(16px,2.1vh,26px) !important;
+}
+body.home.art-installation-page .home-subtitle{
+  margin-top:clamp(24px,3.1vh,38px) !important;
+}
+body.home.art-installation-page .home-quote{
+  margin-top:clamp(64px,7.6vh,92px) !important;
+}
+@media(max-width:900px){
+  body.home.art-installation-page .home-installation{
+    padding-top:96px !important;
+  }
+  body.home.art-installation-page .globe-wrap{
+    width:112px !important;
+    height:112px !important;
+    margin-bottom:54px !important;
+  }
+  body.home.art-installation-page .home-copy{
+    transform:none !important;
+  }
+}
