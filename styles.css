@@ -2308,3 +2308,34 @@ body.home.art-installation-page .home-copy h1 .az-word{
 .entry-image.is-missing, .hero-figure.is-missing, .head-image.is-missing{display:none !important;}
 .entry-main > .entry-phrase{display:none !important;}
 .term-list span{display:none !important;}
+
+
+/* v112: blended treatment for local entry images */
+.entry-image.entry-image-blended,
+.entry-image.preserve-full-focal {
+  position: relative;
+  background: radial-gradient(circle at center, rgba(214, 179, 95, 0.08), rgba(0, 0, 0, 0.35));
+  border-color: rgba(214, 179, 95, 0.24);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42), inset 0 0 60px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+.entry-image.entry-image-blended img,
+.entry-image.preserve-full-focal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.82) contrast(1.04) brightness(0.78);
+  opacity: 0.82;
+}
+
+.entry-image.entry-image-blended::after,
+.entry-image.preserve-full-focal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.36)),
+    radial-gradient(circle at center, rgba(214,179,95,0.08), rgba(0,0,0,0.34));
+}

@@ -38,16 +38,16 @@
 
     var root = location.pathname.indexOf('/TheAntizionistGlossary/') === 0 ? '/TheAntizionistGlossary/' : './';
     var sources = [
-      root + 'audio/lumen-nocturne.mp3?v=90',
-      root + 'lumen-nocturne.mp3?v=90',
+      root + 'audio/lumen-nocturne.mp3?v=127p',
+      root + 'lumen-nocturne.mp3?v=127p',
       root + 'audio/lumen-nocturne.mp3',
       root + 'lumen-nocturne.mp3',
-      './audio/lumen-nocturne.mp3?v=90',
-      './lumen-nocturne.mp3?v=90',
+      './audio/lumen-nocturne.mp3?v=127p',
+      './lumen-nocturne.mp3?v=127p',
       './audio/lumen-nocturne.mp3',
       './lumen-nocturne.mp3',
-      'audio/lumen-nocturne.mp3?v=90',
-      'lumen-nocturne.mp3?v=90',
+      'audio/lumen-nocturne.mp3?v=127p',
+      'lumen-nocturne.mp3?v=127p',
       'audio/lumen-nocturne.mp3',
       'lumen-nocturne.mp3'
     ];
@@ -232,7 +232,7 @@
 
   function fixIntroLogo(){
     $$('.intro-logo-blend img').forEach(function(img){
-      var tries=['inverted-world-logo-transparent.png?v=66','entry-images/inverted-world-logo-transparent.png?v=66','inverted-world-logo.png?v=66','entry-images/inverted-world-logo.png?v=66','assets/logo-black.png?v=66','logo-black.png?v=66'];
+      var tries=['inverted-world-logo-transparent.png?v=127p','entry-images/inverted-world-logo-transparent.png?v=127p','globe-crop.png?v=127p','entry-images/inverted-world-logo.png?v=127p'];
       var idx=0;
       img.onerror=function(){ if(idx < tries.length-1){ idx++; img.src=tries[idx]; } };
       img.src=tries[0];
