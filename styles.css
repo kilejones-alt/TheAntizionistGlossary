@@ -2302,3 +2302,9 @@ body.home.art-installation-page .home-copy h1 .az-word{
     font-size:clamp(33px,8vw,50px)!important;
   }
 }
+
+
+/* v88: hide broken/missing entry images instead of showing black empty panels */
+.entry-image.is-missing, .hero-figure.is-missing, .head-image.is-missing{display:none !important;}
+.entry-main > .entry-phrase{display:none !important;}
+.term-list span{display:none !important;}

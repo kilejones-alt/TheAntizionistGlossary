@@ -271,6 +271,17 @@
     speechSynthesis.onvoiceschanged = pickVoice;
   }
 
+  function hideBrokenEntryImages(){
+    $$('.entry-image img,.hero-figure img,.head-image img').forEach(function(img){
+      function hide(){
+        var box = img.closest('.entry-image,.hero-figure,.head-image');
+        if(box) box.classList.add('is-missing');
+      }
+      img.addEventListener('error', hide);
+      if(img.complete && img.naturalWidth === 0) hide();
+    });
+  }
+
   function addFooterLink(){
     $$('footer p').forEach(function(p){
       if((p.textContent || '').indexOf('Educational Resources') !== -1) return;
@@ -281,6 +292,6 @@
   }
 
   document.addEventListener('DOMContentLoaded', function(){
-    setupSearch(); setupMusic(); setupCursor(); fixIntroLogo(); makeIntroCardClickable(); setupReader(); addFooterLink(); wrapLetters();
+    setupSearch(); setupMusic(); setupCursor(); fixIntroLogo(); makeIntroCardClickable(); hideBrokenEntryImages(); setupReader(); addFooterLink(); wrapLetters();
   });
 })();
