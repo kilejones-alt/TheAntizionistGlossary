@@ -3183,3 +3183,251 @@ body.home .sparkle-near{
     width:min(90vw,760px) !important;
   }
 }
+
+
+/* v138 homepage fixes: 80 visible bubbles, clean quote, no center lines */
+body.home .home-quote,
+body.home .home-quote *,
+body.home .home-quote::before,
+body.home .home-quote::after{
+  border:0 !important;
+}
+body.home .home-quote{
+  width:min(820px,82vw) !important;
+  margin:clamp(34px,5vh,58px) auto 0 !important;
+  padding:0 !important;
+  text-align:center !important;
+  color:rgba(240,231,214,.82) !important;
+}
+body.home .home-quote-text{
+  max-width:760px !important;
+  margin:0 auto 16px !important;
+  font-size:clamp(14px,1.15vw,17px) !important;
+  line-height:1.7 !important;
+  font-style:normal !important;
+  letter-spacing:.01em !important;
+  text-transform:none !important;
+  color:rgba(240,231,214,.84) !important;
+  text-shadow:0 0 14px rgba(255,230,170,.07) !important;
+}
+body.home .home-quote-name{
+  margin:0 auto 7px !important;
+  font-size:clamp(13px,1vw,15.5px) !important;
+  line-height:1.35 !important;
+  letter-spacing:.025em !important;
+  text-transform:none !important;
+  color:rgba(247,236,211,.88) !important;
+  font-weight:700 !important;
+}
+body.home .home-quote-title{
+  margin:0 auto !important;
+  font:700 9px/1.55 Arial,sans-serif !important;
+  letter-spacing:.18em !important;
+  text-transform:uppercase !important;
+  color:rgba(212,175,111,.76) !important;
+}
+body.home .home-quote .az-word,
+body.home .home-quote .az-letter{
+  display:inline !important;
+  transform:none !important;
+  text-shadow:inherit !important;
+  letter-spacing:inherit !important;
+}
+body.home .home-quote .az-letter:hover{
+  transform:none !important;
+}
+
+/* remove visible horizontal center lines */
+body.home .home-quote{border-top:0 !important;}
+body.home .home-copy::before,
+body.home .home-copy::after,
+body.home .home-installation::before,
+body.home .home-installation::after{
+  display:none !important;
+}
+
+/* remove globe fog/haze */
+body.home.art-installation-page::before{
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.80), rgba(0,0,0,.14) 26%, rgba(0,0,0,.09) 50%, rgba(0,0,0,.14) 74%, rgba(0,0,0,.80)),
+    linear-gradient(180deg, #010101 0%, #050504 52%, #010101 100%) !important;
+}
+body.home.art-installation-page::after{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.012), transparent 32%, rgba(0,0,0,.30) 100%) !important;
+  opacity:.60 !important;
+}
+body.home .globe-wrap{
+  filter:none !important;
+  margin-bottom:clamp(46px,6.5vh,76px) !important;
+}
+body.home .globe-wrap::before{
+  display:none !important;
+}
+
+/* 80 visible slow moving gold bubble sparkles */
+body.home .sparkle-field{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:120vh !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  z-index:8 !important;
+}
+body.home .sparkle-field .sparkle{
+  display:block !important;
+  position:absolute !important;
+  top:var(--start-y,105vh) !important;
+  width:var(--size,18px) !important;
+  height:var(--size,18px) !important;
+  border-radius:999px !important;
+  opacity:0 !important;
+  background:
+    radial-gradient(circle at 40% 36%, rgba(255,255,240,1) 0%, rgba(255,229,139,.95) 29%, rgba(226,165,50,.50) 56%, rgba(226,165,50,.15) 73%, rgba(226,165,50,0) 90%) !important;
+  box-shadow:
+    0 0 calc(var(--size,18px) * .50) rgba(255,234,160,.70),
+    0 0 calc(var(--size,18px) * 1.25) rgba(229,172,61,.34),
+    0 0 calc(var(--size,18px) * 2.35) rgba(229,172,61,.13) !important;
+  filter:blur(var(--blur,.8px)) brightness(.90) !important;
+  mix-blend-mode:screen !important;
+  will-change:transform, opacity, filter !important;
+  animation:
+    tagV138Float var(--dur,42s) linear infinite,
+    tagV138Glow var(--pulse,9.5s) ease-in-out infinite !important;
+  animation-delay:var(--delay,0s), calc(var(--delay,0s) * .31) !important;
+}
+body.home .sparkle-field .sparkle-far{
+  filter:blur(2px) brightness(.78) !important;
+}
+body.home .sparkle-field .sparkle-mid{
+  filter:blur(1px) brightness(.95) !important;
+}
+body.home .sparkle-field .sparkle-near{
+  filter:blur(.35px) brightness(1.02) !important;
+}
+@keyframes tagV138Float{
+  0%{
+    opacity:0 !important;
+    transform:translate3d(calc(var(--sway,60px) * -.18), 18vh, 0) scale(.65);
+  }
+  9%{
+    opacity:calc(var(--op,.68) * .62) !important;
+  }
+  26%{
+    opacity:var(--op,.68) !important;
+    transform:translate3d(calc(var(--sway,60px) * .16), -18vh, 0) scale(.82);
+  }
+  52%{
+    opacity:calc(var(--op,.68) * .95) !important;
+    transform:translate3d(calc(var(--sway,60px) * -.13), -58vh, 0) scale(.98);
+  }
+  78%{
+    opacity:calc(var(--op,.68) * .70) !important;
+    transform:translate3d(calc(var(--sway,60px) * .12), -102vh, 0) scale(1.08);
+  }
+  100%{
+    opacity:0 !important;
+    transform:translate3d(var(--drift,70px), -146vh, 0) scale(1.14);
+  }
+}
+@keyframes tagV138Glow{
+  0%,100%{
+    filter:blur(var(--blur,.8px)) brightness(.70);
+    box-shadow:
+      0 0 calc(var(--size,18px) * .26) rgba(255,229,151,.42),
+      0 0 calc(var(--size,18px) * .78) rgba(230,170,58,.20),
+      0 0 calc(var(--size,18px) * 1.75) rgba(230,170,58,.07);
+  }
+  50%{
+    filter:blur(var(--blur,.8px)) brightness(1.48);
+    box-shadow:
+      0 0 calc(var(--size,18px) * .74) rgba(255,244,198,.78),
+      0 0 calc(var(--size,18px) * 1.65) rgba(230,180,72,.38),
+      0 0 calc(var(--size,18px) * 3.05) rgba(230,180,72,.15);
+  }
+}
+
+/* slower cursor breathing */
+#gold-cursor{
+  animation:azCursorBreathV138 8.2s ease-in-out infinite !important;
+}
+@keyframes azCursorBreathV138{
+  0%,100%{transform:scale(.86);filter:brightness(.76);}
+  50%{transform:scale(1.10);filter:brightness(1.50);}
+}
+.cursor-spark{
+  animation:trailFade 1.55s ease-out forwards !important;
+}
+
+@media(max-width:900px){
+  body.home .home-quote{
+    margin-top:42px !important;
+    width:min(90vw,760px) !important;
+  }
+}
+
+
+/* v139 even-uneven slow wafting magical sparkles */
+body.home .sparkle-field{
+  z-index:7 !important;
+}
+body.home .sparkle-field .sparkle{
+  opacity:0 !important;
+  animation:
+    tagV139Waft var(--dur,64s) cubic-bezier(.36,0,.25,1) infinite,
+    tagV139Shine var(--pulse,14s) ease-in-out infinite !important;
+  animation-delay:var(--delay,0s), calc(var(--delay,0s) * .23) !important;
+}
+@keyframes tagV139Waft{
+  0%{
+    opacity:0 !important;
+    transform:translate3d(calc(var(--phase,0px) + var(--sway,70px) * -.18), 20vh, 0) scale(.58);
+  }
+  10%{
+    opacity:calc(var(--op,.55) * .48) !important;
+  }
+  24%{
+    opacity:calc(var(--op,.55) * .82) !important;
+    transform:translate3d(calc(var(--phase,0px) + var(--sway,70px) * .14), -8vh, 0) scale(.76);
+  }
+  42%{
+    opacity:var(--op,.55) !important;
+    transform:translate3d(calc(var(--phase,0px) + var(--sway,70px) * -.11), -42vh, 0) scale(.92);
+  }
+  63%{
+    opacity:calc(var(--op,.55) * .86) !important;
+    transform:translate3d(calc(var(--phase,0px) + var(--sway,70px) * .12), -78vh, 0) scale(1.03);
+  }
+  84%{
+    opacity:calc(var(--op,.55) * .54) !important;
+    transform:translate3d(calc(var(--phase,0px) + var(--sway,70px) * -.08), -116vh, 0) scale(1.10);
+  }
+  100%{
+    opacity:0 !important;
+    transform:translate3d(calc(var(--phase,0px) + var(--drift,90px)), -150vh, 0) scale(1.16);
+  }
+}
+@keyframes tagV139Shine{
+  0%,100%{
+    filter:blur(var(--blur,.8px)) brightness(.66);
+    box-shadow:
+      0 0 calc(var(--size,18px) * .22) rgba(255,229,151,.34),
+      0 0 calc(var(--size,18px) * .70) rgba(230,170,58,.16),
+      0 0 calc(var(--size,18px) * 1.55) rgba(230,170,58,.05);
+  }
+  38%{
+    filter:blur(var(--blur,.8px)) brightness(1.16);
+    box-shadow:
+      0 0 calc(var(--size,18px) * .52) rgba(255,238,178,.62),
+      0 0 calc(var(--size,18px) * 1.24) rgba(230,180,72,.30),
+      0 0 calc(var(--size,18px) * 2.45) rgba(230,180,72,.10);
+  }
+  62%{
+    filter:blur(var(--blur,.8px)) brightness(1.48);
+    box-shadow:
+      0 0 calc(var(--size,18px) * .74) rgba(255,246,204,.78),
+      0 0 calc(var(--size,18px) * 1.72) rgba(230,180,72,.40),
+      0 0 calc(var(--size,18px) * 3.15) rgba(230,180,72,.16);
+  }
+}

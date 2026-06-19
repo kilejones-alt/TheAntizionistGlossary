@@ -143,7 +143,7 @@
       var p = node.parentNode;
       if(!p || !p.closest) return true;
       if(p.classList && p.classList.contains('az-letter')) return true;
-      if(p.closest('script,style,noscript,template,textarea,input,select,option,audio,video,canvas,svg,.az-letter')) return true;
+      if(p.closest('script,style,noscript,template,textarea,input,select,option,audio,video,canvas,svg,.az-letter,.no-letter-wrap')) return true;
       return false;
     }
     function wrapNode(root){
