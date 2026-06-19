@@ -3023,3 +3023,163 @@ body.home .home-quote p:hover{
   body.home .home-quote{width:min(90vw,700px) !important;margin-top:72px !important;}
   body.home .sparkle{width:calc(var(--size,16px) * .82) !important;height:calc(var(--size,16px) * .82) !important;}
 }
+
+
+/* v137 homepage fixes: no globe fog, slower bubbles, quote format, slower cursor */
+body.home.art-installation-page::before{
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(255,235,180,.045), rgba(40,32,20,.025) 18%, rgba(0,0,0,.18) 45%, rgba(0,0,0,.82) 100%),
+    linear-gradient(90deg, rgba(0,0,0,.76), rgba(0,0,0,.16) 26%, rgba(0,0,0,.10) 50%, rgba(0,0,0,.16) 74%, rgba(0,0,0,.76)),
+    linear-gradient(180deg, #010101 0%, #050504 52%, #010101 100%) !important;
+}
+body.home.art-installation-page::after{
+  background:
+    radial-gradient(circle at 50% 27%, rgba(255,245,208,.035), transparent 15%),
+    linear-gradient(180deg, rgba(255,255,255,.018), transparent 32%, rgba(0,0,0,.30) 100%) !important;
+  opacity:.72 !important;
+}
+body.home .globe-wrap{
+  filter:none !important;
+  margin-bottom:clamp(46px,6.5vh,76px) !important;
+}
+body.home .globe-wrap::before{
+  display:none !important;
+}
+body.home .globe-art{
+  opacity:.90 !important;
+  filter:brightness(.95) contrast(1.08) saturate(.90) !important;
+}
+body.home .home-installation{
+  padding-top:clamp(88px,10.5vh,118px) !important;
+  grid-template-rows:auto auto auto !important;
+}
+body.home .home-copy h1{
+  text-shadow:
+    0 0 10px rgba(255,255,255,.13),
+    0 0 26px rgba(238,190,74,.12) !important;
+}
+body.home .home-quote{
+  width:min(840px,82vw) !important;
+  margin:clamp(42px,6vh,70px) auto 0 !important;
+  padding-top:clamp(18px,2.5vh,26px) !important;
+  border-top:1px solid rgba(216,189,122,.20) !important;
+  text-align:center !important;
+}
+body.home .home-quote p:first-child{
+  max-width:720px !important;
+  margin:0 auto !important;
+  color:rgba(240,231,214,.82) !important;
+  font-size:clamp(13px,.98vw,15.5px) !important;
+  line-height:1.72 !important;
+  letter-spacing:.01em !important;
+}
+body.home .home-quote p:last-child{
+  margin:16px auto 0 !important;
+  max-width:720px !important;
+}
+body.home .home-quote strong{
+  font-size:clamp(13px,.95vw,15px) !important;
+}
+body.home .home-quote span{
+  font-size:8.5px !important;
+  letter-spacing:.22em !important;
+}
+body.home .home-quote .az-word{
+  display:inline !important;
+  white-space:normal !important;
+}
+body.home .home-quote .az-letter{
+  display:inline-block !important;
+}
+
+/* slower, cleaner bubble-orb sparkles */
+body.home .sparkle-field{
+  z-index:4 !important;
+}
+body.home .sparkle{
+  width:calc(var(--size,16px) * 1.04) !important;
+  height:calc(var(--size,16px) * 1.04) !important;
+  opacity:0;
+  background:
+    radial-gradient(circle at 40% 35%, rgba(255,255,242,.98) 0%, rgba(255,229,145,.92) 28%, rgba(224,164,52,.48) 55%, rgba(224,164,52,.13) 72%, rgba(224,164,52,0) 90%) !important;
+  box-shadow:
+    0 0 calc(var(--size,16px) * .45) rgba(255,234,160,.62),
+    0 0 calc(var(--size,16px) * 1.15) rgba(229,172,61,.26),
+    0 0 calc(var(--size,16px) * 2.2) rgba(229,172,61,.09) !important;
+  animation:
+    azV137BubbleWave calc(var(--dur,86s) * 1.18) ease-in-out infinite,
+    azV137BubbleGlow calc(var(--pulse,11s) * 1.55) ease-in-out infinite !important;
+  animation-delay:var(--delay,0s), calc(var(--delay,0s) * .19) !important;
+}
+body.home .sparkle-far{
+  filter:blur(1.9px) brightness(.82) !important;
+}
+body.home .sparkle-mid{
+  filter:blur(1.0px) brightness(.92) !important;
+}
+body.home .sparkle-near{
+  filter:blur(.45px) brightness(.98) !important;
+}
+@keyframes azV137BubbleWave{
+  0%{
+    transform:translate3d(calc(var(--sway,70px) * -.16),18vh,0) scale(.58);
+    opacity:0;
+  }
+  12%{
+    opacity:calc(var(--op,.55) * .58);
+  }
+  28%{
+    transform:translate3d(calc(var(--sway,70px) * .14),-22vh,0) scale(.78);
+    opacity:calc(var(--op,.55) * .82);
+  }
+  52%{
+    transform:translate3d(calc(var(--sway,70px) * -.12),-64vh,0) scale(.94);
+    opacity:var(--op,.55);
+  }
+  76%{
+    transform:translate3d(calc(var(--sway,70px) * .10),-105vh,0) scale(1.04);
+    opacity:calc(var(--op,.55) * .72);
+  }
+  100%{
+    transform:translate3d(var(--drift,70px),-150vh,0) scale(1.10);
+    opacity:0;
+  }
+}
+@keyframes azV137BubbleGlow{
+  0%,100%{
+    filter:blur(var(--blur,.8px)) brightness(.74);
+    box-shadow:
+      0 0 calc(var(--size,16px) * .26) rgba(255,229,151,.38),
+      0 0 calc(var(--size,16px) * .78) rgba(230,170,58,.18),
+      0 0 calc(var(--size,16px) * 1.75) rgba(230,170,58,.06);
+  }
+  50%{
+    filter:blur(var(--blur,.8px)) brightness(1.42);
+    box-shadow:
+      0 0 calc(var(--size,16px) * .72) rgba(255,244,198,.74),
+      0 0 calc(var(--size,16px) * 1.55) rgba(230,180,72,.34),
+      0 0 calc(var(--size,16px) * 2.9) rgba(230,180,72,.13);
+  }
+}
+
+/* slower cursor breathing */
+#gold-cursor{
+  animation:azCursorBreathV137 7.8s ease-in-out infinite !important;
+}
+@keyframes azCursorBreathV137{
+  0%,100%{transform:scale(.86);filter:brightness(.78);}
+  50%{transform:scale(1.10);filter:brightness(1.48);}
+}
+.cursor-spark{
+  animation:trailFade 1.55s ease-out forwards !important;
+}
+
+@media(max-width:900px){
+  body.home .home-installation{
+    padding-top:82px !important;
+  }
+  body.home .home-quote{
+    margin-top:42px !important;
+    width:min(90vw,760px) !important;
+  }
+}
