@@ -190,7 +190,7 @@
     function makeSpark(x,y,touch){
       if(typeof x !== 'number' || typeof y !== 'number') return;
       var s=document.createElement('i');
-      if(touch) s.className='touch-spark';
+      s.className = touch ? 'cursor-spark touch-spark' : 'cursor-spark';
       var spread = touch ? 18 : 12;
       var dx=(Math.random()*spread-spread/2), dy=(Math.random()*spread-spread/2);
       s.style.left=(x+dx)+'px'; s.style.top=(y+dy)+'px';
@@ -205,21 +205,21 @@
       if(typeof e.clientX !== 'number') return;
       cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; cursor.style.opacity = '.96';
       var now = Date.now();
-      if(now - last < 55) return; last = now;
+      if(now - last < 96) return; last = now;
       makeSpark(e.clientX,e.clientY,false);
     }
     function touchSpark(e){
       var t = e.touches && e.touches[0] ? e.touches[0] : (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0] : null);
       if(!t) return;
       var now = Date.now();
-      if(e.type === 'touchmove' && now - lastTouch < 70) return;
+      if(e.type === 'touchmove' && now - lastTouch < 85) return;
       lastTouch = now;
       makeSpark(t.clientX,t.clientY,true);
     }
     function pointerTouchSpark(e){
       if(!e || (e.pointerType !== 'touch' && e.pointerType !== 'pen')) return;
       var now = Date.now();
-      if(e.type === 'pointermove' && now - lastTouch < 70) return;
+      if(e.type === 'pointermove' && now - lastTouch < 85) return;
       lastTouch = now;
       makeSpark(e.clientX,e.clientY,true);
     }
@@ -314,7 +314,249 @@
     });
   }
 
+
+  function setupGallerySparklesV143(){
+    if(!document.body || !document.body.classList.contains('home')) return;
+
+    var field = document.querySelector('.sparkle-field');
+    if(!field){
+      field = document.createElement('div');
+      field.className = 'sparkle-field';
+      field.setAttribute('aria-hidden','true');
+      document.body.insertBefore(field, document.body.firstChild);
+    }
+
+    field.classList.add('gallery-sparkles-v143');
+    field.innerHTML = '';
+
+    var COUNT = 80;
+    var bubbles = [];
+    var columns = 10;
+    var rows = 8;
+
+    function rand(min,max){ return min + Math.random() * (max - min); }
+
+    for(var i=0;i<COUNT;i++){
+      var col = i % columns;
+      var row = Math.floor(i / columns);
+      var cellW = 100 / columns;
+      var cellH = 100 / rows;
+
+      var x = col * cellW + rand(1.3, cellW - 1.3);
+      var y = row * cellH + rand(2.2, cellH - 2.2);
+      var roll = Math.random();
+
+      var size, baseOpacity, blur, speed, sway, depthClass;
+      if(roll < .42){
+        depthClass = 'sparkle-far';
+        size = rand(3.0, 5.0);
+        baseOpacity = rand(.20, .36);
+        blur = rand(1.35, 2.05);
+        speed = rand(.0048, .0072);
+        sway = rand(10, 24);
+      } else if(roll < .82){
+        depthClass = 'sparkle-mid';
+        size = rand(5.0, 8.0);
+        baseOpacity = rand(.30, .48);
+        blur = rand(.55, 1.05);
+        speed = rand(.0040, .0064);
+        sway = rand(16, 38);
+      } else {
+        depthClass = 'sparkle-near';
+        size = rand(8.0, 13.0);
+        baseOpacity = rand(.42, .62);
+        blur = rand(.15, .40);
+        speed = rand(.0032, .0054);
+        sway = rand(24, 52);
+      }
+
+      var el = document.createElement('span');
+      el.className = 'sparkle js-gallery-bubble ' + depthClass;
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      field.appendChild(el);
+
+      bubbles.push({
+        el: el,
+        x: x,
+        y: y,
+        size: size,
+        baseOpacity: baseOpacity,
+        blur: blur,
+        speed: speed,
+        sway: sway,
+        phase: rand(0, Math.PI * 2),
+        driftSpeed: rand(.105, .19),
+        pulseSpeed: rand(.105, .19),
+        scaleBase: rand(.82,1.04)
+      });
+    }
+
+    function animate(now){
+      var t = now / 1000;
+
+      for(var i=0;i<bubbles.length;i++){
+        var b = bubbles[i];
+
+        // Slow upward drift; wrap only after leaving the top.
+        var y = (b.y - (t * b.speed * 100)) % 118;
+        if(y < -16) y += 118;
+        y -= 8;
+
+        // Slow left-right sway, deliberately calm.
+        var side = Math.sin(t * b.driftSpeed + b.phase) * b.sway;
+        var side2 = Math.sin(t * b.driftSpeed * 0.55 + b.phase * .7) * (b.sway * .22);
+
+        // Slow dim/bright breathing.
+        var pulse = .62 + ((Math.sin(t * b.pulseSpeed + b.phase) + 1) / 2) * .42;
+        var opacity = b.baseOpacity * pulse;
+        var brightness = .72 + pulse * .58;
+        var scale = b.scaleBase + (pulse - .80) * .10;
+
+        b.el.style.left = b.x.toFixed(2) + 'vw';
+        b.el.style.top = '0';
+        b.el.style.opacity = opacity.toFixed(3);
+        b.el.style.transform = 'translate3d(' + (side + side2).toFixed(1) + 'px,' + y.toFixed(2) + 'vh,0) scale(' + scale.toFixed(3) + ')';
+        b.el.style.filter = 'blur(' + b.blur.toFixed(2) + 'px) brightness(' + brightness.toFixed(2) + ')';
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+
+
+  function setupAwardSparklesV144(){
+    if(!document.body || !document.body.classList.contains('home')) return;
+
+    var field = document.querySelector('.sparkle-field');
+    if(!field){
+      field = document.createElement('div');
+      field.className = 'sparkle-field';
+      field.setAttribute('aria-hidden','true');
+      document.body.insertBefore(field, document.body.firstChild);
+    }
+
+    field.classList.add('award-sparkles-v144');
+    field.innerHTML = '';
+
+    var COUNT = 80;
+    var bubbles = [];
+    var visibleTarget = 42;
+
+    function rand(min,max){ return min + Math.random() * (max - min); }
+
+    function edgeWeightedX(i){
+      var roll = Math.random();
+      if(roll < .36) return rand(2, 24);
+      if(roll < .72) return rand(76, 98);
+      if(roll < .86) return rand(24, 38);
+      if(roll < .98) return rand(62, 76);
+      return rand(40, 60); // rare center dust only
+    }
+
+    for(var i=0;i<COUNT;i++){
+      var roll = Math.random();
+      var size, baseOpacity, blur, speed, sway, depthClass;
+
+      if(roll < .50){
+        depthClass = 'sparkle-far';
+        size = rand(2.2, 4.4);
+        baseOpacity = rand(.11, .24);
+        blur = rand(1.55, 2.35);
+        speed = rand(.0020, .0037);
+        sway = rand(9, 22);
+      } else if(roll < .88){
+        depthClass = 'sparkle-mid';
+        size = rand(3.7, 6.4);
+        baseOpacity = rand(.22, .38);
+        blur = rand(.65, 1.20);
+        speed = rand(.0018, .0032);
+        sway = rand(15, 36);
+      } else {
+        depthClass = 'sparkle-near';
+        size = rand(6.5, 10.5);
+        baseOpacity = rand(.34, .52);
+        blur = rand(.18, .42);
+        speed = rand(.0014, .0027);
+        sway = rand(23, 50);
+      }
+
+      var x = edgeWeightedX(i);
+      var y = rand(4, 116);
+
+      // Keep the typography zone clean: center dust becomes dimmer and smaller.
+      if(x > 30 && x < 70 && y > 26 && y < 72){
+        size *= .62;
+        baseOpacity *= .42;
+        blur += .6;
+        depthClass = 'sparkle-far';
+      }
+
+      var el = document.createElement('span');
+      el.className = 'sparkle js-award-bubble ' + depthClass;
+      el.style.width = size.toFixed(2) + 'px';
+      el.style.height = size.toFixed(2) + 'px';
+      field.appendChild(el);
+
+      bubbles.push({
+        el: el,
+        x: x,
+        y: y,
+        size: size,
+        baseOpacity: baseOpacity,
+        blur: blur,
+        speed: speed,
+        sway: sway,
+        phase: rand(0, Math.PI * 2),
+        driftSpeed: rand(.058, .112),
+        pulseSpeed: rand(.062, .116),
+        scaleBase: rand(.82,1.02),
+        visibleSlot: i < visibleTarget
+      });
+    }
+
+    function animate(now){
+      var t = now / 1000;
+
+      for(var i=0;i<bubbles.length;i++){
+        var b = bubbles[i];
+
+        var y = (b.y - (t * b.speed * 100)) % 128;
+        if(y < -18) y += 128;
+        y -= 12;
+
+        var onScreen = y > -8 && y < 102;
+        var centerPenalty = (b.x > 30 && b.x < 70 && y > 24 && y < 72) ? .32 : 1;
+        var rarePenalty = b.visibleSlot ? 1 : .20;
+
+        var side = Math.sin(t * b.driftSpeed + b.phase) * b.sway;
+        var side2 = Math.sin(t * b.driftSpeed * .42 + b.phase * .7) * (b.sway * .18);
+
+        var pulse = .58 + ((Math.sin(t * b.pulseSpeed + b.phase) + 1) / 2) * .38;
+        var opacity = onScreen ? b.baseOpacity * pulse * centerPenalty * rarePenalty : 0;
+        if(opacity < .035) opacity = 0;
+
+        var brightness = .66 + pulse * .46;
+        var scale = b.scaleBase + (pulse - .80) * .07;
+
+        b.el.style.left = b.x.toFixed(2) + 'vw';
+        b.el.style.top = '0';
+        b.el.style.opacity = opacity.toFixed(3);
+        b.el.style.transform = 'translate3d(' + (side + side2).toFixed(1) + 'px,' + y.toFixed(2) + 'vh,0) scale(' + scale.toFixed(3) + ')';
+        b.el.style.filter = 'blur(' + b.blur.toFixed(2) + 'px) brightness(' + brightness.toFixed(2) + ')';
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+
   document.addEventListener('DOMContentLoaded', function(){
-    setupSearch(); setupMusic(); setupCursor(); fixIntroLogo(); makeIntroCardClickable(); hideBrokenEntryImages(); setupReader(); addFooterLink(); wrapLetters();
+    setupSearch(); setupMusic(); setupCursor(); setupAwardSparklesV144(); fixIntroLogo(); makeIntroCardClickable(); hideBrokenEntryImages(); setupReader(); addFooterLink(); wrapLetters();
   });
 })();

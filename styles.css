@@ -3431,3 +3431,598 @@ body.home .sparkle-field .sparkle{
       0 0 calc(var(--size,18px) * 3.15) rgba(230,180,72,.16);
   }
 }
+
+
+/* v141 docx entry replacement */
+.entry-replaced-text h2{margin-top:2.1rem;}
+.entry-replaced-text p{margin-bottom:1.05rem;}
+.entry-replaced-text .reference-item{font-size:.95em;line-height:1.55;}
+.entry-page .entry-layout{align-items:start;}
+
+
+/* v142 homepage-only final polish: cache-busting, real bubble sparkles, pristine quote, slow gold orb cursor */
+body.home.art-installation-page .home-copy::before,
+body.home.art-installation-page .home-copy::after,
+body.home.art-installation-page .home-installation::before,
+body.home.art-installation-page .home-installation::after,
+body.home.art-installation-page .home-stage::before,
+body.home.art-installation-page .home-stage::after,
+body.home.art-installation-page .home-quote::before{display:none !important;content:none !important;}
+
+body.home.art-installation-page .home-installation{
+  min-height:100svh !important;
+  justify-content:center !important;
+  padding-top:92px !important;
+  padding-bottom:54px !important;
+}
+body.home.art-installation-page .globe-wrap{
+  width:clamp(116px,8.8vw,158px) !important;
+  height:clamp(116px,8.8vw,158px) !important;
+  margin:0 auto clamp(34px,5.4vh,58px) !important;
+}
+body.home.art-installation-page .home-copy h1{
+  font-size:clamp(54px,7.2vw,112px) !important;
+  line-height:.90 !important;
+  letter-spacing:.012em !important;
+}
+body.home.art-installation-page .home-subtitle{
+  margin-top:clamp(20px,2.8vh,30px) !important;
+  font-size:clamp(18px,1.55vw,24px) !important;
+}
+body.home.art-installation-page .home-author{
+  margin-top:9px !important;
+  font-size:clamp(12px,.92vw,15px) !important;
+}
+body.home.art-installation-page .home-quote{
+  width:min(760px,82vw) !important;
+  margin:clamp(44px,6vh,72px) auto 0 !important;
+}
+body.home.art-installation-page .home-quote p{
+  margin:0 !important;
+}
+body.home.art-installation-page .home-quote .home-quote-text{
+  color:rgba(244,236,221,.84) !important;
+  font-size:clamp(14px,1.02vw,16px) !important;
+  line-height:1.65 !important;
+  max-width:680px !important;
+  margin:0 auto !important;
+  text-shadow:0 0 18px rgba(255,233,186,.08) !important;
+}
+body.home.art-installation-page .home-quote .home-quote-name{
+  margin-top:10px !important;
+  color:rgba(255,242,214,.96) !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(16px,1.08vw,18px) !important;
+  font-weight:600 !important;
+  letter-spacing:.01em !important;
+  text-shadow:0 0 16px rgba(255,228,172,.10) !important;
+}
+body.home.art-installation-page .home-quote .home-quote-title{
+  margin-top:7px !important;
+  color:rgba(216,176,94,.86) !important;
+  font:700 10px/1.5 Arial,sans-serif !important;
+  letter-spacing:.22em !important;
+  text-transform:uppercase !important;
+}
+
+body.home.art-installation-page .sparkle-field{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100svh !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  z-index:6 !important;
+}
+body.home.art-installation-page .sparkle-field .sparkle{
+  display:block !important;
+  position:absolute !important;
+  top:0 !important;
+  width:var(--size,14px) !important;
+  height:var(--size,14px) !important;
+  border-radius:999px !important;
+  opacity:0 !important;
+  background:radial-gradient(circle at 42% 38%, rgba(255,255,248,1) 0%, rgba(255,237,170,.96) 24%, rgba(239,184,76,.60) 52%, rgba(239,184,76,.16) 74%, rgba(239,184,76,0) 90%) !important;
+  box-shadow:0 0 calc(var(--size,14px) * .45) rgba(255,239,187,.72), 0 0 calc(var(--size,14px) * 1.20) rgba(236,176,64,.34), 0 0 calc(var(--size,14px) * 2.40) rgba(236,176,64,.14) !important;
+  filter:blur(var(--blur,.9px)) brightness(.72) !important;
+  mix-blend-mode:screen !important;
+  will-change:transform,opacity,filter !important;
+  animation:tagV142Rise var(--dur,48s) linear infinite, tagV142Glow var(--pulse,13s) ease-in-out infinite !important;
+  animation-delay:var(--delay,0s), calc(var(--delay,0s) * .29) !important;
+}
+body.home.art-installation-page .sparkle-field .sparkle::before,
+body.home.art-installation-page .sparkle-field .sparkle::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  pointer-events:none;
+}
+body.home.art-installation-page .sparkle-field .sparkle::before{
+  width:calc(var(--size,14px) * 1.95);
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,243,198,.9), transparent);
+  animation:tagV142Twinkle var(--pulse,13s) ease-in-out infinite;
+  animation-delay:calc(var(--delay,0s) * .17);
+}
+body.home.art-installation-page .sparkle-field .sparkle::after{
+  width:1px;
+  height:calc(var(--size,14px) * 1.95);
+  background:linear-gradient(180deg, transparent, rgba(255,243,198,.74), transparent);
+  animation:tagV142Twinkle var(--pulse,13s) ease-in-out infinite;
+  animation-delay:calc(var(--delay,0s) * .17);
+}
+body.home.art-installation-page .sparkle-field .sparkle-far{filter:blur(2.1px) brightness(.60) !important;}
+body.home.art-installation-page .sparkle-field .sparkle-mid{filter:blur(1.05px) brightness(.76) !important;}
+body.home.art-installation-page .sparkle-field .sparkle-near{filter:blur(.28px) brightness(.90) !important;}
+body.home.art-installation-page .sparkle-field .sparkle-far::before,
+body.home.art-installation-page .sparkle-field .sparkle-far::after{opacity:0 !important;}
+
+@keyframes tagV142Rise{
+  0%{opacity:0;transform:translate3d(calc(var(--phase,0px) + var(--sway,44px) * -.18), var(--start-y,108vh), 0) scale(.58);}
+  8%{opacity:calc(var(--op,.52) * .55);}
+  24%{opacity:var(--op,.52);transform:translate3d(calc(var(--phase,0px) + var(--sway,44px) * .16), calc(var(--start-y,108vh) - 22vh), 0) scale(.76);}
+  46%{opacity:calc(var(--op,.52) * .92);transform:translate3d(calc(var(--phase,0px) + var(--sway,44px) * -.15), calc(var(--start-y,108vh) - 52vh), 0) scale(.94);}
+  68%{opacity:calc(var(--op,.52) * .82);transform:translate3d(calc(var(--phase,0px) + var(--sway,44px) * .12), calc(var(--start-y,108vh) - 84vh), 0) scale(1.05);}
+  86%{opacity:calc(var(--op,.52) * .52);transform:translate3d(calc(var(--phase,0px) + var(--sway,44px) * -.08), calc(var(--start-y,108vh) - 112vh), 0) scale(1.10);}
+  100%{opacity:0;transform:translate3d(calc(var(--phase,0px) + var(--drift,0px)), calc(var(--start-y,108vh) - 138vh), 0) scale(1.16);}
+}
+@keyframes tagV142Glow{
+  0%,100%{filter:blur(var(--blur,.9px)) brightness(.62);}
+  45%{filter:blur(var(--blur,.9px)) brightness(1.08);}
+  68%{filter:blur(var(--blur,.9px)) brightness(1.44);}
+}
+@keyframes tagV142Twinkle{
+  0%,100%{opacity:0;}
+  44%{opacity:0;}
+  52%{opacity:.72;}
+  60%{opacity:0;}
+}
+
+body.home.art-installation-page #gold-cursor{
+  display:block !important;
+  width:18px !important;
+  height:18px !important;
+  margin:-9px 0 0 -9px !important;
+  opacity:.96 !important;
+  background:radial-gradient(circle, rgba(255,255,244,1) 0%, rgba(255,231,150,.98) 34%, rgba(238,177,48,.62) 64%, rgba(238,177,48,0) 88%) !important;
+  box-shadow:0 0 8px rgba(255,239,181,.88), 0 0 18px rgba(238,177,48,.50), 0 0 34px rgba(238,177,48,.18) !important;
+  animation:tagV142CursorGlow 5.8s ease-in-out infinite !important;
+}
+body.home.art-installation-page #gold-cursor i{
+  inset:-5px !important;
+  background:radial-gradient(circle, rgba(255,214,96,.10), rgba(255,214,96,0) 72%) !important;
+}
+body.home.art-installation-page .cursor-spark{
+  width:2.5px !important;
+  height:2.5px !important;
+  border-radius:999px !important;
+  background:radial-gradient(circle, rgba(255,250,230,1), rgba(255,218,112,.85) 48%, rgba(255,198,72,0) 82%) !important;
+  box-shadow:0 0 6px rgba(255,233,152,.76), 0 0 14px rgba(239,176,56,.28) !important;
+  animation:tagV142Trail 1.45s ease-out forwards !important;
+}
+@keyframes tagV142CursorGlow{
+  0%,100%{transform:scale(.88);filter:brightness(.72);}
+  50%{transform:scale(1.05);filter:brightness(1.34);}
+}
+@keyframes tagV142Trail{
+  0%{opacity:.68;transform:translate3d(0,0,0) scale(1);}
+  100%{opacity:0;transform:translate3d(var(--trail-x,6px), var(--trail-y,-8px), 0) scale(.12);}
+}
+
+@media(max-width:900px){
+  body.home.art-installation-page .globe-wrap{margin-bottom:80px !important;}
+  body.home.art-installation-page .home-copy h1{font-size:clamp(38px,10vw,58px) !important;white-space:normal !important;}
+  body.home.art-installation-page .home-quote{width:min(91vw,720px) !important;margin-top:42px !important;}
+  body.home.art-installation-page .sparkle-field .sparkle:nth-child(n+61){display:none !important;}
+}
+
+
+/* v143 smaller slower homepage bubble sparkles */
+body.home.art-installation-page .sparkle-field.gallery-sparkles-v143{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100svh !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  z-index:6 !important;
+}
+body.home.art-installation-page .sparkle-field.gallery-sparkles-v143 .sparkle,
+body.home.art-installation-page .sparkle-field.gallery-sparkles-v143 .js-gallery-bubble{
+  display:block !important;
+  position:absolute !important;
+  border-radius:999px !important;
+  opacity:.38;
+  animation:none !important;
+  will-change:transform, opacity, filter !important;
+  background:
+    radial-gradient(circle at 42% 38%, rgba(255,255,248,.98) 0%, rgba(255,236,171,.92) 30%, rgba(235,177,63,.40) 59%, rgba(235,177,63,.10) 76%, rgba(235,177,63,0) 91%) !important;
+  box-shadow:
+    0 0 5px rgba(255,239,187,.45),
+    0 0 13px rgba(236,176,64,.20),
+    0 0 26px rgba(236,176,64,.08) !important;
+  mix-blend-mode:screen !important;
+}
+body.home.art-installation-page .sparkle-field.gallery-sparkles-v143 .sparkle-near{
+  box-shadow:
+    0 0 6px rgba(255,239,187,.56),
+    0 0 16px rgba(236,176,64,.25),
+    0 0 32px rgba(236,176,64,.10) !important;
+}
+body.home.art-installation-page .sparkle-field.gallery-sparkles-v143 .sparkle::before,
+body.home.art-installation-page .sparkle-field.gallery-sparkles-v143 .sparkle::after{
+  display:none !important;
+  content:none !important;
+}
+
+/* keep the gold orb and trail quiet, not flashy */
+body.home.art-installation-page #gold-cursor{
+  width:16px !important;
+  height:16px !important;
+  margin:-8px 0 0 -8px !important;
+  animation:tagV143CursorGlow 7.2s ease-in-out infinite !important;
+}
+body.home.art-installation-page .cursor-spark{
+  width:2px !important;
+  height:2px !important;
+  animation:tagV143Trail 1.8s ease-out forwards !important;
+}
+@keyframes tagV143CursorGlow{
+  0%,100%{transform:scale(.84);filter:brightness(.68);}
+  50%{transform:scale(1.03);filter:brightness(1.24);}
+}
+@keyframes tagV143Trail{
+  0%{opacity:.54;transform:translate3d(0,0,0) scale(1);}
+  100%{opacity:0;transform:translate3d(var(--trail-x,5px), var(--trail-y,-7px), 0) scale(.10);}
+}
+
+
+/* v144 award homepage polish */
+body.home.art-installation-page{
+  background:#000 !important;
+}
+body.home.art-installation-page::before{
+  background:
+    radial-gradient(ellipse at 50% 32%, rgba(186,147,78,.055), rgba(0,0,0,0) 42%),
+    linear-gradient(90deg, rgba(0,0,0,.90), rgba(0,0,0,.16) 26%, rgba(0,0,0,.06) 50%, rgba(0,0,0,.16) 74%, rgba(0,0,0,.90)),
+    linear-gradient(180deg, #010101 0%, #050504 52%, #000 100%) !important;
+}
+body.home.art-installation-page::after{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.010), transparent 34%, rgba(0,0,0,.42) 100%) !important;
+  opacity:.64 !important;
+}
+
+body.home.art-installation-page .home-copy::before,
+body.home.art-installation-page .home-copy::after,
+body.home.art-installation-page .home-installation::before,
+body.home.art-installation-page .home-installation::after,
+body.home.art-installation-page .home-stage::before,
+body.home.art-installation-page .home-stage::after,
+body.home.art-installation-page .home-quote::before{
+  display:none !important;
+  content:none !important;
+}
+
+body.home.art-installation-page .home-installation{
+  min-height:100svh !important;
+  justify-content:center !important;
+  padding-top:94px !important;
+  padding-bottom:60px !important;
+}
+body.home.art-installation-page .globe-wrap{
+  width:clamp(104px,7.7vw,142px) !important;
+  height:clamp(104px,7.7vw,142px) !important;
+  margin:0 auto clamp(40px,5.8vh,66px) !important;
+  opacity:.82 !important;
+}
+body.home.art-installation-page .globe-wrap::before,
+body.home.art-installation-page .globe-wrap::after{
+  display:none !important;
+  content:none !important;
+}
+body.home.art-installation-page .home-kicker{
+  color:rgba(218,188,124,.74) !important;
+  letter-spacing:.52em !important;
+  text-shadow:0 0 10px rgba(231,184,88,.12) !important;
+  animation:tagV144FadeIn 1.6s ease both .10s !important;
+}
+body.home.art-installation-page .home-copy h1{
+  font-size:clamp(52px,6.7vw,104px) !important;
+  line-height:.92 !important;
+  letter-spacing:.014em !important;
+  color:#fff5df !important;
+  text-shadow:
+    0 0 1px rgba(255,255,246,.72),
+    0 0 15px rgba(255,247,218,.17),
+    0 0 46px rgba(225,172,74,.12) !important;
+  animation:tagV144FadeIn 1.9s ease both .28s !important;
+}
+body.home.art-installation-page .home-subtitle{
+  margin-top:clamp(18px,2.6vh,28px) !important;
+  color:rgba(240,219,181,.84) !important;
+  font-size:clamp(17px,1.4vw,22px) !important;
+  animation:tagV144FadeIn 1.7s ease both .55s !important;
+}
+body.home.art-installation-page .home-author{
+  margin-top:8px !important;
+  color:rgba(232,204,151,.74) !important;
+  font-size:clamp(12px,.88vw,14px) !important;
+  animation:tagV144FadeIn 1.7s ease both .72s !important;
+}
+body.home.art-installation-page .home-quote{
+  width:min(720px,80vw) !important;
+  margin:clamp(48px,6.5vh,80px) auto 0 !important;
+  opacity:.88 !important;
+  animation:tagV144FadeIn 2s ease both 1.05s !important;
+}
+body.home.art-installation-page .home-quote .home-quote-text{
+  max-width:660px !important;
+  color:rgba(238,230,214,.76) !important;
+  font-size:clamp(13px,.94vw,15px) !important;
+  line-height:1.72 !important;
+  text-shadow:0 0 12px rgba(255,233,186,.06) !important;
+}
+body.home.art-installation-page .home-quote .home-quote-name{
+  margin-top:11px !important;
+  color:rgba(255,242,214,.90) !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(14px,1vw,16px) !important;
+  font-weight:600 !important;
+}
+body.home.art-installation-page .home-quote .home-quote-title{
+  margin-top:7px !important;
+  color:rgba(208,170,91,.76) !important;
+  font:700 9px/1.5 Arial,sans-serif !important;
+  letter-spacing:.22em !important;
+  text-transform:uppercase !important;
+}
+
+@keyframes tagV144FadeIn{
+  from{opacity:0;transform:translate3d(0,10px,0);}
+  to{opacity:1;transform:translate3d(0,0,0);}
+}
+
+/* v144: generated 80, only about 40 visible at once, dark-gallery depth */
+body.home.art-installation-page .sparkle-field.award-sparkles-v144{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100svh !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  z-index:6 !important;
+}
+body.home.art-installation-page .sparkle-field.award-sparkles-v144 .sparkle,
+body.home.art-installation-page .sparkle-field.award-sparkles-v144 .js-award-bubble{
+  display:block !important;
+  position:absolute !important;
+  border-radius:999px !important;
+  opacity:.28;
+  animation:none !important;
+  will-change:transform, opacity, filter !important;
+  background:
+    radial-gradient(circle at 42% 38%, rgba(255,255,248,.96) 0%, rgba(255,236,171,.86) 28%, rgba(235,177,63,.32) 58%, rgba(235,177,63,.07) 76%, rgba(235,177,63,0) 91%) !important;
+  box-shadow:
+    0 0 4px rgba(255,239,187,.36),
+    0 0 10px rgba(236,176,64,.15),
+    0 0 18px rgba(236,176,64,.06) !important;
+  mix-blend-mode:screen !important;
+}
+body.home.art-installation-page .sparkle-field.award-sparkles-v144 .sparkle-near{
+  box-shadow:
+    0 0 5px rgba(255,239,187,.48),
+    0 0 14px rgba(236,176,64,.22),
+    0 0 26px rgba(236,176,64,.08) !important;
+}
+body.home.art-installation-page .sparkle-field.award-sparkles-v144 .sparkle::before,
+body.home.art-installation-page .sparkle-field.award-sparkles-v144 .sparkle::after{
+  display:none !important;
+  content:none !important;
+}
+
+/* quiet gold firefly cursor */
+body.home.art-installation-page #gold-cursor{
+  width:15px !important;
+  height:15px !important;
+  margin:-7.5px 0 0 -7.5px !important;
+  background:radial-gradient(circle, rgba(255,255,244,.98) 0%, rgba(255,231,150,.90) 36%, rgba(238,177,48,.46) 66%, rgba(238,177,48,0) 88%) !important;
+  box-shadow:0 0 7px rgba(255,239,181,.70), 0 0 16px rgba(238,177,48,.34), 0 0 28px rgba(238,177,48,.12) !important;
+  animation:tagV144CursorGlow 8.4s ease-in-out infinite !important;
+}
+body.home.art-installation-page #gold-cursor i{
+  inset:-4px !important;
+  background:radial-gradient(circle, rgba(255,214,96,.07), rgba(255,214,96,0) 72%) !important;
+}
+body.home.art-installation-page .cursor-spark{
+  width:1.8px !important;
+  height:1.8px !important;
+  border-radius:999px !important;
+  opacity:.72 !important;
+  background:radial-gradient(circle, rgba(255,250,230,.96), rgba(255,218,112,.72) 48%, rgba(255,198,72,0) 82%) !important;
+  box-shadow:0 0 5px rgba(255,233,152,.58), 0 0 11px rgba(239,176,56,.20) !important;
+  animation:tagV144Trail 2.0s ease-out forwards !important;
+}
+@keyframes tagV144CursorGlow{
+  0%,100%{transform:scale(.82);filter:brightness(.64);}
+  50%{transform:scale(1.01);filter:brightness(1.18);}
+}
+@keyframes tagV144Trail{
+  0%{opacity:.46;transform:translate3d(0,0,0) scale(1);}
+  100%{opacity:0;transform:translate3d(var(--trail-x,4px), var(--trail-y,-6px), 0) scale(.08);}
+}
+
+@media(max-width:900px){
+  body.home.art-installation-page .home-copy h1{font-size:clamp(36px,9.6vw,56px) !important;white-space:normal !important;}
+  body.home.art-installation-page .home-quote{width:min(91vw,700px) !important;margin-top:42px !important;}
+}
+
+
+/* v145 homepage spacing: globe higher, text lower */
+body.home.art-installation-page .home-installation{
+  min-height:100svh !important;
+  justify-content:flex-start !important;
+  padding-top:clamp(46px,7vh,74px) !important;
+  padding-bottom:clamp(52px,7vh,74px) !important;
+}
+body.home.art-installation-page .globe-wrap{
+  width:clamp(102px,7.4vw,138px) !important;
+  height:clamp(102px,7.4vw,138px) !important;
+  margin-top:0 !important;
+  margin-bottom:clamp(132px,18vh,204px) !important;
+}
+body.home.art-installation-page .home-copy{
+  margin-top:0 !important;
+}
+body.home.art-installation-page .home-quote{
+  margin-top:clamp(52px,6.8vh,84px) !important;
+}
+
+@media(max-height:820px) and (min-width:901px){
+  body.home.art-installation-page .home-installation{
+    padding-top:44px !important;
+  }
+  body.home.art-installation-page .globe-wrap{
+    width:108px !important;
+    height:108px !important;
+    margin-bottom:112px !important;
+  }
+  body.home.art-installation-page .home-quote{
+    margin-top:44px !important;
+  }
+}
+@media(max-width:900px){
+  body.home.art-installation-page .home-installation{
+    justify-content:flex-start !important;
+    padding-top:60px !important;
+  }
+  body.home.art-installation-page .globe-wrap{
+    width:104px !important;
+    height:104px !important;
+    margin-bottom:92px !important;
+  }
+  body.home.art-installation-page .home-quote{
+    margin-top:42px !important;
+  }
+}
+
+
+/* v147 Lumen goal reset */
+body.home.art-installation-page{
+  background:#020201 !important;
+}
+body.home.art-installation-page::before{
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.50) 0%, rgba(0,0,0,.38) 28%, rgba(0,0,0,.42) 58%, rgba(0,0,0,.82) 100%),
+    radial-gradient(ellipse at 50% 34%, rgba(232,190,116,.16), rgba(232,190,116,.055) 26%, rgba(0,0,0,0) 58%),
+    linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.22) 22%, rgba(0,0,0,.12) 50%, rgba(0,0,0,.22) 78%, rgba(0,0,0,.88)),
+    url("homepage-manuscript-celestial.jpg") center 32% / cover no-repeat !important;
+  opacity:1 !important;
+  filter:grayscale(12%) sepia(16%) saturate(.82) brightness(.70) contrast(1.08) !important;
+}
+body.home.art-installation-page::after{
+  background:
+    radial-gradient(circle at 74% 34%, rgba(255,229,168,.28) 0 2px, rgba(255,229,168,0) 4px),
+    radial-gradient(circle at 28% 66%, rgba(255,229,168,.18) 0 1px, rgba(255,229,168,0) 3px),
+    radial-gradient(circle at 17% 46%, rgba(255,229,168,.14) 0 1px, rgba(255,229,168,0) 3px),
+    linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.18) 48%, rgba(0,0,0,.76) 100%) !important;
+  opacity:.84 !important;
+}
+body.home.art-installation-page .home-stage{
+  min-height:100svh !important;
+  position:relative !important;
+  z-index:12 !important;
+}
+body.home.art-installation-page .home-installation{
+  min-height:100svh !important;
+  justify-content:flex-start !important;
+  padding-top:clamp(42px,6.5vh,68px) !important;
+  padding-bottom:clamp(46px,6vh,68px) !important;
+}
+body.home.art-installation-page .globe-wrap{
+  width:clamp(104px,7.6vw,140px) !important;
+  height:clamp(104px,7.6vw,140px) !important;
+  margin-top:0 !important;
+  margin-bottom:clamp(124px,16.5vh,192px) !important;
+  opacity:.86 !important;
+  filter:none !important;
+}
+body.home.art-installation-page .globe-wrap::before,
+body.home.art-installation-page .globe-wrap::after{
+  display:none !important;
+  content:none !important;
+}
+body.home.art-installation-page .globe-art{
+  filter:brightness(.94) contrast(1.04) drop-shadow(0 0 8px rgba(238,205,145,.16)) !important;
+}
+body.home.art-installation-page .home-kicker{
+  color:rgba(219,176,96,.86) !important;
+  letter-spacing:.50em !important;
+  text-shadow:0 0 14px rgba(229,178,82,.18) !important;
+}
+body.home.art-installation-page .home-copy h1{
+  color:#f8ead6 !important;
+  font-size:clamp(58px,7.6vw,118px) !important;
+  line-height:.88 !important;
+  letter-spacing:.002em !important;
+  font-weight:400 !important;
+  text-shadow:
+    0 1px 1px rgba(255,255,255,.16),
+    0 0 18px rgba(255,232,190,.18),
+    0 0 54px rgba(226,172,86,.16) !important;
+}
+body.home.art-installation-page .home-subtitle{
+  color:rgba(238,213,176,.86) !important;
+  text-shadow:0 0 15px rgba(238,194,116,.12) !important;
+}
+body.home.art-installation-page .home-author{
+  color:rgba(226,185,115,.82) !important;
+}
+body.home.art-installation-page .home-quote{
+  margin-top:clamp(48px,6.2vh,76px) !important;
+}
+body.home.art-installation-page .home-quote .home-quote-text{
+  color:rgba(238,224,203,.78) !important;
+  text-shadow:0 0 12px rgba(255,228,184,.08) !important;
+}
+body.home.art-installation-page .home-quote .home-quote-name{
+  color:rgba(255,238,205,.90) !important;
+}
+body.home.art-installation-page .home-quote .home-quote-title{
+  color:rgba(213,170,87,.76) !important;
+}
+
+/* particles like Lumen: sparse warm points, not bubble fog */
+body.home.art-installation-page .sparkle-field.award-sparkles-v144 .sparkle,
+body.home.art-installation-page .sparkle-field.award-sparkles-v144 .js-award-bubble{
+  background:
+    radial-gradient(circle, rgba(255,247,224,.96) 0%, rgba(241,198,116,.72) 38%, rgba(241,198,116,.18) 67%, rgba(241,198,116,0) 88%) !important;
+  box-shadow:
+    0 0 4px rgba(255,230,174,.42),
+    0 0 12px rgba(236,174,70,.18),
+    0 0 24px rgba(236,174,70,.06) !important;
+}
+body.home.art-installation-page .sparkle-field.award-sparkles-v144 .sparkle-near{
+  box-shadow:
+    0 0 6px rgba(255,230,174,.50),
+    0 0 16px rgba(236,174,70,.22),
+    0 0 28px rgba(236,174,70,.08) !important;
+}
+
+/* preserve the quiet gold cursor */
+body.home.art-installation-page #gold-cursor{
+  background:radial-gradient(circle, rgba(255,255,244,.98) 0%, rgba(255,231,150,.90) 36%, rgba(238,177,48,.48) 66%, rgba(238,177,48,0) 88%) !important;
+  box-shadow:0 0 7px rgba(255,239,181,.70), 0 0 16px rgba(238,177,48,.34), 0 0 28px rgba(238,177,48,.12) !important;
+}
+
+@media(max-height:820px) and (min-width:901px){
+  body.home.art-installation-page .globe-wrap{
+    margin-bottom:106px !important;
+  }
+  body.home.art-installation-page .home-copy h1{
+    font-size:clamp(48px,6.2vw,88px) !important;
+  }
+}
