@@ -1,7 +1,7 @@
 // TAG v181 clean consolidated behavior.
 (function(){
   'use strict';
-  var VERSION='189';
+  var VERSION='195';
   var d=document;
   function $(s,root){return (root||d).querySelector(s)}
   function $$(s,root){return Array.prototype.slice.call((root||d).querySelectorAll(s))}
@@ -9,48 +9,39 @@
 
 
   function initSparkles(){
-    var old=$$('.sparkle-field');
-    old.slice(1).forEach(function(el){el.remove();});
-    var field=old[0] || d.createElement('div');
+    $$('.sparkle-field').forEach(function(el){el.remove();});
+    var field=d.createElement('div');
     field.className='sparkle-field';
     field.setAttribute('aria-hidden','true');
-    field.innerHTML='';
-    if(!field.parentNode) d.body.insertBefore(field,d.body.firstChild);
+    d.body.insertBefore(field,d.body.firstChild);
     var isHome=d.body.classList.contains('home');
-    var count=isHome?54:22;
+    var count=isHome?112:86;
+    var cols=isHome?14:12;
+    var rows=Math.ceil(count/cols);
     for(var i=0;i<count;i++){
       var s=d.createElement('span');
-      var depthClass, layer=i%3;
-      if(layer===0) depthClass='sparkle-far';
-      else if(layer===1) depthClass='sparkle-mid';
-      else depthClass='sparkle-near';
+      var layer=i%3;
+      var depthClass=layer===0?'sparkle-far':(layer===1?'sparkle-mid':'sparkle-near');
       s.className='sparkle '+depthClass;
-      var size=depthClass==='sparkle-far'?rand(2.6,4.8):(depthClass==='sparkle-mid'?rand(4.8,7.8):rand(7.5,12.5));
-      var x,y;
-      if(isHome){
-        var zone=Math.random();
-        if(zone<.62){
-          x=rand(27,73); y=rand(48,96);
-        }else if(zone<.82){
-          x=rand(4,34); y=rand(14,43);
-        }else{
-          x=rand(38,62); y=rand(18,50);
-        }
-      }else{
-        x=rand(3,97); y=rand(24,118);
-      }
+      var size=depthClass==='sparkle-far'?rand(2.4,4.8):(depthClass==='sparkle-mid'?rand(4.6,7.8):rand(7.2,12.8));
+      var col=i%cols;
+      var row=Math.floor(i/cols);
+      var x=((col+.5)/cols)*100+rand(-2.8,2.8);
+      var y=((row+.5)/rows)*100+rand(-4.5,4.5);
+      x=Math.max(2,Math.min(98,x));
+      y=Math.max(4,Math.min(102,y));
       s.style.setProperty('--x',x.toFixed(2)+'vw');
       s.style.setProperty('--y',y.toFixed(2)+'vh');
       s.style.setProperty('--size',size.toFixed(2)+'px');
-      s.style.setProperty('--dur',rand(150,260).toFixed(2)+'s');
-      s.style.setProperty('--delay',(-rand(0,140)).toFixed(2)+'s');
-      var sway=(Math.random()<.5?-1:1)*rand(54,96);
+      s.style.setProperty('--dur',rand(165,290).toFixed(2)+'s');
+      s.style.setProperty('--delay',(-rand(0,240)).toFixed(2)+'s');
+      var sway=(Math.random()<.5?-1:1)*rand(62,112);
       s.style.setProperty('--sway',sway.toFixed(1)+'px');
-      s.style.setProperty('--drift',((Math.random()<.5?-1:1)*rand(26,70)).toFixed(1)+'px');
-      var base=depthClass==='sparkle-far'?rand(.20,.42):(depthClass==='sparkle-mid'?rand(.36,.66):rand(.56,.92));
+      s.style.setProperty('--drift',((Math.random()<.5?-1:1)*rand(34,86)).toFixed(1)+'px');
+      var base=depthClass==='sparkle-far'?rand(.26,.52):(depthClass==='sparkle-mid'?rand(.44,.74):rand(.66,.98));
       s.style.setProperty('--op',base.toFixed(2));
-      s.style.setProperty('--pulse',rand(24,48).toFixed(2)+'s');
-      s.style.setProperty('--glow-delay',(-rand(0,32)).toFixed(2)+'s');
+      s.style.setProperty('--pulse',rand(24,56).toFixed(2)+'s');
+      s.style.setProperty('--glow-delay',(-rand(0,46)).toFixed(2)+'s');
       field.appendChild(s);
     }
   }
@@ -95,6 +86,22 @@
   function initLetterHover(){
     var sels='.home-kicker,.home-subtitle,.home-author,.term-list a,.alphabet a,.gallery-topbar a,.music-toggle,.entry-side h3,.entry-side a,.intro-card h2,.intro-card p,.tiny-citation-box,.eyebrow,.resource-grid h2,.gallery-main h1,.gallery-main h2';
     $$(sels).forEach(wrapLetters);
+  }
+
+
+  function initGlobalHoverText(){
+    var sels=[
+      'main h1','main h2','main h3','main h4','main p','main li','main a',
+      'footer p','footer a','nav a','button','.music-toggle','.az-reader-toggle',
+      '.home-title','.home-subtitle','.home-author','.home-quote-text','.home-quote-name','.home-quote-title',
+      '.lead','.eyebrow','.entry-label','.tiny-citation-box','.education-bottom-card','.start-here-card',
+      '.term-list a','.alphabet a','.resource-grid h2','.resource-grid p','.entry-side h3','.entry-side li','.entry-side p'
+    ].join(',');
+    $$(sels).forEach(function(el){
+      if(!el || el.closest('script,style,noscript,svg,.no-hover-text')) return;
+      if((el.textContent||'').trim().length<1) return;
+      el.classList.add('az-hoverable-text');
+    });
   }
 
   function initSearch(){
@@ -169,6 +176,7 @@
     initSparkles();
     initCursor();
     initLetterHover();
+    initGlobalHoverText();
     initSearch();
     initMusic();
     initReader();
