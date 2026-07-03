@@ -1,7 +1,7 @@
 // TAG v181 clean consolidated behavior.
 (function(){
   'use strict';
-  var VERSION='215';
+  var VERSION='217';
   var d=document;
   function $(s,root){return (root||d).querySelector(s)}
   function $$(s,root){return Array.prototype.slice.call((root||d).querySelectorAll(s))}
@@ -16,8 +16,8 @@
     d.body.insertBefore(field,d.body.firstChild);
 
     var isHome=d.body.classList.contains('home');
-    var count=isHome?150:132;
-    var cols=isHome?15:12;
+    var count=isHome?210:172;
+    var cols=isHome?18:14;
     var rows=Math.ceil(count/cols);
 
     for(var i=0;i<count;i++){
@@ -26,7 +26,7 @@
       var depthClass=layer===0?'sparkle-far':(layer===1?'sparkle-mid':'sparkle-near');
       s.className='sparkle '+depthClass;
 
-      var size=depthClass==='sparkle-far'?rand(2.6,4.4):(depthClass==='sparkle-mid'?rand(4.2,6.8):rand(6.2,9.6));
+      var size=depthClass==='sparkle-far'?rand(3.2,5.2):(depthClass==='sparkle-mid'?rand(5.2,8.4):rand(8.0,12.8));
       var col=i%cols;
       var row=Math.floor(i/cols);
 
@@ -39,7 +39,7 @@
       s.style.setProperty('--x',x.toFixed(2)+'vw');
       s.style.setProperty('--y',y.toFixed(2)+'vh');
       s.style.setProperty('--size',size.toFixed(2)+'px');
-      s.style.setProperty('--dur',rand(205,340).toFixed(2)+'s');
+      s.style.setProperty('--dur',rand(145,235).toFixed(2)+'s');
       s.style.setProperty('--delay',(-rand(0,320)).toFixed(2)+'s');
 
       /* About an inch of side-to-side motion, balanced left/right, floating upward slowly. */
@@ -47,21 +47,19 @@
       s.style.setProperty('--sway',sway.toFixed(1)+'px');
       s.style.setProperty('--drift','0px');
 
-      var base=depthClass==='sparkle-far'?rand(.34,.58):(depthClass==='sparkle-mid'?rand(.50,.78):rand(.70,.96));
+      var base=depthClass==='sparkle-far'?rand(.48,.72):(depthClass==='sparkle-mid'?rand(.66,.88):rand(.82,1));
       s.style.setProperty('--op',base.toFixed(2));
-      s.style.setProperty('--pulse',rand(18,36).toFixed(2)+'s');
+      s.style.setProperty('--pulse',rand(9,18).toFixed(2)+'s');
       s.style.setProperty('--glow-delay',(-rand(0,36)).toFixed(2)+'s');
       field.appendChild(s);
     }
   }
 
   function initEntryImages(){
-    $$('.entry-image img').forEach(function(img){
-      var src=(img.getAttribute('src')||'').split('?')[0].toLowerCase();
-      if(src.endsWith('.png')){
-        var fig=img.closest('.entry-image');
-        if(fig) fig.classList.add('entry-card-image');
-      }
+    /* v217: keep legitimate PNG entry images visible. Older card-style images are no longer linked from entry pages. */
+    $$('.entry-image').forEach(function(fig){
+      fig.classList.remove('entry-card-image');
+      fig.classList.add('entry-image-blended','preserve-full-focal');
     });
   }
 
@@ -350,6 +348,21 @@
         else pauseAudio();
       });
     });
+
+    // v216: on the first user interaction anywhere on the page, start music.
+    // This satisfies browser autoplay rules because it is tied to a user gesture.
+    let tagAutoMusicStarted = false;
+    const startMusicFromPageGesture = async (event) => {
+      const target = event && event.target;
+      if (target && target.closest && target.closest("#music-toggle, .music-toggle, [data-music-toggle]")) return;
+      if (tagAutoMusicStarted || !audio.paused) return;
+      tagAutoMusicStarted = true;
+      await playAudio();
+      document.removeEventListener("pointerdown", startMusicFromPageGesture, true);
+      document.removeEventListener("keydown", startMusicFromPageGesture, true);
+    };
+    document.addEventListener("pointerdown", startMusicFromPageGesture, true);
+    document.addEventListener("keydown", startMusicFromPageGesture, true);
 
     audio.addEventListener("play", () => {
       syncButtons(true);

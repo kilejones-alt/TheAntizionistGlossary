@@ -1261,3 +1261,274 @@ body:not(.home) .sparkle-field{
   0%,100%{opacity:calc(var(--op) * .20);filter:brightness(.62)}
   50%{opacity:var(--op);filter:brightness(1.82)}
 }
+
+
+/* --- v216 visual cleanup from live screenshots --- */
+
+/* Remove the thin gold horizontal rule under the navigation. */
+.gallery-topbar{
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+
+/* Homepage: quote moved left, set into three deliberate lines, and top line above globe removed via nav rule above. */
+.home .home-quote{
+  position:absolute!important;
+  left:clamp(38px,5.2vw,76px)!important;
+  top:92px!important;
+  right:auto!important;
+  max-width:360px!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:left!important;
+  letter-spacing:.08em!important;
+  line-height:1.42!important;
+  z-index:5!important;
+}
+.home .home-quote-text{
+  margin:0!important;
+  max-width:360px!important;
+  font-size:clamp(15px,1.12vw,18px)!important;
+  line-height:1.38!important;
+  color:#f1d98d!important;
+  text-transform:none!important;
+}
+.home .home-quote-name{
+  margin-top:14px!important;
+  font-size:clamp(16px,1.04vw,18px)!important;
+  line-height:1.1!important;
+}
+.home .home-quote-title{
+  font-size:clamp(10px,.76vw,12px)!important;
+  line-height:1.15!important;
+}
+.home .home-copy{
+  margin-top:44px!important;
+}
+
+/* Hide any square edge around the globe. */
+.globe-wrap{
+  border-radius:999px!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  -webkit-mask-image:radial-gradient(circle at center,#000 0 68%,rgba(0,0,0,.74) 76%,transparent 96%)!important;
+  mask-image:radial-gradient(circle at center,#000 0 68%,rgba(0,0,0,.74) 76%,transparent 96%)!important;
+}
+.globe-art{
+  border-radius:999px!important;
+  mix-blend-mode:normal!important;
+  background:transparent!important;
+}
+
+/* Glossary page: lower the title toward the Introduction link, enlarge Introduction, and center letters in circles. */
+.glossary-page .glossary-intro-grid > div:first-child{
+  transform:translateY(76px)!important;
+}
+.glossary-page .start-here-card{
+  display:inline-block!important;
+  font-family:var(--serif)!important;
+  font-size:clamp(25px,2.35vw,34px)!important;
+  line-height:1.12!important;
+  color:#f4d47a!important;
+  text-align:left!important;
+  margin:22px 0 18px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  text-shadow:0 0 14px rgba(232,181,64,.30)!important;
+}
+.glossary-page .alphabet{
+  align-items:center!important;
+}
+.glossary-page .alphabet a,
+.glossary-page .alphabet-nav a{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:34px!important;
+  min-width:34px!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0!important;
+  line-height:1!important;
+  text-align:center!important;
+  vertical-align:middle!important;
+}
+.glossary-page .alphabet a .az-letter,
+.glossary-page .alphabet-nav a .az-letter{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:1!important;
+  transform:none!important;
+}
+
+/* Entry images: stronger fade so the photo does not read as a rectangular box. */
+.entry-image{
+  border-radius:38px!important;
+  overflow:hidden!important;
+  opacity:.30!important;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 0 38%,rgba(0,0,0,.82) 55%,rgba(0,0,0,.36) 74%,transparent 98%)!important;
+  mask-image:radial-gradient(ellipse at center,#000 0 38%,rgba(0,0,0,.82) 55%,rgba(0,0,0,.36) 74%,transparent 98%)!important;
+  filter:drop-shadow(0 0 70px rgba(0,0,0,.95))!important;
+}
+.entry-image img{
+  opacity:.68!important;
+  filter:brightness(.60) contrast(1.05) saturate(.80) blur(.18px)!important;
+}
+.entry-image::after{
+  background:radial-gradient(ellipse at center,transparent 0 34%,rgba(0,0,0,.30) 54%,rgba(0,0,0,.80) 82%,rgba(0,0,0,1) 100%),linear-gradient(90deg,rgba(0,0,0,.96),rgba(0,0,0,.42) 42%,rgba(0,0,0,.22))!important;
+}
+
+/* Across-the-board paragraph/body text should read as white, not yellow. */
+.entry-main,
+.entry-main p,
+.entry-main li,
+.gallery-main p,
+.gallery-main li,
+.resource-grid p,
+.resource-grid li{
+  color:#f5f4ee!important;
+}
+.entry-main h1,
+.entry-main h2,
+.entry-main h3,
+.entry-main .entry-label,
+.entry-side h2,
+.entry-side h3,
+.gallery-main h1,
+.gallery-main h2,
+.gallery-main h3{
+  color:inherit;
+}
+.entry-main h2,
+.entry-side h2,
+.entry-side h3,
+.gallery-main h2,
+.gallery-main h3{
+  color:#f0cd75!important;
+}
+
+/* Sparkles: closer, brighter, denser, and a little faster. */
+.sparkle-field{
+  opacity:1!important;
+}
+body:not(.home) .sparkle-field{
+  opacity:.98!important;
+}
+.sparkle::before{
+  box-shadow:0 0 12px rgba(255,235,176,.82),0 0 30px rgba(226,171,54,.42),0 0 64px rgba(226,171,54,.18)!important;
+}
+.sparkle-far::before{opacity:.86!important;filter:blur(.62px)!important;}
+.sparkle-mid::before{opacity:.98!important;filter:blur(.18px)!important;}
+.sparkle-near::before{opacity:1!important;filter:blur(0)!important;}
+@keyframes sparkleGlow{
+  0%,100%{opacity:calc(var(--op) * .28);filter:brightness(.70)}
+  50%{opacity:var(--op);filter:brightness(2.05)}
+}
+
+/* Footer: maintain visible separation between Detector App and Image Credits. */
+.gallery-footer p{
+  word-spacing:.08em!important;
+}
+.gallery-footer a{
+  display:inline-block!important;
+  margin:0 .18em!important;
+}
+
+@media(max-width:760px){
+  .home .home-quote{
+    position:relative!important;
+    left:auto!important;
+    top:auto!important;
+    max-width:86vw!important;
+    margin:36px auto 0!important;
+    text-align:center!important;
+  }
+  .home .home-copy{
+    margin-top:30px!important;
+  }
+  .glossary-page .glossary-intro-grid > div:first-child{
+    transform:none!important;
+  }
+  .glossary-page .start-here-card{
+    display:block!important;
+    font-size:clamp(30px,8vw,38px)!important;
+    line-height:1.08!important;
+    margin:18px 0 22px!important;
+    text-align:left!important;
+  }
+  .glossary-page .alphabet a,
+  .glossary-page .alphabet-nav a{
+    width:48px!important;
+    min-width:48px!important;
+    height:48px!important;
+    min-height:48px!important;
+    font-size:14px!important;
+  }
+}
+
+
+/* --- v217 ethnostate + image-blend audit fixes --- */
+
+/* Sharansky: quote text white only; name/title retain their existing treatment. */
+.home .home-quote-text{
+  color:#ffffff!important;
+}
+
+/* Do not hide legitimate PNG entry images such as Ethnostate. */
+.entry-image.entry-card-image{
+  display:block!important;
+}
+
+/* Stronger all-entry image blending: fade the image itself, not only the container. */
+.entry-image,
+.entry-image.entry-image-blended,
+.entry-image.preserve-full-focal{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  border-radius:44px!important;
+  opacity:.31!important;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 0 24%,rgba(0,0,0,.80) 42%,rgba(0,0,0,.34) 60%,transparent 86%)!important;
+  mask-image:radial-gradient(ellipse at center,#000 0 24%,rgba(0,0,0,.80) 42%,rgba(0,0,0,.34) 60%,transparent 86%)!important;
+  filter:drop-shadow(0 0 84px rgba(0,0,0,.98))!important;
+}
+.entry-image img,
+.entry-image.entry-image-blended img,
+.entry-image.preserve-full-focal img{
+  object-fit:contain!important;
+  background:transparent!important;
+  opacity:.70!important;
+  mix-blend-mode:screen!important;
+  filter:brightness(.64) contrast(1.06) saturate(.78) blur(.12px)!important;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 0 28%,rgba(0,0,0,.76) 46%,rgba(0,0,0,.26) 64%,transparent 88%)!important;
+  mask-image:radial-gradient(ellipse at center,#000 0 28%,rgba(0,0,0,.76) 46%,rgba(0,0,0,.26) 64%,transparent 88%)!important;
+}
+.entry-image::after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(ellipse at center,transparent 0 18%,rgba(0,0,0,.14) 34%,rgba(0,0,0,.58) 58%,rgba(0,0,0,1) 88%),
+    linear-gradient(90deg,rgba(0,0,0,.96),rgba(0,0,0,.56) 34%,rgba(0,0,0,.34) 56%,rgba(0,0,0,.86) 100%)!important;
+}
+
+/* Ethnostate’s map image is a hard-edged PNG, so it needs a heavier fade. */
+.ethnostate-page .entry-image,
+body:has(img[src*="entry-ethnostate-map"]) .entry-image{
+  opacity:.28!important;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 0 18%,rgba(0,0,0,.66) 36%,rgba(0,0,0,.20) 54%,transparent 78%)!important;
+  mask-image:radial-gradient(ellipse at center,#000 0 18%,rgba(0,0,0,.66) 36%,rgba(0,0,0,.20) 54%,transparent 78%)!important;
+}
+.ethnostate-page .entry-image img,
+body:has(img[src*="entry-ethnostate-map"]) .entry-image img{
+  opacity:.60!important;
+  filter:brightness(.58) contrast(1.02) saturate(.72) blur(.18px)!important;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 0 18%,rgba(0,0,0,.62) 36%,rgba(0,0,0,.18) 54%,transparent 76%)!important;
+  mask-image:radial-gradient(ellipse at center,#000 0 18%,rgba(0,0,0,.62) 36%,rgba(0,0,0,.18) 54%,transparent 76%)!important;
+}
