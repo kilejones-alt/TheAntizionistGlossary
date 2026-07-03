@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Marcellus&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Marcellus&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Noto+Serif+Hebrew:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;600;700&display=swap");
 /* TAG v181 clean consolidated visual system. */
 :root{
   --black:#030303;
@@ -702,3 +702,171 @@ html[dir="rtl"] .az-hoverable-text,body.hebrew-page .az-hoverable-text{transform
 .az-reader-toggle,.music-toggle,.gallery-topbar a,.term-list a,.alphabet a,.tiny-citation-box,.education-bottom-card,.start-here-card{transition:transform .28s ease,color .28s ease,text-shadow .28s ease,box-shadow .28s ease,filter .28s ease!important;}
 .az-reader-toggle:hover,.music-toggle:hover,.gallery-topbar a:hover,.term-list a:hover,.alphabet a:hover,.tiny-citation-box:hover,.education-bottom-card:hover,.start-here-card:hover{transform:translateY(-3px)!important;color:#fff4c5!important;text-shadow:0 0 12px rgba(241,208,122,.44)!important;filter:brightness(1.1)!important;}
 @media(max-width:900px){.home .home-quote{left:auto!important;right:auto!important;width:min(88vw,470px)!important;margin:68px auto 0!important;text-align:center!important}.home .home-quote-text,.home .home-quote p:first-child{font-size:clamp(17px,2.4vw,22px)!important;max-width:100%!important}}
+
+
+
+/* --- v200 cumulative cleanup + larger classier entry reading text --- */
+:root{
+  --reader:"Newsreader","Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --reader-he:"Noto Serif Hebrew","Frank Ruhl Libre","Times New Roman",serif;
+}
+.entry-main,
+.entry-main p,
+.entry-main li{
+  font-family:var(--reader)!important;
+  font-size:clamp(18px,1.16vw,21px)!important;
+  line-height:1.78!important;
+  letter-spacing:.004em!important;
+}
+.hebrew-page .entry-main,
+.hebrew-page .entry-main p,
+.hebrew-page .entry-main li,
+html[lang="he"] .entry-main,
+html[lang="he"] .entry-main p,
+html[lang="he"] .entry-main li{
+  font-family:var(--reader-he)!important;
+  font-size:clamp(18.5px,1.20vw,22px)!important;
+  line-height:1.86!important;
+  letter-spacing:0!important;
+}
+.entry-main h1,
+.entry-main h2,
+.entry-main h3{
+  font-family:var(--serif)!important;
+}
+.hebrew-page .entry-main h1,
+.hebrew-page .entry-main h2,
+.hebrew-page .entry-main h3,
+html[lang="he"] .entry-main h1,
+html[lang="he"] .entry-main h2,
+html[lang="he"] .entry-main h3{
+  font-family:var(--reader-he)!important;
+}
+@media(max-width:520px){
+  .entry-main,
+  .entry-main p,
+  .entry-main li{
+    font-size:17px!important;
+    line-height:1.74!important;
+  }
+  .hebrew-page .entry-main,
+  .hebrew-page .entry-main p,
+  .hebrew-page .entry-main li,
+  html[lang="he"] .entry-main,
+  html[lang="he"] .entry-main p,
+  html[lang="he"] .entry-main li{
+    font-size:17.5px!important;
+    line-height:1.82!important;
+  }
+}
+
+/* v197 glossary cleanup and alphabet centering */
+.glossary-page .eyebrow,
+.glossary-page .glossary-intro-grid .lead,
+.glossary-page .education-citation-row,
+.glossary-page .education-bottom-card,
+.glossary-page .tiny-citation-box{
+  display:none!important;
+}
+.glossary-page .start-here-card,
+.glossary-page .intro-card.start-here-card{
+  background:transparent!important;
+  padding:0!important;
+  margin:24px 0 28px!important;
+  mask-image:none!important;
+  -webkit-mask-image:none!important;
+  text-align:left!important;
+}
+html[dir="rtl"] .glossary-page .start-here-card,
+html[lang="he"] .glossary-page .start-here-card{
+  text-align:right!important;
+}
+.glossary-page .start-here-card h2,
+.glossary-page .start-here-card a{
+  font-size:clamp(21px,1.8vw,29px)!important;
+  line-height:1.25!important;
+  color:#f2d58a!important;
+  font-family:var(--serif)!important;
+  letter-spacing:.02em!important;
+  text-transform:none!important;
+}
+.alphabet-nav,
+.az-list{
+  align-items:center!important;
+}
+.alphabet-nav a,
+.az-list a,
+.glossary-page .alphabet-nav a,
+.glossary-page .az-list a{
+  display:inline-grid!important;
+  place-items:center!important;
+  text-align:center!important;
+  line-height:1!important;
+  padding:0!important;
+  vertical-align:middle!important;
+}
+.alphabet-nav a .az-letter,
+.az-list a .az-letter,
+.glossary-page .alphabet-nav a .az-letter,
+.glossary-page .az-list a .az-letter{
+  display:inline-grid!important;
+  place-items:center!important;
+  line-height:1!important;
+  transform:none!important;
+  width:auto!important;
+  height:auto!important;
+  margin:0!important;
+  position:static!important;
+}
+.alphabet-nav a:hover .az-letter,
+.az-list a:hover .az-letter{
+  transform:translateY(-1px)!important;
+}
+
+/* v200 keep only Back to A-Z in bottom sidebar Links */
+.entry-side .side-links li:not(:has(a[href="glossary.html"])):not(:has(a[href="glossary-he.html"])){
+  display:none!important;
+}
+
+
+
+/* --- v201 resources/education page intro cleanup --- */
+.resources-page .eyebrow,
+.education-page .eyebrow,
+body.resources-page .lead,
+body.education-page .lead{
+  display:none!important;
+}
+
+/* v202 persistent music patch marker */
+
+/* v203 user image placement marker: entry images use existing blended treatment */
+
+/* v204 image credits and reader marker; v205 detector app page */
+
+
+/* v205 Detector App placeholder page */
+.detector-download-card{
+  margin-top:34px;
+  padding:28px 30px;
+  border:1px solid rgba(214,171,80,.28);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(26,19,8,.54),rgba(4,3,2,.36));
+  box-shadow:0 22px 70px rgba(0,0,0,.35);
+}
+.detector-download-card h2{
+  margin:0 0 10px;
+  color:#f2d58a;
+  font-size:clamp(22px,2vw,32px);
+}
+.detector-download-card p{
+  margin:0;
+}
+
+/* v206 uploaded entry images marker */
+
+/* v207 uploaded entry images marker */
+
+/* v208 uploaded entry images marker */
+
+/* v209 final uploaded entry images marker */
