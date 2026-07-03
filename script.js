@@ -1,7 +1,7 @@
 // TAG v181 clean consolidated behavior.
 (function(){
   'use strict';
-  var VERSION='209';
+  var VERSION='215';
   var d=document;
   function $(s,root){return (root||d).querySelector(s)}
   function $$(s,root){return Array.prototype.slice.call((root||d).querySelectorAll(s))}
@@ -14,34 +14,43 @@
     field.className='sparkle-field';
     field.setAttribute('aria-hidden','true');
     d.body.insertBefore(field,d.body.firstChild);
+
     var isHome=d.body.classList.contains('home');
-    var count=isHome?112:86;
-    var cols=isHome?14:12;
+    var count=isHome?150:132;
+    var cols=isHome?15:12;
     var rows=Math.ceil(count/cols);
+
     for(var i=0;i<count;i++){
       var s=d.createElement('span');
       var layer=i%3;
       var depthClass=layer===0?'sparkle-far':(layer===1?'sparkle-mid':'sparkle-near');
       s.className='sparkle '+depthClass;
-      var size=depthClass==='sparkle-far'?rand(2.4,4.8):(depthClass==='sparkle-mid'?rand(4.6,7.8):rand(7.2,12.8));
+
+      var size=depthClass==='sparkle-far'?rand(2.6,4.4):(depthClass==='sparkle-mid'?rand(4.2,6.8):rand(6.2,9.6));
       var col=i%cols;
       var row=Math.floor(i/cols);
-      var x=((col+.5)/cols)*100+rand(-2.8,2.8);
-      var y=((row+.5)/rows)*100+rand(-4.5,4.5);
+
+      /* Grid placement keeps particles even across the whole viewport; tiny jitter prevents a mechanical pattern. */
+      var x=((col+.5)/cols)*100+rand(-1.15,1.15);
+      var y=((row+.5)/rows)*100+rand(-1.8,1.8);
       x=Math.max(2,Math.min(98,x));
-      y=Math.max(4,Math.min(102,y));
+      y=Math.max(3,Math.min(101,y));
+
       s.style.setProperty('--x',x.toFixed(2)+'vw');
       s.style.setProperty('--y',y.toFixed(2)+'vh');
       s.style.setProperty('--size',size.toFixed(2)+'px');
-      s.style.setProperty('--dur',rand(165,290).toFixed(2)+'s');
-      s.style.setProperty('--delay',(-rand(0,240)).toFixed(2)+'s');
-      var sway=(Math.random()<.5?-1:1)*rand(62,112);
+      s.style.setProperty('--dur',rand(205,340).toFixed(2)+'s');
+      s.style.setProperty('--delay',(-rand(0,320)).toFixed(2)+'s');
+
+      /* About an inch of side-to-side motion, balanced left/right, floating upward slowly. */
+      var sway=(Math.random()<.5?-1:1)*rand(68,84);
       s.style.setProperty('--sway',sway.toFixed(1)+'px');
-      s.style.setProperty('--drift',((Math.random()<.5?-1:1)*rand(34,86)).toFixed(1)+'px');
-      var base=depthClass==='sparkle-far'?rand(.26,.52):(depthClass==='sparkle-mid'?rand(.44,.74):rand(.66,.98));
+      s.style.setProperty('--drift','0px');
+
+      var base=depthClass==='sparkle-far'?rand(.34,.58):(depthClass==='sparkle-mid'?rand(.50,.78):rand(.70,.96));
       s.style.setProperty('--op',base.toFixed(2));
-      s.style.setProperty('--pulse',rand(24,56).toFixed(2)+'s');
-      s.style.setProperty('--glow-delay',(-rand(0,46)).toFixed(2)+'s');
+      s.style.setProperty('--pulse',rand(18,36).toFixed(2)+'s');
+      s.style.setProperty('--glow-delay',(-rand(0,36)).toFixed(2)+'s');
       field.appendChild(s);
     }
   }
