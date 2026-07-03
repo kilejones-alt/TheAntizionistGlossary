@@ -1,7 +1,7 @@
 // TAG v181 clean consolidated behavior.
 (function(){
   'use strict';
-  var VERSION='188';
+  var VERSION='189';
   var d=document;
   function $(s,root){return (root||d).querySelector(s)}
   function $$(s,root){return Array.prototype.slice.call((root||d).querySelectorAll(s))}
@@ -17,28 +17,40 @@
     field.innerHTML='';
     if(!field.parentNode) d.body.insertBefore(field,d.body.firstChild);
     var isHome=d.body.classList.contains('home');
-    var count=isHome?50:22;
+    var count=isHome?54:22;
     for(var i=0;i<count;i++){
       var s=d.createElement('span');
-      var depth=Math.random();
-      var kind=Math.random();
-      var cls=depth<.42?'sparkle-far':(depth<.82?'sparkle-mid':'sparkle-near');
-      cls+=' '+(kind<.28?'sparkle-star':(kind<.52?'sparkle-glow':'sparkle-dust'));
-      s.className='sparkle '+cls;
-      var isStar=cls.indexOf('sparkle-star')>-1;
-      var isGlow=cls.indexOf('sparkle-glow')>-1;
-      var size=isStar?rand(5,10):(isGlow?rand(6,11):(cls.indexOf('sparkle-near')>-1?rand(6.5,12):(cls.indexOf('sparkle-mid')>-1?rand(4.5,8.5):rand(2.8,5.5))));
-      var top=isHome?rand(26,108):rand(24,118);
-      s.style.setProperty('--x',rand(1,99).toFixed(2)+'vw');
-      s.style.setProperty('--y',top.toFixed(2)+'vh');
+      var depthClass, layer=i%3;
+      if(layer===0) depthClass='sparkle-far';
+      else if(layer===1) depthClass='sparkle-mid';
+      else depthClass='sparkle-near';
+      s.className='sparkle '+depthClass;
+      var size=depthClass==='sparkle-far'?rand(2.6,4.8):(depthClass==='sparkle-mid'?rand(4.8,7.8):rand(7.5,12.5));
+      var x,y;
+      if(isHome){
+        var zone=Math.random();
+        if(zone<.62){
+          x=rand(27,73); y=rand(48,96);
+        }else if(zone<.82){
+          x=rand(4,34); y=rand(14,43);
+        }else{
+          x=rand(38,62); y=rand(18,50);
+        }
+      }else{
+        x=rand(3,97); y=rand(24,118);
+      }
+      s.style.setProperty('--x',x.toFixed(2)+'vw');
+      s.style.setProperty('--y',y.toFixed(2)+'vh');
       s.style.setProperty('--size',size.toFixed(2)+'px');
-      s.style.setProperty('--dur',rand(122,210).toFixed(2)+'s');
-      s.style.setProperty('--delay',(-rand(0,120)).toFixed(2)+'s');
-      s.style.setProperty('--sway',(Math.random()<.5?-1:1)*rand(22,74).toFixed(1)+'px');
-      s.style.setProperty('--drift',(Math.random()<.5?-1:1)*rand(26,86).toFixed(1)+'px');
-      s.style.setProperty('--op',rand(cls.indexOf('sparkle-far')>-1?.22:.34,isStar?.88:(isGlow?.74:.58)).toFixed(2));
-      s.style.setProperty('--pulse',rand(18,36).toFixed(2)+'s');
-      s.style.setProperty('--glow-delay',(-rand(0,24)).toFixed(2)+'s');
+      s.style.setProperty('--dur',rand(150,260).toFixed(2)+'s');
+      s.style.setProperty('--delay',(-rand(0,140)).toFixed(2)+'s');
+      var sway=(Math.random()<.5?-1:1)*rand(54,96);
+      s.style.setProperty('--sway',sway.toFixed(1)+'px');
+      s.style.setProperty('--drift',((Math.random()<.5?-1:1)*rand(26,70)).toFixed(1)+'px');
+      var base=depthClass==='sparkle-far'?rand(.20,.42):(depthClass==='sparkle-mid'?rand(.36,.66):rand(.56,.92));
+      s.style.setProperty('--op',base.toFixed(2));
+      s.style.setProperty('--pulse',rand(24,48).toFixed(2)+'s');
+      s.style.setProperty('--glow-delay',(-rand(0,32)).toFixed(2)+'s');
       field.appendChild(s);
     }
   }
