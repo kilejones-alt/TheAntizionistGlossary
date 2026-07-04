@@ -4389,7 +4389,6 @@ function render(data) {
   setHighlightedText('whoSaidBox', publicWhoSaidExplanation(data, hasMapped, standaloneContext), highlightFragments);
   renderResourcesBox(data, hasMapped, standaloneContext);
   setHighlightedText('resultReason', hasMapped ? publicWhySummary(data) : (standaloneContext ? standaloneContextWhy() : noMappedWhyText(data)), highlightFragments);
-  setHighlightedText('whyMatters', hasMapped ? firstEvidenceWhy(data) : (standaloneContext ? standaloneContextWhy() : ''), highlightFragments);
   setHighlightedText('triggers', hasMapped ? evidenceMatchedWording(data) : (standaloneContext ? cleanMatchSnippet(data.input_text || '') : '—'), highlightFragments);
   const visibleCats = visiblePatternCategories(data);
   setHighlightedText('categories', hasMapped && visibleCats.length ? friendlyPatternTypes(visibleCats, data) : (standaloneContext ? 'Context-dependent antizionist vocabulary' : '—'), highlightFragments);
@@ -4416,7 +4415,6 @@ function resetResult() {
   setText('whoSaidBox', '—');
   const resourcesBox = document.getElementById('resourcesBox');
   if (resourcesBox) resourcesBox.textContent = '';
-  setText('whyMatters', '—');
   setText('triggers', '—');
   setText('categories', '—');
   setText('ordinary', '—');

@@ -1,1 +1,1 @@
-Upload all files in this ZIP to the root of TheAntizionistGlossary. This flat version is made for GitHub's web uploader. Commit changes, then hard refresh detector-app.html with Ctrl+F5.
+Upload all files in this ZIP to the root of the TheAntizionistGlossary GitHub repo. Commit changes. Then open https://kilejones-alt.github.io/TheAntizionistGlossary/detector-app.html and hard refresh with Ctrl+F5.
