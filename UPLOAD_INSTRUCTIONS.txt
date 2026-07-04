@@ -1,0 +1,9 @@
+Upload these exact items to the root of your TheAntizionistGlossary GitHub repository:
+
+1. detector-app.html
+2. detector-app-assets/ folder
+
+After GitHub Pages updates, the page should open here:
+https://kilejones-alt.github.io/TheAntizionistGlossary/detector-app.html
+
+Do not upload the old root index.html version to the glossary site unless you want it to replace the glossary homepage.

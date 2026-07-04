@@ -1,26 +1,147 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Detector App — The Antizionist Glossary</title>
-<link href="styles.css?v=217" rel="stylesheet"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#020202">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Rule-based text analysis for antizionist language and related Jew-hatred terms.">
+  <meta property="og:title" content="Is It Antizionism?">
+  <meta property="og:description" content="Paste text. Find out.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="detector-app-assets/icons/icon-512.png">
+  <link rel="manifest" href="detector-app-assets/manifest.webmanifest?v=123">
+  <link rel="apple-touch-icon" href="detector-app-assets/icons/icon-192.png?v=123">
+  <link rel="stylesheet" href="detector-app-assets/style.css?v=123">
+  <title>Is It Antizionism? | Detector App</title>
 </head>
-<body class="gallery-page english-page" data-site-lang="en">
-<header class="gallery-topbar"><nav><a href="index.html">Home</a><span class="nav-divider">|</span><a href="glossary.html">Glossary →</a><span class="nav-divider">|</span><button aria-pressed="false" class="music-toggle" id="music-toggle" type="button">Music</button><span class="nav-divider">|</span><a href="detector-app-he.html">עברית</a></nav></header>
-<main class="gallery-main narrow detector-page">
-<p class="eyebrow">App</p>
-<h1>Detector App</h1>
-<p class="lead">The detector app download will be added here once the app file is ready.</p>
-<section class="detector-download-card no-reader">
-<h2>Download placeholder — no app file has been added yet.</h2>
-<p>This page is ready to host the app download. When the app file is added, this section can become the download button and short installation note.</p>
-</section>
-</main>
-<footer class="gallery-footer">
-<p><a href="introduction.html">Introduction</a> · <a href="glossary.html">Glossary</a> · <a href="resources.html">Organizations &amp; Resources</a> · <a href="about.html">Author</a> · <a href="contact.html">Contact</a> · <a href="detector-app.html">Detector App</a> · <a href="image-credits.html">Image Credits</a></p>
-<p>© 2026 Kile Jones. All rights reserved.</p>
-</footer>
-<script src="script.js?v=217"></script>
+<body class="motion-seed v87-body v111-home">
+  <main class="shell v87-shell">
+    <section class="v87-hero award-hero" aria-label="Detector introduction">
+      <div class="v87-hero-copy">
+        <h1 class="hero-title v87-title" aria-label="Is It Antizionism?"><span class="title-letter" aria-hidden="true">I</span><span class="title-letter" aria-hidden="true">s</span><span class="title-letter" aria-hidden="true">&nbsp;</span><span class="title-letter" aria-hidden="true">I</span><span class="title-letter" aria-hidden="true">t</span><span class="title-letter" aria-hidden="true">&nbsp;</span><span class="title-letter" aria-hidden="true">A</span><span class="title-letter" aria-hidden="true">n</span><span class="title-letter" aria-hidden="true">t</span><span class="title-letter" aria-hidden="true">i</span><span class="title-letter" aria-hidden="true">z</span><span class="title-letter" aria-hidden="true">i</span><span class="title-letter" aria-hidden="true">o</span><span class="title-letter" aria-hidden="true">n</span><span class="title-letter" aria-hidden="true">i</span><span class="title-letter" aria-hidden="true">s</span><span class="title-letter" aria-hidden="true">m</span><span class="title-letter" aria-hidden="true">?</span></h1>
+        <p class="tagline v87-tagline">Paste text. Find out.</p>
+      </div>
+    </section>
+
+    <section id="analysisWorkbench" class="card analysis-card v87-workbench motion-workbench" aria-label="Text analysis tool">
+      <div class="v87-tool-grid">
+        <div class="analysis-pane input-pane v87-input-pane">
+          <label for="textInput">Paste text</label>
+          <textarea id="textInput" rows="6" placeholder="Paste a post, paragraph, quote, article excerpt, or slogan..."></textarea>
+          <div class="actions v87-actions">
+            <button id="analyzeBtn" class="primary" type="button">Analyze</button>
+            <button id="clearBtn" class="secondary" type="button">Clear</button>
+            <button id="installBtn" class="secondary hidden" type="button">Install app</button>
+          </div>
+          <div class="input-empty-box" aria-hidden="true"></div>
+        </div>
+
+        <section id="resultCard" class="result-card neutral awaiting" aria-live="polite">
+          <div class="result-topline v87-result-topline">
+            <span class="label">Result</span>
+            <span id="severityBadge" class="badge">Ready</span>
+          </div>
+          <span id="resultText" class="sr-only" aria-live="polite"></span>
+          <div class="quick-summary v87-result-summary">
+            <div class="summary-box matched-summary">
+              <h3>Found in text</h3>
+              <div id="topSummary" class="top-match-summary">—</div>
+            </div>
+            <div class="summary-box meaning-summary">
+              <h3>What this means</h3>
+              <p id="meaningBox">—</p>
+            </div>
+            <div class="summary-box why-summary">
+              <h3>Why it matters</h3>
+              <p id="resultReason">—</p>
+            </div>
+            <div class="summary-box who-summary">
+              <h3>Who said it</h3>
+              <p id="whoSaidBox">—</p>
+            </div>
+            <div class="summary-box resources-summary">
+              <h3>Resources</h3>
+              <div id="resourcesBox" class="resource-list"></div>
+            </div>
+          </div>
+          <div class="why-matters-box hidden" aria-hidden="true">
+            <h3>Why it matters</h3>
+            <p id="whyMatters">—</p>
+          </div>
+          <details id="evidencePanel" class="evidence-panel source-role-box simple-evidence v87-detail hidden">
+            <summary>More detail</summary>
+            <dl class="grid evidence-grid">
+              <div><dt>Type of language</dt><dd id="categories">—</dd></div>
+              <div id="attributionRow" class="hidden"><dt>Who said it</dt><dd id="stanceDetected">—</dd></div>
+              <div><dt>More detail</dt><dd id="evidenceWhy">—</dd></div>
+              <div><dt>Bottom line</dt><dd id="ordinary">—</dd></div>
+            </dl>
+          </details>
+        </section>
+      </div>
+    </section>
+
+    <section class="card v87-samples v120-samples reveal-item" aria-label="Example texts">
+      <div class="v87-section-head v120-section-head">
+        <div>
+          <div class="section-kicker">Samples</div>
+          <h2>Small tests</h2>
+        </div>
+        <p>Direct, context, and policy examples.</p>
+      </div>
+      <div class="v120-sample-grid" aria-label="Small test examples">
+        <button type="button" class="example-btn" data-example="Free Palestine from the river to the sea">River to sea</button>
+        <button type="button" class="example-btn" data-example="Israel is a settler-colonial apartheid state">Settler-colonial</button>
+        <button type="button" class="example-btn" data-example="Zionism is racism">Zionism is racism</button>
+        <button type="button" class="example-btn" data-example="No Zionists allowed">No Zionists</button>
+        <button type="button" class="example-btn" data-example="The article reported that protesters chanted from the river to the sea">Reported chant</button>
+        <button type="button" class="example-btn" data-example="The post rejected the claim that Zionists control everything">Rejected claim</button>
+        <button type="button" class="example-btn" data-example="I oppose Netanyahu and settlement expansion">Policy criticism</button>
+        <button type="button" class="example-btn" data-example="I support a two-state solution">Two-state</button>
+        <button type="button" class="example-btn term-chip" data-example="Apartheid">Apartheid</button>
+        <button type="button" class="example-btn term-chip" data-example="Genocide">Genocide</button>
+        <button type="button" class="example-btn term-chip" data-example="Ethnostate">Ethnostate</button>
+        <button type="button" class="example-btn term-chip" data-example="Settler-colonialism">Settler-colonialism</button>
+        <button type="button" class="example-btn term-chip" data-example="Hasbara">Hasbara</button>
+        <button type="button" class="example-btn term-chip" data-example="BDS">BDS</button>
+        <button type="button" class="example-btn term-chip" data-example="Open-air prison">Open-air prison</button>
+        <button type="button" class="example-btn term-chip" data-example="Occupier">Occupier</button>
+        <button type="button" class="example-btn future-pill" disabled aria-hidden="true" tabindex="-1"></button>
+        <button type="button" class="example-btn future-pill" disabled aria-hidden="true" tabindex="-1"></button>
+        <button type="button" class="example-btn future-pill" disabled aria-hidden="true" tabindex="-1"></button>
+        <button type="button" class="example-btn future-pill" disabled aria-hidden="true" tabindex="-1"></button>
+      </div>
+    </section>
+
+    <details class="card reference-card v87-guide reveal-item" aria-label="How to read results">
+      <summary>How to read results</summary>
+      <div class="guide-card-grid">
+        <div class="guide-card"><h3>No antizionism detected</h3><p>The app did not find antizionist language.</p></div>
+        <div class="guide-card"><h3>Antizionist language found + human review</h3><p>The app found antizionist vocabulary; context explains speaker, target, and use.</p></div>
+        <div class="guide-card"><h3>Antizionist language found</h3><p>The text uses antizionist language directly.</p></div>
+        <div class="guide-card"><h3>Strong antizionist language found</h3><p>The text uses stronger language, such as libel, Zionism/Nazi inversion, replacement language, exclusion, violence-shielding, or Jewish-institution targeting.</p></div>
+      </div>
+      <div class="detector-scope">
+        <h3>What this detector checks</h3>
+        <p><strong>Antizionist language:</strong> words, slogans, libels, and chants tied to Israel, Zionism, Zionists, Israelis, the IDF, Jewish statehood, Jewish indigeneity, Jewish institutions, or recognized antizionist vocabulary.</p>
+      </div>
+    </details>
+
+    <p id="installHint" class="hint install-note"></p>
+
+    <footer class="site-footer v87-footer">
+      <span>© 2026 Kile Jones.</span>
+      <a class="footer-pill" href="anti-zionism.html">What is Antizionism?</a>
+      <a class="footer-pill" href="detector-app.html">Limits &amp; use</a>
+      <a class="footer-pill" href="glossary.html">Resources</a>
+      <a class="footer-pill" href="detector-app.html">Legal</a>
+      <a class="footer-pill" href="detector-app.html">Privacy</a>
+      <a class="footer-pill" href="detector-app.html">App</a>
+      <a class="footer-pill" href="detector-app.html">Support</a>
+    </footer>
+  </main>
+  <script src="detector-app-assets/rules.js?v=123"></script>
+  <script src="detector-app-assets/app.js?v=123"></script>
 </body>
 </html>
