@@ -1452,8 +1452,6 @@ function standaloneContextTerm(data) {
     'coloniser',
     'ethnostate',
     'ethno-state',
-    'settler-colonialism',
-    'settler colonialism',
     'occupation',
     'resistance',
     'decolonize',
@@ -1490,8 +1488,6 @@ function standaloneContextTerm(data) {
     'imperial state',
     'imperialist state',
     'colonial',
-    'settler-colonizer',
-    'settler colonizer',
     'weapons testing',
     'surveillance testing',
     'greater israel',
@@ -1542,7 +1538,7 @@ function publicAnswerBadge(data) {
   if (!hasMappedTriggers(data) || tier === 'D' || /no exact/i.test(result)) return 'No antizionism detected';
   if (tier === 'C' || /context/i.test(result)) return 'Antizionist language found';
   if (tier === 'B' || /adjacent/i.test(result) || /depends on use/i.test(result)) return 'Jew-hatred possible';
-  if (tier === 'A-high' || tier === 'A-critical') return 'Strong antizionist language';
+  if (tier === 'A-high' || tier === 'A-critical') return 'Strong antizionist language';
   return 'Antizionist language found';
 }
 
@@ -3636,14 +3632,14 @@ const DEFAULT_GLOSSARY_RESOURCES = [
 ];
 
 const TERM_GLOSSARY_RESOURCE_RULES = [
-  { terms: ['aipac', 'israel lobby', 'zionist lobby', 'pro israel lobby', 'powerful lobby'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
+  { terms: ['aipac', 'israel lobby', 'zionist lobby', 'pro israel lobby', 'pro-israel lobby', 'powerful lobby', 'lobbyists'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
   { terms: ['zionazi', 'zio nazi', 'zionazi', 'zio', 'zios', 'modern day nazis', 'nazi state', 'idf are nazis', 'holocaust inversion', 'holocaust as zionist propaganda'], resources: [glossaryResource('Zio / Zionazi', 'zio-zionazi.html'), glossaryResource('Modern-Day Nazis / Nazi State', 'modern-day-nazis.html')] },
   { terms: ['genocide', 'genocidal', 'stop the genocide', 'stop the genocide in gaza', 'zionism is genocide'], resources: [glossaryResource('Genocide / Genocidal', 'genocide.html'), glossaryResource('Stop the Genocide', 'stop-the-genocide.html')] },
   { terms: ['apartheid', 'apartheid state', 'medical apartheid', 'bantustanization', 'apartheid wall'], resources: [glossaryResource('Apartheid', 'apartheid.html'), glossaryResource('Apartheid Wall', 'apartheid-wall.html')] },
   { terms: ['ethnostate', 'jewish ethnostate', 'jewish supremacy', 'zionist supremacy', 'ethno supremacy', 'ethno superiority'], resources: [glossaryResource('Ethnostate', 'ethnostate.html'), glossaryResource('Jewish Supremacy', 'jewish-supremacy.html')] },
   { terms: ['hasbara', 'hasbara agent', 'hasbara shill', 'hasbara bot'], resources: [glossaryResource('Hasbara', 'hasbara.html')] },
   { terms: ['from the river to the sea', 'river to the sea', 'free palestine', 'wipe israel off the map', 'isnotreal', 'abolish israel', 'dismantle israel'], resources: [glossaryResource('From the River to the Sea', 'from-the-river-to-the-sea.html'), glossaryResource('Free Palestine', 'free-palestine.html')] },
-  { terms: ['globalize the intifada', 'long live the intifada', 'intifada revolution', 'intifada'], resources: [glossaryResource('Globalize the Intifada', 'globalize-the-intifada.html')] },
+  { terms: ['globalize the intifada', 'long live the intifada', 'intifada revolution', 'intifada uprising', 'intifada'], resources: [glossaryResource('Globalize the Intifada', 'globalize-the-intifada.html')] },
   { terms: ['resistance is justified', 'by any means necessary', 'resistance is not terrorism', 'october 7 justified', 'al aqsa flood justified'], resources: [glossaryResource('By Any Means Necessary', 'by-any-means-necessary.html')] },
   { terms: ['no zionists allowed', 'keep zionists out', 'zionists should be banned', 'no zionist space', 'zionist speakers ban'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
   { terms: ['bds', 'boycott israel', 'boycott israeli institutions', 'academic boycott', 'cultural boycott', 'anti normalization', 'anti-normalization'], resources: [glossaryResource('Boycott, Divestment, Sanctions (BDS)', 'boycott-divestment-sanctions.html')] },
@@ -3651,14 +3647,14 @@ const TERM_GLOSSARY_RESOURCE_RULES = [
   { terms: ['zionists control', 'zionist media', 'zio media', 'aipac controls', 'aipac buys', 'zionist money', 'zionist lobby controls'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
   { terms: ['israel firster', 'dual loyalty', 'foreign allegiance'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
   { terms: ['settler colonial', 'settler colonialism', 'colonizer', 'colonizers', 'zionism is colonialism', 'colonial entity', 'colonial project'], resources: [glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Colonizer', 'colonizer.html')] },
-  { terms: ['occupation', 'end the occupation', 'occupied palestine', 'liberation', 'end the blockade', 'lift the siege', 'break the siege', 'open air prison'], resources: [glossaryResource('End the Occupation', 'end-the-occupation.html'), glossaryResource('End the Blockade', 'end-the-blockade.html'), glossaryResource('Open-Air Prison', 'open-air-prison.html')] },
+  { terms: ['occupation', 'occupier', 'occupiers', 'israeli occupier', 'israeli occupiers', 'zionist occupier', 'zionist occupiers', 'end the occupation', 'occupied palestine', 'liberation', 'end the blockade', 'lift the siege', 'break the siege', 'open air prison'], resources: [glossaryResource('End the Occupation', 'end-the-occupation.html'), glossaryResource('End the Blockade', 'end-the-blockade.html'), glossaryResource('Open-Air Prison', 'open-air-prison.html')] },
   { terms: ['jewish state illegitimate', 'israel never should have been created', 'born in sin', 'not a real country', 'israel stole palestine'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
   { terms: ['go back to europe', 'white europeans', 'khazar', 'fake jews', 'foreign colonizers', 'white colonial settlers'], resources: [glossaryResource('Zionism', 'zionism.html'), glossaryResource('Colonizer', 'colonizer.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html')] },
   { terms: ['organ harvesting', 'blood on your hands', 'blood drinkers', 'blood libel', 'child blood', 'kill children for sport'], resources: [glossaryResource('Blood on Your Hands', 'blood-on-your-hands.html'), glossaryResource('Child Killers', 'child-killers.html')] },
-  { terms: ['zio bot', 'zio troll', 'zio tears', 'israhell', 'baby killer', 'child killer', 'vermin', 'cancerous tumor'], resources: [glossaryResource('Zio / Zionazi', 'zio-zionazi.html'), glossaryResource('Child Killers', 'child-killers.html'), glossaryResource('Butcher(s) of Gaza', 'butcher-of-gaza.html')] },
-  { terms: ['ethnic cleansing', 'collective punishment', 'war crimes', 'war crime', 'humanitarian atrocity'], resources: [glossaryResource('Ethnic Cleansing', 'ethnic-cleansing.html'), glossaryResource('Collective Punishment', 'collective-punishment.html')] },
+  { terms: ['zio bot', 'zio-bot', 'zio troll', 'zio-troll', 'zio tears', 'zionist tears', 'israhell', 'baby killer', 'baby-killer', 'child killer', 'child-killer', 'child killers', 'child-killers', 'vermin', 'cancerous tumor'], resources: [glossaryResource('Zio / Zionazi', 'zio-zionazi.html'), glossaryResource('Child Killers', 'child-killers.html'), glossaryResource('Butcher(s) of Gaza', 'butcher-of-gaza.html')] },
+  { terms: ['ethnic cleansing', 'collective punishment', 'war crimes', 'war crime', 'humanitarian atrocity', 'atrocity'], resources: [glossaryResource('Ethnic Cleansing', 'ethnic-cleansing.html'), glossaryResource('Collective Punishment', 'collective-punishment.html')] },
   { terms: ['imperial state', 'western proxy', 'western outpost', 'imperial outpost', 'empire proxy'], resources: [glossaryResource('Imperial State', 'imperial-state.html')] },
-  { terms: ['pinkwashing', 'bluewashing', 'medical washing', 'medical-washing', 'academic washing', 'academic-washing'], resources: [glossaryResource('Pinkwashing', 'pinkwashing.html'), glossaryResource('Apartheid', 'apartheid.html')] },
+  { terms: ['pinkwashing', 'bluewashing', 'medical washing', 'medical-washing', 'academic washing', 'academic-washing', 'greenwashing', 'green-washing', 'sportswashing', 'sports-washing'], resources: [glossaryResource('Pinkwashing', 'pinkwashing.html'), glossaryResource('Apartheid', 'apartheid.html')] },
   { terms: ['zionism is racism', 'zionism racism'], resources: [glossaryResource('Zionism Is Racism', 'zionism-is-racism.html')] },
   { terms: ['ceasefire now'], resources: [glossaryResource('Ceasefire Now', 'ceasefire-now.html')] }
 ];
@@ -3735,12 +3731,10 @@ function dataResourceCandidates(data, standaloneContext = false) {
   publicMatchSnippets(data).forEach(x => candidates.push(x));
   ((data && data.trigger_terms) || []).forEach(x => candidates.push(x));
   ((data && data.pattern_categories) || []).forEach(x => candidates.push(x));
-  ((data && data.internal_categories) || []).forEach(x => candidates.push(x));
   ((data && data.matched_sentences) || []).forEach(item => {
     ((item && item.matched_text) || []).forEach(x => candidates.push(x));
     ((item && item.triggers) || []).forEach(x => candidates.push(x));
     ((item && item.categories) || []).forEach(x => candidates.push(x));
-    ((item && item.internal_categories) || []).forEach(x => candidates.push(x));
   });
   const screenEntry = screenWordingEntryForData(data);
   if (screenEntry && screenEntry.type) candidates.push(screenEntry.type);
@@ -3750,6 +3744,7 @@ function dataResourceCandidates(data, standaloneContext = false) {
 
 function glossaryResourcesForData(data, hasMapped = false, standaloneContext = false) {
   const resources = [];
+  const defaults = [];
   const candidates = dataResourceCandidates(data, standaloneContext);
   const candidateText = candidates.join(' | ');
   TERM_GLOSSARY_RESOURCE_RULES.forEach(rule => {
@@ -3758,9 +3753,14 @@ function glossaryResourcesForData(data, hasMapped = false, standaloneContext = f
   });
   candidates.forEach(candidate => {
     const direct = CATEGORY_GLOSSARY_RESOURCES[candidate];
-    if (direct) addUniqueResources(resources, direct);
+    if (!direct) return;
+    if (direct === DEFAULT_GLOSSARY_RESOURCES || candidate === 'Other context terms' || /Context-dependent antizionist/.test(candidate)) {
+      addUniqueResources(defaults, direct);
+    } else {
+      addUniqueResources(resources, direct);
+    }
   });
-  if (!resources.length) addUniqueResources(resources, DEFAULT_GLOSSARY_RESOURCES);
+  if (!resources.length) addUniqueResources(resources, defaults.length ? defaults : DEFAULT_GLOSSARY_RESOURCES);
   return resources.slice(0, 4);
 }
 
@@ -3768,6 +3768,21 @@ function renderResourcesBox(data, hasMapped = false, standaloneContext = false) 
   const target = document.getElementById('resourcesBox');
   if (!target) return;
   target.textContent = '';
+  const resources = glossaryResourcesForData(data, hasMapped, standaloneContext);
+  if (!resources.length) return;
+  const list = document.createElement('ul');
+  list.className = 'resource-links';
+  resources.forEach(resource => {
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = resource.url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = resource.title;
+    item.appendChild(link);
+    list.appendChild(item);
+  });
+  target.appendChild(list);
 }
 
 
@@ -3787,10 +3802,8 @@ function screenCategoryOverride(entry) {
 function categoryScreenWordingFromData(data) {
   const candidates = [];
   ((data && data.pattern_categories) || []).forEach(x => candidates.push(x));
-  ((data && data.internal_categories) || []).forEach(x => candidates.push(x));
   ((data && data.matched_sentences) || []).forEach(item => {
     ((item && item.categories) || []).forEach(x => candidates.push(x));
-    ((item && item.internal_categories) || []).forEach(x => candidates.push(x));
   });
   for (const raw of candidates) {
     const direct = CATEGORY_SCREEN_WORDING[String(raw || '').trim()];

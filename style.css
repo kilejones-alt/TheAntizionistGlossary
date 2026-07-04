@@ -4273,3 +4273,6 @@ button.primary:active {
     margin-top: 12px !important;
   }
 }
+
+/* v128: keep status pill words together */
+.badge { white-space: nowrap !important; word-spacing: normal !important; letter-spacing: 0 !important; flex-shrink: 0 !important; }
