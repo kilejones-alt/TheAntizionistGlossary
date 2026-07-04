@@ -3838,7 +3838,17 @@ function screenWordingEntryForData(data) {
       bestLen = key.length;
     }
   }
-  return best ? screenCategoryOverride(best) : categoryScreenWordingFromData(data);
+  const categoryEntry = categoryScreenWordingFromData(data);
+  if (best) {
+    const bestEntry = screenCategoryOverride(best);
+    const bestType = String((bestEntry && bestEntry.type) || '');
+    const categoryType = String((categoryEntry && categoryEntry.type) || '');
+    const bestIsContext = /^(Other context terms|Context-dependent antizionist vocabulary)$/i.test(bestType);
+    const categoryIsSpecific = categoryEntry && !/^(Other context terms|Context-dependent antizionist vocabulary)$/i.test(categoryType);
+    if (bestIsContext && categoryIsSpecific) return categoryEntry;
+    return bestEntry;
+  }
+  return categoryEntry;
 }
 
 function publicMatchSnippets(data) {
