@@ -1532,3 +1532,105 @@ body:has(img[src*="entry-ethnostate-map"]) .entry-image img{
   -webkit-mask-image:radial-gradient(ellipse at center,#000 0 18%,rgba(0,0,0,.62) 36%,rgba(0,0,0,.18) 54%,transparent 76%)!important;
   mask-image:radial-gradient(ellipse at center,#000 0 18%,rgba(0,0,0,.62) 36%,rgba(0,0,0,.18) 54%,transparent 76%)!important;
 }
+
+/* --- v242 corrections applied to the uploaded GitHub homepage base --- */
+/* Sparkles exist only on the homepage. */
+body:not(.home) .sparkle-field,
+body:not(.home) .sparkle,
+body:not(.home) [class*="sparkle"]{display:none!important;visibility:hidden!important;opacity:0!important;animation:none!important}
+
+/* Keep the glossary alphabet on a straight baseline without hover displacement. */
+.alphabet{display:flex!important;align-items:center!important;align-content:center!important;flex-wrap:wrap!important}
+.alphabet a{display:inline-flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;line-height:1!important;vertical-align:middle!important;transform:none!important;translate:none!important;margin-block:0!important}
+.alphabet a:hover,.alphabet a:focus,.alphabet a:active{transform:none!important;translate:none!important}
+
+/* Entry text remains white while words retain the restrained cursor lift. */
+.entry-main,.entry-main p,.entry-main li,.entry-main span{color:#fff!important}
+.az-word{display:inline-block;transition:transform .16s ease,color .16s ease,text-shadow .16s ease}
+@media (hover:hover) and (pointer:fine){.az-word:hover{transform:translateY(-3px);color:#fff!important;text-shadow:0 0 12px rgba(207,234,255,.48)}}
+
+/* Normal RTL Hebrew: reversed layout direction, never mirrored glyphs. */
+html[dir="rtl"],html[lang="he"]{direction:rtl}
+html[dir="rtl"] body,html[lang="he"] body{text-align:right;transform:none!important}
+html[dir="rtl"] body *,html[lang="he"] body *{transform-style:flat}
+
+/* Phone hardening without redesigning the uploaded homepage. */
+html,body{max-width:100%;overflow-x:hidden}
+img,picture,video,svg{max-width:100%;height:auto}
+@media(max-width:760px){
+  .site-nav{padding-inline:12px!important}
+  .nav-links{max-width:100%!important;flex-wrap:wrap!important;justify-content:center!important}
+  .home-installation{grid-template-columns:1fr!important;width:100%!important;padding-inline:16px!important;text-align:center!important}
+  .globe-wrap{max-width:min(82vw,420px)!important;margin-inline:auto!important}
+  .home-copy,.home-quote{width:100%!important;max-width:100%!important;margin-inline:auto!important}
+  .home-quote{text-align:center!important}
+  .entry-page main,.gallery-main{width:100%!important;max-width:100%!important;padding-inline:14px!important}
+  .entry-layout{grid-template-columns:1fr!important;gap:36px!important}
+  .entry-main,.entry-side{width:100%!important;max-width:100%!important;min-width:0!important}
+  .entry-image{width:100%!important;max-width:100%!important;height:auto!important;margin:0 auto 36px!important}
+  .entry-image img{width:100%!important;height:auto!important;object-fit:contain!important}
+  .alphabet{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:8px!important}
+  .alphabet a{width:100%!important;min-width:0!important;min-height:48px!important;padding:0!important}
+  .az-list{grid-template-columns:1fr!important}
+  .entry-main p,.entry-main li{font-size:17px!important;line-height:1.78!important}
+}
+@media(prefers-reduced-motion:reduce){.az-word:hover{transform:none!important}}
+
+
+/* --- v245 bright, clearly visible entry images --- */
+.entry-image,
+.entry-image.entry-image-blended,
+.entry-image.preserve-full-focal{
+  opacity:1!important;
+  filter:none!important;
+  border-radius:18px!important;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 5%,#000 95%,transparent 100%)!important;
+  mask-image:linear-gradient(to bottom,transparent 0,#000 5%,#000 95%,transparent 100%)!important;
+}
+.entry-image img,
+.entry-image.entry-image-blended img,
+.entry-image.preserve-full-focal img{
+  opacity:1!important;
+  mix-blend-mode:normal!important;
+  filter:brightness(1.08) contrast(1.05) saturate(1.03)!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+}
+.entry-image::after{display:none!important;background:none!important}
+.ethnostate-page .entry-image,
+body:has(img[src*="entry-ethnostate-map"]) .entry-image{opacity:1!important}
+.ethnostate-page .entry-image img,
+body:has(img[src*="entry-ethnostate-map"]) .entry-image img{opacity:1!important;filter:brightness(1.08) contrast(1.05) saturate(1.03)!important}
+
+/* --- v246 softer blended entry-image edges without dimming the image --- */
+.entry-image,
+.entry-image.entry-image-blended,
+.entry-image.preserve-full-focal{
+  opacity:1!important;
+  filter:none!important;
+  border-radius:18px!important;
+  overflow:hidden!important;
+  -webkit-mask-image:radial-gradient(ellipse at center, #000 0 66%, rgba(0,0,0,.98) 76%, rgba(0,0,0,.88) 84%, rgba(0,0,0,.58) 91%, transparent 100%)!important;
+  mask-image:radial-gradient(ellipse at center, #000 0 66%, rgba(0,0,0,.98) 76%, rgba(0,0,0,.88) 84%, rgba(0,0,0,.58) 91%, transparent 100%)!important;
+}
+.entry-image img,
+.entry-image.entry-image-blended img,
+.entry-image.preserve-full-focal img{
+  opacity:1!important;
+  mix-blend-mode:normal!important;
+  filter:brightness(1.06) contrast(1.04) saturate(1.02)!important;
+  -webkit-mask-image:radial-gradient(ellipse at center, #000 0 68%, rgba(0,0,0,.98) 79%, rgba(0,0,0,.84) 87%, rgba(0,0,0,.54) 93%, transparent 100%)!important;
+  mask-image:radial-gradient(ellipse at center, #000 0 68%, rgba(0,0,0,.98) 79%, rgba(0,0,0,.84) 87%, rgba(0,0,0,.54) 93%, transparent 100%)!important;
+}
+.entry-image::after{
+  display:block!important;
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  background:radial-gradient(ellipse at center, transparent 64%, rgba(0,0,0,.05) 80%, rgba(0,0,0,.12) 90%, rgba(0,0,0,.20) 100%)!important;
+}
+.ethnostate-page .entry-image,
+body:has(img[src*="entry-ethnostate-map"]) .entry-image{opacity:1!important}
+.ethnostate-page .entry-image img,
+body:has(img[src*="entry-ethnostate-map"]) .entry-image img{opacity:1!important;filter:brightness(1.04) contrast(1.03) saturate(1.01)!important}

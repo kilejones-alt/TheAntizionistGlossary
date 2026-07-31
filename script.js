@@ -10,6 +10,7 @@
 
   function initSparkles(){
     $$('.sparkle-field').forEach(function(el){el.remove();});
+    if(!d.body.classList.contains('home')) return;
     var field=d.createElement('div');
     field.className='sparkle-field';
     field.setAttribute('aria-hidden','true');
@@ -108,6 +109,36 @@
       if(!el || el.closest('script,style,noscript,svg,.no-hover-text')) return;
       if((el.textContent||'').trim().length<1) return;
       el.classList.add('az-hoverable-text');
+    });
+  }
+
+  function wrapEntryWords(){
+    var selectors='.entry-main p,.entry-main li,.entry-main h1,.entry-main h2,.entry-main h3';
+    $$(selectors).forEach(function(root){
+      if(!root || root.classList.contains('word-hover-ready')) return;
+      var walker=d.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+        acceptNode:function(node){
+          if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          var parent=node.parentElement;
+          if(!parent || parent.closest('script,style,noscript,svg,a,button,.az-word,.no-hover-text')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      var nodes=[];
+      while(walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function(node){
+        var frag=d.createDocumentFragment();
+        node.nodeValue.split(/(\s+)/).forEach(function(part){
+          if(!part) return;
+          if(/^\s+$/.test(part)){frag.appendChild(d.createTextNode(part));return;}
+          var span=d.createElement('span');
+          span.className='az-word';
+          span.textContent=part;
+          frag.appendChild(span);
+        });
+        node.parentNode.replaceChild(frag,node);
+      });
+      root.classList.add('word-hover-ready');
     });
   }
 
@@ -228,6 +259,7 @@
     initCursor();
     initLetterHover();
     initGlobalHoverText();
+    wrapEntryWords();
     initSearch();
     initMusic();
     initReader();

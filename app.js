@@ -3646,10 +3646,10 @@ const TERM_GLOSSARY_RESOURCE_RULES = [
   { terms: ['hillel', 'chabad', 'synagogue', 'jewish institution', 'zionist front'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
   { terms: ['zionists control', 'zionist media', 'zio media', 'aipac controls', 'aipac buys', 'zionist money', 'zionist lobby controls'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
   { terms: ['israel firster', 'dual loyalty', 'foreign allegiance'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
-  { terms: ['settler colonial', 'settler colonialism', 'colonizer', 'colonizers', 'zionism is colonialism', 'colonial entity', 'colonial project'], resources: [glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Colonizer', 'colonizer.html')] },
+  { terms: ['settler colonial', 'settler colonialism', 'colonizer', 'colonizers', 'zionism is colonialism', 'colonial entity', 'colonial project'], resources: [glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html')] },
   { terms: ['occupation', 'occupier', 'occupiers', 'israeli occupier', 'israeli occupiers', 'zionist occupier', 'zionist occupiers', 'end the occupation', 'occupied palestine', 'liberation', 'end the blockade', 'lift the siege', 'break the siege', 'open air prison'], resources: [glossaryResource('End the Occupation', 'end-the-occupation.html'), glossaryResource('End the Blockade', 'end-the-blockade.html'), glossaryResource('Open-Air Prison', 'open-air-prison.html')] },
   { terms: ['jewish state illegitimate', 'israel never should have been created', 'born in sin', 'not a real country', 'israel stole palestine'], resources: [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')] },
-  { terms: ['go back to europe', 'white europeans', 'khazar', 'fake jews', 'foreign colonizers', 'white colonial settlers'], resources: [glossaryResource('Zionism', 'zionism.html'), glossaryResource('Colonizer', 'colonizer.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html')] },
+  { terms: ['go back to europe', 'white europeans', 'khazar', 'fake jews', 'foreign colonizers', 'white colonial settlers'], resources: [glossaryResource('Zionism', 'zionism.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html')] },
   { terms: ['organ harvesting', 'blood on your hands', 'blood drinkers', 'blood libel', 'child blood', 'kill children for sport'], resources: [glossaryResource('Blood on Your Hands', 'blood-on-your-hands.html'), glossaryResource('Child Killers', 'child-killers.html')] },
   { terms: ['zio bot', 'zio-bot', 'zio troll', 'zio-troll', 'zio tears', 'zionist tears', 'israhell', 'baby killer', 'baby-killer', 'child killer', 'child-killer', 'child killers', 'child-killers', 'vermin', 'cancerous tumor'], resources: [glossaryResource('Zio / Zionazi', 'zio-zionazi.html'), glossaryResource('Child Killers', 'child-killers.html'), glossaryResource('Butcher(s) of Gaza', 'butcher-of-gaza.html')] },
   { terms: ['ethnic cleansing', 'collective punishment', 'war crimes', 'war crime', 'humanitarian atrocity', 'atrocity'], resources: [glossaryResource('Ethnic Cleansing', 'ethnic-cleansing.html'), glossaryResource('Collective Punishment', 'collective-punishment.html')] },
@@ -3669,8 +3669,8 @@ const CATEGORY_GLOSSARY_RESOURCES = {
   'BDS and boycott': [glossaryResource('Boycott, Divestment, Sanctions (BDS)', 'boycott-divestment-sanctions.html')],
   'Boycott / anti-normalization pressure': [glossaryResource('Boycott, Divestment, Sanctions (BDS)', 'boycott-divestment-sanctions.html')],
   'Carceral / confinement accusation': [glossaryResource('Open-Air Prison', 'open-air-prison.html'), glossaryResource('End the Blockade', 'end-the-blockade.html')],
-  'Colonial and decolonization': [glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Colonizer', 'colonizer.html')],
-  'Colonial / decolonization language': [glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Colonizer', 'colonizer.html')],
+  'Colonial and decolonization': [glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html')],
+  'Colonial / decolonization language': [glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html')],
   'Context-dependent antizionist language': [glossaryResource('Introduction', 'introduction.html'), glossaryResource('Glossary A–Z', 'glossary.html')],
   'Context-dependent antizionist vocabulary': [glossaryResource('Introduction', 'introduction.html'), glossaryResource('Glossary A–Z', 'glossary.html')],
   'Cultural erasure / appropriation accusation': [glossaryResource('Zionism', 'zionism.html')],
@@ -3692,7 +3692,7 @@ const CATEGORY_GLOSSARY_RESOURCES = {
   'Israel elimination / replacement language': [glossaryResource('From the River to the Sea', 'from-the-river-to-the-sea.html'), glossaryResource('Free Palestine', 'free-palestine.html')],
   'Israel/Zionism blood-or-body libel': [glossaryResource('Blood on Your Hands', 'blood-on-your-hands.html'), glossaryResource('Child Killers', 'child-killers.html')],
   'Israeli / Zionist collective demonization': [glossaryResource('Zio / Zionazi', 'zio-zionazi.html'), glossaryResource('Child Killers', 'child-killers.html')],
-  'Jewish indigeneity denial': [glossaryResource('Zionism', 'zionism.html'), glossaryResource('Colonizer', 'colonizer.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html')],
+  'Jewish indigeneity denial': [glossaryResource('Zionism', 'zionism.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html'), glossaryResource('Settler-Colonialism', 'settler-colonialism.html')],
   'Jewish institution targeting in antizionist language': [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')],
   'Jewish statehood denial': [glossaryResource('Anti-Zionism / Antizionism', 'anti-zionism.html'), glossaryResource('Zionism', 'zionism.html')],
   'Militarized experimentation accusation': [glossaryResource('Pinkwashing', 'pinkwashing.html'), glossaryResource('Apartheid', 'apartheid.html')],
@@ -4526,5 +4526,5 @@ if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
 }
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(console.warn));
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.warn));
 }
