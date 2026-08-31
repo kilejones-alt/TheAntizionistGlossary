@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kilejones-alt.github.io/TheAntizionistGlossary/sitemap.xml

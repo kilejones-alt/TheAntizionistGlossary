@@ -1,0 +1,21 @@
+THE ANTIZIONIST GLOSSARY — v266 LAST SWEEP PATCH
+
+Upload these three files to the ROOT of the existing TheAntizionistGlossary GitHub repo and replace the existing files:
+
+1. script.js
+2. sw.js
+3. glossary-he.html
+
+Do not delete or replace any other files.
+
+What this patch changes:
+- Corrects the stale script version marker from 264 to 265.
+- Corrects the service-worker v264 asset references and advances the cache container to tag-v266-core.
+- Leaves the approved 20px / 20.5px desktop entry body typography unchanged.
+- Leaves the approved 18px / 18.5px phone entry body typography unchanged.
+- Makes only the research/sidebar reading text slightly larger: 15.5px.
+- Localizes the Hebrew glossary hero image alt text; no visible Hebrew prose is changed.
+- Does not alter entry prose, images, Hebrew/English pairing, music behavior, navigation behavior, or page layout.
+- Does not alter the existing v265 four-edge black image fade; that treatment is already present in styles.css and should remain.
+
+This is a replacement patch, not a full repository ZIP.

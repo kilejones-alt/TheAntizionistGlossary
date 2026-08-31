@@ -1,0 +1,56 @@
+{
+  "id": "index.html",
+  "name": "The Antizionist Glossary",
+  "short_name": "Antizionist Glossary",
+  "description": "A sourced contemporary guide to antizionist vocabulary, its origins, implications, and use.",
+  "lang": "en-US",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020202",
+  "theme_color": "#020202",
+  "categories": [
+    "education",
+    "reference"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Glossary A–Z",
+      "short_name": "Glossary",
+      "url": "glossary.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Detector",
+      "short_name": "Detector",
+      "url": "detector-app.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
