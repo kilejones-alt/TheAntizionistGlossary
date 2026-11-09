@@ -19,14 +19,22 @@
   const file=location.pathname.split('/').pop();
   const container=document.querySelector('article.entry-main');
   const term=mappings[file];
+  const footer=document.querySelector('.gallery-footer p');
+  if(footer && !footer.querySelector('a[href="history.html"]')){
+    const link=document.createElement('a');link.href='history.html';link.textContent='History';
+    footer.append(document.createTextNode(' · '),link);
+  }
   if(term && container && !document.getElementById('shared-history-section')){
     const section=document.createElement('section');
     section.id='shared-history-section';
     section.setAttribute('aria-labelledby','shared-history-heading');
     const heading=document.createElement('h2');heading.id='shared-history-heading';heading.textContent='History';
+    heading.style.setProperty('display','block','important');
+    section.style.borderTop='1px solid currentColor';section.style.marginTop='2rem';section.style.paddingTop='1rem';
     const paragraph=document.createElement('p');paragraph.dataset.sharedHistory=term;paragraph.style.whiteSpace='pre-line';
     section.append(heading,paragraph);
     container.append(section);
+    if(location.hash==='#shared-history-section')section.scrollIntoView({block:'start'});
   }
   function update(){
     document.querySelectorAll('[data-shared-history]').forEach(el=>{el.textContent=window.SharedHistory.get(el.dataset.sharedHistory);});
