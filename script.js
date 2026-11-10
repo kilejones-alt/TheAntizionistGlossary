@@ -493,7 +493,3 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
   else init();
 })();
-
-
-/* Shared history integration: English entries only; original article text is unchanged. */
-(function(){if(document.documentElement.lang!=="en")return;var s=document.createElement("script");s.src="history-display.js?v=1";document.body.appendChild(s);})();
