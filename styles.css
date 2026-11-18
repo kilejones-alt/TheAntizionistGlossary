@@ -2698,3 +2698,6 @@ a,button,input,select,textarea{touch-action:manipulation;}
     overflow-wrap:anywhere!important;
   }
 }
+
+/* v276 keep each word whole so letter-hover spans never split a word across lines */
+.az-word{display:inline-block;white-space:nowrap}

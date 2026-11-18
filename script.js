@@ -23,9 +23,11 @@
     if(!text || text.trim().length<2 || text.length>90) return;
     el.textContent='';
     el.classList.add('letterized');
+    var word=null;
     Array.prototype.forEach.call(text,function(ch){
-      if(ch===' '){el.appendChild(d.createTextNode(' '));return;}
-      var span=d.createElement('span');span.className='az-letter';span.textContent=ch;el.appendChild(span);
+      if(ch===' '){el.appendChild(d.createTextNode(' '));word=null;return;}
+      if(!word){word=d.createElement('span');word.className='az-word';el.appendChild(word);}
+      var span=d.createElement('span');span.className='az-letter';span.textContent=ch;word.appendChild(span);
     });
   }
   function initLetterHover(){
