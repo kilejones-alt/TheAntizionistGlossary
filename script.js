@@ -207,7 +207,7 @@
 
 /* --- v202 persistent music across pages --- */
 (() => {
-  const MUSIC_SRC = "lumen-nocturne.mp3";
+  const MUSIC_SRC = "lumen-nocturne-lite.mp3";
   const KEY = "tagMusicStateV202";
   const LEGACY_KEYS = ["tagMusicOn", "tagMusicTime", "tagMusicVolume"];
 
@@ -337,7 +337,7 @@
     const startMusicFromPageGesture = async (event) => {
       const target = event && event.target;
       if (target && target.closest && target.closest("#music-toggle, .music-toggle, [data-music-toggle]")) return;
-      if (tagAutoMusicStarted || !audio.paused || !readState().enabled) return;
+      if (tagAutoMusicStarted || !audio.paused || !readState().enabled || !readState().playing) return;
       tagAutoMusicStarted = true;
       await playAudio();
       document.removeEventListener("pointerdown", startMusicFromPageGesture, true);
