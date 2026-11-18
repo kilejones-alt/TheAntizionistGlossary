@@ -1,7 +1,7 @@
-const CACHE='tag-v278-core';
+const CACHE='tag-v279-core';
 const CORE=[
   './','index.html','glossary.html','introduction.html','about.html','detector-app.html',
-  'styles.css?v=278','home.css?v=278','script.js?v=278','enhance.css?v=278','shared-shell.css?v=278','shared-shell.js?v=278','style.css?v=278','app.js?v=278','rules.js?v=278',
+  'styles.css?v=279','home.css?v=279','script.js?v=279','enhance.css?v=279','shared-shell.css?v=279','shared-shell.js?v=279','style.css?v=279','app.js?v=279','rules.js?v=279',
   'inverted-world-logo-transparent-480.webp','inverted-world-logo-transparent-720.webp','icon-192.png','icon-512.png',
   'manifest.webmanifest','detector-manifest.webmanifest'
 ];
