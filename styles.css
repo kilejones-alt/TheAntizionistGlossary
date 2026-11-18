@@ -2742,3 +2742,16 @@ html body main.gallery-main section.az-about.az-about{background:none!important;
 html body main.gallery-main.narrow section.az-about figure.az-about-photo img.az-about-img.az-about-img.az-about-img{width:100%!important;height:auto!important;max-height:none!important;max-width:none!important;aspect-ratio:4/5!important;object-fit:cover!important;object-position:center!important;border-radius:0!important;opacity:1!important;filter:none!important;-webkit-mask-image:none!important;mask-image:none!important;margin:0!important}
 html body main.gallery-main section.az-about .az-about-mirror{opacity:.5!important}
 html body main.gallery-main section.az-about .az-about-name .az-about-mirror{top:100%!important;transform:scaleY(-1)!important;transform-origin:50% 50%!important;margin-top:-.08em!important;opacity:.5!important;-webkit-mask-image:linear-gradient(to top,#000 0,transparent 70%)!important;mask-image:linear-gradient(to top,#000 0,transparent 70%)!important}
+
+/* v280 Detector page */
+html body main.gallery-main.narrow:has(.az-detector){width:min(760px,92vw)!important;background:none!important;border:0!important;box-shadow:none!important}
+html body main.gallery-main.narrow:has(.az-detector)::before,html body main.gallery-main.narrow:has(.az-detector)::after{display:none!important;content:none!important}
+html body main section.az-detector{background:none!important;border:0!important;box-shadow:none!important;padding:clamp(24px,5vw,64px) 0!important}
+html body main .az-detector-eyebrow{margin:0 0 18px!important;font:600 11px/1 Inter,Arial,sans-serif!important;letter-spacing:.34em!important;text-transform:uppercase!important;color:#e5c56f!important}
+html body main .az-detector-name{margin:0 0 22px!important;font:400 clamp(40px,6vw,72px)/1 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif!important;color:#fff!important;text-transform:none!important}
+html body main .az-detector-lead{margin:0 0 34px!important;font:400 clamp(21px,2.4vw,28px)/1.4 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif!important;color:#fff!important}
+html body main section.az-detector p:not(.az-detector-eyebrow):not(.az-detector-lead):not(.az-detector-cta){margin:0 0 18px!important;font:400 18px/1.72 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif!important;color:rgba(255,255,255,.84)!important}
+html body main .az-detector-cta{margin:40px 0 0!important}
+html body main a.az-play-button{display:inline-block!important;padding:16px 30px!important;border:1px solid #fff!important;color:#fff!important;font:600 13px/1 Inter,Arial,sans-serif!important;letter-spacing:.18em!important;text-transform:uppercase!important;text-decoration:none!important;border-radius:0!important;transition:background .2s,color .2s!important}
+html body main a.az-play-button:hover,html body main a.az-play-button:focus-visible{background:#fff!important;color:#000!important}
+html[dir="rtl"] body main .az-detector-eyebrow,html[dir="rtl"] body main a.az-play-button{letter-spacing:.06em!important}
