@@ -556,7 +556,7 @@
       for (const s of stars) {
         s.y -= s.v; if (s.y < -2) { s.y = h + 2; s.x = Math.random() * w; }
         const a = .25 + .55 * (.5 + .5 * Math.sin(t / 1000 * s.s + s.p));
-        ctx.fillStyle = 'rgba(255,244,214,' + a.toFixed(3) + ')'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
+        ctx.fillStyle = 'rgba(211,215,221,' + a.toFixed(3) + ')'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
       }
       raf = requestAnimationFrame(draw);
     };

@@ -1,7 +1,7 @@
 /* v256 homepage: isolated final composition */
 body.home{
-  --home-ivory:#f5f1e8;
-  --home-gold:#d5ad54;
+  --home-ivory:#eeeeee;
+  --home-gold:#d3d7dd;
   --home-muted:#aaa49a;
   margin:0;
   min-height:100vh;
@@ -58,7 +58,7 @@ body.home .music-toggle{
 body.home .gallery-topbar .nav-divider{
   display:inline-flex!important;
   align-items:center!important;
-  color:rgba(213,173,84,.55)!important;
+  color:rgba(211,215,221,.55)!important;
   font-size:11px!important;
   line-height:1!important;
 }
@@ -157,7 +157,7 @@ body.home .home-subtitle{
 }
 body.home .home-author{
   margin:0!important;
-  color:#d7d2ca!important;
+  color:#d0d0d0!important;
   font-family:var(--label)!important;
   font-size:14px!important;
   font-style:normal!important;
@@ -184,7 +184,7 @@ body.home .home-quote{
 body.home .home-quote-text,
 body.home .home-quote p:first-child{
   margin:0!important;
-  color:#eeeae2!important;
+  color:#e8e8e8!important;
   font-family:var(--serif)!important;
   font-size:clamp(18px,1.45vw,22px)!important;
   font-style:normal!important;
@@ -647,15 +647,15 @@ body.home .home-title:hover,
 body.home .home-subtitle:hover,
 body.home .home-author:hover,
 body.home .gallery-topbar a:hover,
-body.home .gallery-topbar .music-toggle:hover{transform:translateY(-4px)!important;color:#fff!important;text-shadow:0 0 12px rgba(255,255,255,.38),0 0 22px rgba(213,173,84,.20)!important;filter:brightness(1.08)!important}}
+body.home .gallery-topbar .music-toggle:hover{transform:translateY(-4px)!important;color:#fff!important;text-shadow:0 0 12px rgba(255,255,255,.38),0 0 22px rgba(211,215,221,.20)!important;filter:brightness(1.08)!important}}
 body.home .home-quote,body.home .home-quote *,body.home .home-quote:hover,body.home .home-quote *:hover{transform:none!important;translate:none!important;filter:none!important;text-shadow:none!important}
 @media(prefers-reduced-motion:reduce){body.home .home-kicker:hover,body.home .home-title:hover,body.home .home-subtitle:hover,body.home .home-author:hover,body.home .gallery-topbar a:hover,body.home .gallery-topbar .music-toggle:hover{transform:none!important}}
 
 
 /* === v270 final: interactive homepage title === */
 .home-title-link{display:inline-block;color:inherit;text-decoration:none;transition:transform .22s ease,filter .22s ease,text-shadow .22s ease;}
-.home-title-link:hover{transform:translateY(-3px);filter:brightness(1.08);text-shadow:0 0 20px rgba(244,211,130,.20);}
-.home-title-link:focus-visible{outline:2px solid #d8b866;outline-offset:7px;transform:translateY(-3px);filter:brightness(1.08);text-shadow:0 0 20px rgba(244,211,130,.20);}
+.home-title-link:hover{transform:translateY(-3px);filter:brightness(1.08);text-shadow:0 0 20px rgba(211,215,221,.20);}
+.home-title-link:focus-visible{outline:2px solid #d3d7dd;outline-offset:7px;transform:translateY(-3px);filter:brightness(1.08);text-shadow:0 0 20px rgba(211,215,221,.20);}
 @media (prefers-reduced-motion:reduce){.home-title-link{transition:none}.home-title-link:hover,.home-title-link:focus-visible{transform:none}}
 
 /* === v272: Sharansky quote vertical alignment === */
@@ -740,3 +740,11 @@ body.home .home-quote,body.home .home-quote *,body.home .home-quote:hover,body.h
   body.home .globe-wrap{margin-bottom:42px!important;}
   body.home .home-quote,body.home.hebrew-page .home-quote,body.home[data-site-lang="he"] .home-quote{margin-top:42px!important;}
 }
+
+/* v281 Sharansky quote */
+html body.home.home .home-quote.home-quote.home-quote{position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;width:min(860px,90vw)!important;max-width:860px!important;margin:clamp(44px,7vh,88px) auto 0!important;padding:clamp(26px,3.4vw,40px) clamp(10px,2vw,20px) 0!important;text-align:center!important;border:0!important;border-top:1px solid rgba(255,255,255,.34)!important;background:none!important;letter-spacing:0!important;text-transform:none!important;opacity:1!important}
+html body.home.home .home-quote.home-quote.home-quote .home-quote-text{margin:0 auto!important;max-width:34em!important;font:italic 400 clamp(21px,2.5vw,32px)/1.38 "Cormorant Garamond","Iowan Old Style",Georgia,serif!important;letter-spacing:0!important;color:#ffffff!important;opacity:1!important;text-transform:none!important}
+html body.home.home .home-quote.home-quote.home-quote .home-quote-name{margin:22px 0 0!important;font:600 13px/1.2 Inter,Arial,sans-serif!important;letter-spacing:.24em!important;text-transform:uppercase!important;color:#ffffff!important;opacity:1!important}
+html body.home.home .home-quote.home-quote.home-quote .home-quote-title{margin:8px 0 0!important;font:400 13px/1.4 Inter,Arial,sans-serif!important;letter-spacing:.06em!important;color:rgba(255,255,255,.78)!important;opacity:1!important}
+html body.home[data-site-lang="he"].home .home-quote.home-quote.home-quote .home-quote-name,html body.home.hebrew-page.home .home-quote.home-quote.home-quote .home-quote-name{letter-spacing:.04em!important;text-transform:none!important}
+html body.home.home .home-installation.home-installation{min-height:0!important;height:auto!important;padding-bottom:clamp(48px,9vh,110px)!important}
