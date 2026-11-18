@@ -2701,3 +2701,4 @@ a,button,input,select,textarea{touch-action:manipulation;}
 
 /* v276 keep each word whole so letter-hover spans never split a word across lines */
 .az-word{display:inline-block;white-space:nowrap}
+.letterized{column-gap:.32em}
