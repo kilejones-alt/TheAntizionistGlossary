@@ -2779,3 +2779,13 @@ html body figcaption.entry-figcaption .caption-credit:hover{color:#ffffff!import
 html body figure.entry-image.entry-image-blended{flex-direction:column!important;flex-wrap:nowrap!important;align-items:center!important}
 html body figure.entry-image figcaption.entry-figcaption.entry-figcaption{flex:0 0 auto!important;width:100%!important;max-width:none!important;position:static!important;margin:10px 0 0!important;padding:0!important;text-align:center!important;writing-mode:horizontal-tb!important}
 html body figure.entry-image figcaption.entry-figcaption .caption-credit{white-space:nowrap!important;display:inline-block!important}
+
+/* v284 long headings wrap at the hyphen on phones; glossary header without photo */
+@media(max-width:600px){html body h1#entry-title,html body h1#entry-title .az-word{white-space:normal!important;overflow-wrap:anywhere!important}html body h1#entry-title{font-size:clamp(26px,8vw,34px)!important}}
+html body .glossary-intro-grid:not(:has(figure)){grid-template-columns:1fr!important}
+html body .gallery-main .glossary-intro-grid.glossary-intro-grid{display:block!important;min-height:0!important;height:auto!important;margin:0 0 18px!important;padding:0!important}
+html body .gallery-main .glossary-intro-grid .glossary-title-small{margin:0 0 10px!important;position:static!important}
+html body .gallery-main .glossary-intro-grid .glossary-meta{margin:0!important;position:static!important;color:rgba(255,255,255,.7)!important}
+html body .gallery-main .glossary-quick-links{position:static!important;margin:16px 0 28px!important}
+html body .gallery-main .glossary-intro-grid.glossary-intro-grid>div{transform:none!important;translate:none!important;top:auto!important;margin:0!important;position:static!important}
+html body .gallery-main .glossary-intro-grid.glossary-intro-grid::before,html body .gallery-main .glossary-intro-grid.glossary-intro-grid::after{content:none!important;display:none!important}
