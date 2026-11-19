@@ -2771,3 +2771,11 @@ html body .home[data-site-lang="he"] .home-quote.home-quote .home-quote-name,htm
 html body .home .home-installation{min-height:0!important;height:auto!important;padding-bottom:clamp(48px,9vh,110px)!important}
 html body .home .home-stage{min-height:100vh!important;height:auto!important;padding-bottom:6vh!important}
 @media(max-width:720px){html body a,html body button{min-height:40px}html body .home .home-quote.home-quote{margin-top:44px!important}}
+
+/* v283 no image captions; credit link only */
+html body figcaption.entry-figcaption{margin-top:10px!important;text-align:center!important;display:block!important}
+html body figcaption.entry-figcaption .caption-credit{font:400 11px/1.4 Inter,Arial,sans-serif!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:rgba(255,255,255,.46)!important;text-decoration:none!important;border:0!important}
+html body figcaption.entry-figcaption .caption-credit:hover{color:#ffffff!important}
+html body figure.entry-image.entry-image-blended{flex-direction:column!important;flex-wrap:nowrap!important;align-items:center!important}
+html body figure.entry-image figcaption.entry-figcaption.entry-figcaption{flex:0 0 auto!important;width:100%!important;max-width:none!important;position:static!important;margin:10px 0 0!important;padding:0!important;text-align:center!important;writing-mode:horizontal-tb!important}
+html body figure.entry-image figcaption.entry-figcaption .caption-credit{white-space:nowrap!important;display:inline-block!important}
