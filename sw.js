@@ -1,24 +1,49 @@
-const CACHE='tag-v286-core';
-const CORE=[
-  './','index.html','glossary.html','introduction.html','about.html','detector-app.html',
-  'styles.css?v=286','home.css?v=286','script.js?v=286','enhance.css?v=286','shared-shell.css?v=286','shared-shell.js?v=286','style.css?v=286','app.js?v=286','rules.js?v=286',
-  'inverted-world-logo-transparent-480.webp','inverted-world-logo-transparent-720.webp','icon-192.png','icon-512.png',
-  'manifest.webmanifest','detector-manifest.webmanifest'
-];
-self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));
+// The current Glossary does not install a worker. Keep previous installations
+// working while limiting their cache access to this site's own resources.
+const scope = new URL(self.registration.scope);
+const prefix = `antizionist-glossary:${scope.pathname}:`;
+const cacheName = `${prefix}287`;
+const core = new Set([
+  'index.html', 'glossary.html', 'styles.css?v=286', 'home.css?v=286',
+  'enhance.css?v=286', 'glossary-site.css?v=287', 'glossary-site.js?v=287',
+  'glossary-reader.js?v=287', 'inverted-world-logo-transparent-480.webp',
+  'inverted-world-logo-transparent-720.webp', 'icon-192.png', 'manifest.webmanifest',
+]);
+
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(cacheName).then(cache => cache.addAll([...core])).then(() => self.skipWaiting()));
 });
-self.addEventListener('activate',event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
+
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const obsolete = (await caches.keys()).filter(key => key !== cacheName &&
+      (key.startsWith(prefix) || (scope.pathname === '/TheAntizionistGlossary/' && key === 'tag-v286-core')));
+    await Promise.all(obsolete.map(key => caches.delete(key)));
+    await self.clients.claim();
+  })());
 });
-self.addEventListener('fetch',event=>{
-  const req=event.request;
-  if(req.method!=='GET')return;
-  const url=new URL(req.url);
-  if(url.origin!==self.location.origin)return;
-  if(req.mode==='navigate'){
-    event.respondWith(fetch(req).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));return res;}).catch(()=>caches.match(req).then(r=>r||caches.match('index.html'))));
-    return;
+
+async function loadPage(request, name) {
+  const cache = await caches.open(cacheName);
+  try {
+    const response = await fetch(request);
+    if (response.ok && !response.redirected && !/\b(?:private|no-store)\b/i.test(response.headers.get('cache-control') || '')) {
+      await cache.put(name, response.clone()).catch(() => {});
+    }
+    return response;
+  } catch {
+    return (await cache.match(name)) || (await cache.match('index.html')) || Response.error();
   }
-  event.respondWith(caches.match(req).then(hit=>hit||fetch(req).then(res=>{if(res.ok){const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));}return res;})));
+}
+
+self.addEventListener('fetch', event => {
+  const request = event.request;
+  const url = new URL(request.url);
+  if (request.method !== 'GET' || url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)) return;
+  const name = url.pathname.slice(scope.pathname.length);
+  if (request.mode === 'navigate' && !url.search && !/^detector-app(?:-he)?\.html$/.test(name) && /^(?:[\w-]+\.html)?$/.test(name)) {
+    event.respondWith(loadPage(request, name || 'index.html'));
+  } else if (core.has(name + url.search)) {
+    event.respondWith(caches.open(cacheName).then(async cache => (await cache.match(request)) || fetch(request)));
+  }
 });
